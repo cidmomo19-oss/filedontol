@@ -1,0 +1,115 @@
+import { Hono } from 'hono';
+import { Env, FileRecord } from '../types';
+
+export const downloadApp = new Hono<{ Bindings: Env }>();
+
+downloadApp.get('/file/:code', async (c) => {
+  const code = c.req.param('code');
+  if (!code) {
+    return c.json({ error: 'Share code is required.' }, 400);
+  }
+
+  const file = await c.env.DB.prepare(
+    'SELECT id, user_id, share_code, file_name, file_size, mime_type, download_count, last_downloaded_at, expires_at, status, created_at FROM files WHERE share_code = ?'
+  )
+    .bind(code)
+    .first<FileRecord>();
+
+  if (!file) {
+    return c.json({ error: 'File tidak ditemukan.' }, 404);
+  }
+
+  if (file.status === 'blocked') {
+    return c.json(
+      { error: 'File telah dihapus / diblokir karena laporan pelanggaran Hak Cipta (DMCA).' },
+      403
+    );
+  }
+
+  const now = new Date();
+  const expiresAt = new Date(file.expires_at.endsWith('Z') ? file.expires_at : file.expires_at + 'Z');
+
+  if (file.status === 'expired' || expiresAt.getTime() < now.getTime()) {
+    return c.json({ error: 'File telah kadaluarsa.' }, 410);
+  }
+
+  return c.json({
+    success: true,
+    file: {
+      shareCode: file.share_code,
+      fileName: file.file_name,
+      fileSize: file.file_size,
+      mimeType: file.mime_type,
+      downloadCount: file.download_count,
+      lastDownloadedAt: file.last_downloaded_at,
+      expiresAt: file.expires_at,
+      createdAt: file.created_at,
+      isMemberFile: file.user_id !== null,
+    },
+  });
+});
+
+downloadApp.get('/download/:code', async (c) => {
+  const code = c.req.param('code');
+  if (!code) {
+    return c.json({ error: 'Share code is required.' }, 400);
+  }
+
+  const file = await c.env.DB.prepare('SELECT * FROM files WHERE share_code = ?')
+    .bind(code)
+    .first<FileRecord>();
+
+  if (!file) {
+    return c.json({ error: 'File tidak ditemukan.' }, 404);
+  }
+
+  if (file.status === 'blocked') {
+    return c.json(
+      { error: 'File telah dihapus / diblokir karena laporan pelanggaran Hak Cipta (DMCA).' },
+      403
+    );
+  }
+
+  const now = new Date();
+  const expiresAt = new Date(file.expires_at.endsWith('Z') ? file.expires_at : file.expires_at + 'Z');
+
+  if (file.status === 'expired' || expiresAt.getTime() < now.getTime()) {
+    return c.json({ error: 'File telah kadaluarsa.' }, 410);
+  }
+
+  const object = await c.env.STORAGE.get(file.r2_key);
+  if (!object) {
+    return c.json({ error: 'Objek file tidak ditemukan di penyimpanan.' }, 404);
+  }
+
+  const extensionDays = file.user_id ? 60 : 14;
+  const newExpiresAtDate = new Date(Date.now() + extensionDays * 24 * 60 * 60 * 1000);
+  const newExpiresAtStr = newExpiresAtDate.toISOString().replace('T', ' ').substring(0, 19);
+
+  c.executionCtx.waitUntil(
+    c.env.DB.prepare(
+      `UPDATE files
+       SET download_count = download_count + 1,
+           last_downloaded_at = CURRENT_TIMESTAMP,
+           expires_at = ?
+       WHERE id = ?`
+    )
+      .bind(newExpiresAtStr, file.id)
+      .run()
+  );
+
+  const headers = new Headers();
+  object.writeHttpMetadata(headers);
+  headers.set('etag', object.httpEtag);
+  headers.set(
+    'Content-Disposition',
+    `attachment; filename="${encodeURIComponent(file.file_name)}"`
+  );
+  if (file.mime_type) {
+    headers.set('Content-Type', file.mime_type);
+  }
+
+  return new Response(object.body, {
+    headers,
+  });
+});
