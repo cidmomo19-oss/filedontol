@@ -120,12 +120,12 @@ export async function hashPassword(password: string): Promise<string> {
     ['sign']
   );
 
-  const exportedKey = await crypto.subtle.exportKey('raw', key);
+  const exportedKey = (await crypto.subtle.exportKey('raw', key)) as ArrayBuffer;
   const combined = new Uint8Array(salt.length + exportedKey.byteLength);
   combined.set(salt);
   combined.set(new Uint8Array(exportedKey), salt.length);
 
-  return arrayBufferToBase64Url(combined.buffer);
+  return arrayBufferToBase64Url(combined.buffer as ArrayBuffer);
 }
 
 export async function verifyPassword(password: string, storedHash: string): Promise<boolean> {
@@ -160,7 +160,7 @@ export async function verifyPassword(password: string, storedHash: string): Prom
     ['sign']
   );
 
-  const derivedKeyBytes = new Uint8Array(await crypto.subtle.exportKey('raw', key));
+  const derivedKeyBytes = new Uint8Array((await crypto.subtle.exportKey('raw', key)) as ArrayBuffer);
 
   if (derivedKeyBytes.length !== expectedKeyBytes.length) return false;
   let diff = 0;
@@ -180,8 +180,10 @@ export async function signJWT(payload: Omit<JWTPayload, 'iat' | 'exp'>, secret: 
   };
 
   const encoder = new TextEncoder();
-  const encodedHeader = arrayBufferToBase64Url(encoder.encode(JSON.stringify(header)).buffer);
-  const encodedPayload = arrayBufferToBase64Url(encoder.encode(JSON.stringify(fullPayload)).buffer);
+  const headerBuf = encoder.encode(JSON.stringify(header));
+  const payloadBuf = encoder.encode(JSON.stringify(fullPayload));
+  const encodedHeader = arrayBufferToBase64Url(headerBuf.buffer.slice(headerBuf.byteOffset, headerBuf.byteOffset + headerBuf.byteLength) as ArrayBuffer);
+  const encodedPayload = arrayBufferToBase64Url(payloadBuf.buffer.slice(payloadBuf.byteOffset, payloadBuf.byteOffset + payloadBuf.byteLength) as ArrayBuffer);
 
   const dataToSign = `${encodedHeader}.${encodedPayload}`;
   const cryptoKey = await crypto.subtle.importKey(
