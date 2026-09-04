@@ -2,137 +2,144 @@ import { getLayoutHtml } from './layout';
 
 export function getIndexHtml(): string {
   const content = `
-    <!-- Hero Upload Card Container -->
-    <div class="card" style="text-align: center; margin-bottom: 2.5rem; position: relative;">
-      <div style="max-width: 650px; margin: 0 auto;">
-        <span class="badge badge-indigo" style="margin-bottom: 0.75rem;">
-          <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
-          High-Speed Cloudflare R2 Edge Storage
-        </span>
-
-        <h1 style="font-size: clamp(1.75rem, 4vw, 2.5rem); font-weight: 800; margin-bottom: 0.5rem; letter-spacing: -0.025em; color: var(--text-main);">
-          Lightning-Fast File Sharing Up To 5 GB
-        </h1>
-        <p style="color: var(--text-muted); font-size: clamp(0.95rem, 2vw, 1.1rem); margin-bottom: 1.5rem; line-height: 1.6;">
-          Secure, ad-free, and effortless file uploads with zero bandwidth throttling and automated expiration extensions.
-        </p>
-
-        <!-- Dynamic Retention Badges -->
-        <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 0.5rem; margin-bottom: 1.75rem;">
-          <span class="badge badge-emerald">
-            <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
-            Guest: Active 14 Days (+14d per download)
-          </span>
-          <span class="badge badge-purple">
-            <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
-            Member: Active 60 Days (+60d per download)
-          </span>
+    <!-- Bento Hero Grid -->
+    <div class="bento-grid">
+      <!-- Main Upload Bento Box (Span 8) -->
+      <div class="bento-card bento-col-8">
+        <div style="text-align: left; margin-bottom: 1.5rem;">
+          <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.75rem;">
+            <span class="badge badge-blue">
+              <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+              Cloudflare R2 Edge Storage
+            </span>
+            <span class="badge badge-emerald">
+              <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+              5 GB Max Limit
+            </span>
+          </div>
+          <h1 style="font-size: clamp(1.6rem, 3.5vw, 2.25rem); font-weight: 800; letter-spacing: -0.03em; color: var(--text-main); margin-bottom: 0.5rem;">
+            Instant File Upload & Sharing
+          </h1>
+          <p style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.6;">
+            Fast, secure, and ad-free cloud file host. Upload files up to 5 GB with zero bandwidth throttle.
+          </p>
         </div>
+
+        <!-- Interactive Drag & Drop Area -->
+        <div id="drop-zone" class="dropzone-bento" onclick="document.getElementById('file-input').click()">
+          <div style="width: 56px; height: 56px; background: #eff6ff; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 0.85rem auto; color: var(--primary-blue);">
+            <svg width="28" height="28" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/>
+            </svg>
+          </div>
+          <p style="font-size: 1.05rem; font-weight: 800; color: var(--text-main);">Drop your files here, or browse</p>
+          <p style="font-size: 0.825rem; color: var(--text-muted); margin-top: 0.35rem;">Supports all file formats (Documents, Media, Archives, Code) up to 5 GB</p>
+          <input type="file" id="file-input" style="display: none;" onchange="handleFileSelect(event)" />
+        </div>
+
+        <!-- Progress Indicator -->
+        <div id="upload-progress-container" style="display: none; text-align: left; background: #f8fafc; border: 1px solid var(--border-color); padding: 1.25rem; border-radius: var(--radius-md); margin-top: 1.25rem;">
+          <div style="display: flex; justify-content: space-between; font-size: 0.85rem; font-weight: 700; margin-bottom: 0.5rem;">
+            <span id="progress-filename" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 70%;">File Name</span>
+            <span id="progress-percent" style="color: var(--primary-blue);">0%</span>
+          </div>
+          <div style="height: 8px; background: #e2e8f0; border-radius: 4px; overflow: hidden; margin-bottom: 0.5rem;">
+            <div id="progress-bar" style="width: 0%; height: 100%; background: var(--primary-blue); transition: width 0.1s linear;"></div>
+          </div>
+          <div style="display: flex; justify-content: space-between; font-size: 0.8rem; color: var(--text-muted);">
+            <span id="progress-status">Uploading...</span>
+            <span id="progress-size">0 / 0 MB</span>
+          </div>
+        </div>
+
+        <!-- Result Link Container -->
+        <div id="upload-result-container" style="display: none; text-align: left; background: #ecfdf5; border: 1px solid #a7f3d0; padding: 1.25rem; border-radius: var(--radius-md); margin-top: 1.25rem;">
+          <h4 style="color: #047857; font-size: 1.05rem; font-weight: 800; margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.5rem;">
+            <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+            File Uploaded Successfully!
+          </h4>
+          <p style="font-size: 0.875rem; color: #065f46; margin-bottom: 1rem;">Share the link below to let anyone download your file:</p>
+          <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+            <input type="text" id="share-link-input" readonly style="flex: 1; min-width: 220px; padding: 0.6rem 0.75rem; border: 1px solid #cbd5e1; border-radius: var(--radius-sm); font-size: 0.9rem; background: #ffffff; color: var(--text-main); font-weight: 600;" />
+            <button class="btn btn-primary" onclick="copyShareLink()" id="btn-copy">
+              <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"/></svg>
+              Copy Link
+            </button>
+          </div>
+          <div style="margin-top: 0.85rem; font-size: 0.8rem; color: #047857; font-weight: 600;" id="result-expiration-info"></div>
+        </div>
+
+        <div id="upload-error-container" style="display: none; text-align: left; background: #fef2f2; border: 1px solid #fecaca; padding: 0.85rem; border-radius: var(--radius-md); color: #991b1b; font-size: 0.85rem; margin-top: 1rem;"></div>
       </div>
 
-      <!-- Drag & Drop Upload Zone -->
-      <div id="drop-zone" style="border: 2px dashed #cbd5e1; border-radius: var(--radius-md); padding: clamp(2rem, 5vw, 3.5rem) 1.5rem; background: #f8fafc; cursor: pointer; transition: all 0.2s ease; margin-bottom: 1.5rem; position: relative;" onclick="document.getElementById('file-input').click()">
-        <div style="width: 60px; height: 60px; background: #eff6ff; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem auto; color: var(--primary-indigo);">
-          <svg width="32" height="32" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/>
-          </svg>
+      <!-- Retention Rules Bento Box (Span 4) -->
+      <div class="bento-card bento-col-4" style="background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%); display: flex; flex-direction: column; justify-content: space-between;">
+        <div>
+          <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1rem;">
+            <div style="width: 36px; height: 36px; background: #e0e7ff; color: var(--primary-indigo); border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center;">
+              <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            </div>
+            <h3 style="font-size: 1.1rem; font-weight: 800; color: var(--text-main);">Smart Retention</h3>
+          </div>
+          <p style="font-size: 0.875rem; color: var(--text-muted); margin-bottom: 1.25rem; line-height: 1.5;">
+            Files extend their active lifespan automatically every time they are downloaded!
+          </p>
+
+          <div style="display: flex; flex-direction: column; gap: 0.85rem; margin-bottom: 1.5rem;">
+            <div style="background: #ffffff; border: 1px solid var(--border-color); padding: 1rem; border-radius: var(--radius-md);">
+              <div style="font-weight: 800; font-size: 0.85rem; color: #047857; margin-bottom: 0.2rem;">Guest Uploads</div>
+              <div style="font-size: 0.8rem; color: var(--text-muted);">Active for 14 days • Extended +14 days per download</div>
+            </div>
+            <div style="background: #ffffff; border: 1px solid var(--border-color); padding: 1rem; border-radius: var(--radius-md);">
+              <div style="font-weight: 800; font-size: 0.85rem; color: #6b21a8; margin-bottom: 0.2rem;">Member Account</div>
+              <div style="font-size: 0.8rem; color: var(--text-muted);">Active for 60 days • Extended +60 days per download</div>
+            </div>
+          </div>
         </div>
-        <p style="font-size: 1.1rem; font-weight: 800; color: var(--text-main);">Drag & drop your file here, or click to browse</p>
-        <p style="font-size: 0.875rem; color: var(--text-muted); margin-top: 0.35rem;">Supports all file formats (Docs, Images, Videos, Archives) up to 5 GB</p>
-        <input type="file" id="file-input" style="display: none;" onchange="handleFileSelect(event)" />
+
+        <button class="btn btn-outline" onclick="openAuthModal('register')" style="width: 100%;">
+          <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"/></svg>
+          Create Free Member Account
+        </button>
       </div>
-
-      <!-- Upload Progress Container -->
-      <div id="upload-progress-container" style="display: none; text-align: left; background: #f8fafc; border: 1px solid var(--border-color); padding: 1.25rem; border-radius: var(--radius-md); margin-bottom: 1.5rem;">
-        <div style="display: flex; justify-content: space-between; font-size: 0.875rem; font-weight: 700; margin-bottom: 0.5rem;">
-          <span id="progress-filename" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 70%;">File Name</span>
-          <span id="progress-percent" style="color: var(--primary-indigo);">0%</span>
-        </div>
-        <div class="progress-gauge" style="margin-bottom: 0.5rem;">
-          <div id="progress-bar" class="progress-gauge-fill" style="width: 0%;"></div>
-        </div>
-        <div style="display: flex; justify-content: space-between; font-size: 0.8rem; color: var(--text-muted);">
-          <span id="progress-status">Uploading...</span>
-          <span id="progress-size">0 / 0 MB</span>
-        </div>
-      </div>
-
-      <!-- Result Link Container -->
-      <div id="upload-result-container" style="display: none; text-align: left; background: #ecfdf5; border: 1px solid #a7f3d0; padding: 1.5rem; border-radius: var(--radius-md);">
-        <h4 style="color: #047857; font-size: 1.1rem; font-weight: 800; margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.5rem;">
-          <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
-          File Uploaded Successfully!
-        </h4>
-        <p style="font-size: 0.9rem; color: #065f46; margin-bottom: 1rem;">Share the link below to let anyone download your file:</p>
-
-        <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
-          <input type="text" id="share-link-input" readonly style="flex: 1; min-width: 240px; padding: 0.65rem 0.85rem; border: 1px solid #cbd5e1; border-radius: var(--radius-sm); font-size: 0.95rem; background: #ffffff; color: var(--text-main); font-weight: 600;" />
-          <button class="btn btn-primary" onclick="copyShareLink()" id="btn-copy">
-            <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"/></svg>
-            Copy Link
-          </button>
-        </div>
-        <div style="margin-top: 1rem; font-size: 0.825rem; color: #047857; font-weight: 600;" id="result-expiration-info"></div>
-      </div>
-
-      <div id="upload-error-container" style="display: none; text-align: left; background: #fef2f2; border: 1px solid #fecaca; padding: 1rem; border-radius: var(--radius-md); color: #991b1b; font-size: 0.875rem; margin-top: 1rem;"></div>
     </div>
 
-    <!-- Feature Advantages Grid -->
-    <div style="margin-bottom: 3.5rem;">
-      <h2 class="section-title">Why Choose filedontol?</h2>
-      <p class="section-desc">Designed for creators, developers, and teams who need reliable file transfers.</p>
+    <!-- Features Bento Grid -->
+    <div style="margin-bottom: 3rem;">
+      <h2 style="font-size: 1.5rem; font-weight: 800; text-align: center; margin-bottom: 0.5rem;">Built For High-Performance Sharing</h2>
+      <p style="text-align: center; color: var(--text-muted); font-size: 0.95rem; margin-bottom: 2rem;">Everything you need to share files securely without intrusive ads or captchas.</p>
 
-      <div class="grid-3">
-        <div class="feature-box">
+      <div class="bento-grid" style="margin-bottom: 0;">
+        <div class="bento-card bento-col-4">
           <div class="feature-icon">
             <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
           </div>
-          <h3 class="feature-title">Cloudflare Edge Speed</h3>
-          <p class="feature-desc">Powered by global Cloudflare R2 infrastructure ensuring instant downloads with minimal latency worldwide.</p>
+          <h3 class="feature-title">Cloudflare R2 Edge</h3>
+          <p class="feature-desc">Global S3-compatible object storage with high-speed CDN delivery worldwide.</p>
         </div>
-        <div class="feature-box">
+
+        <div class="bento-card bento-col-4">
           <div class="feature-icon">
             <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg>
           </div>
-          <h3 class="feature-title">5 GB Upload Limits</h3>
-          <p class="feature-desc">Upload large media files, software builds, or archives up to 5 GB without compression or cuts.</p>
+          <h3 class="feature-title">5 GB File Capacity</h3>
+          <p class="feature-desc">Upload large datasets, media archives, and installer builds effortlessly.</p>
         </div>
-        <div class="feature-box">
-          <div class="feature-icon">
-            <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
-          </div>
-          <h3 class="feature-title">Auto Retention Extensions</h3>
-          <p class="feature-desc">Every time someone downloads your link, expiration extends automatically (+14d Guest / +60d Member).</p>
-        </div>
-        <div class="feature-box">
+
+        <div class="bento-card bento-col-4">
           <div class="feature-icon">
             <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
           </div>
-          <h3 class="feature-title">Copyright & Abuse Protection</h3>
-          <p class="feature-desc">SHA-256 hash checking prevents re-uploading blacklisted copyright or malicious content.</p>
-        </div>
-        <div class="feature-box">
-          <div class="feature-icon">
-            <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 002 2h2a2 2 0 002-2z"/></svg>
-          </div>
-          <h3 class="feature-title">Member Storage Dashboard</h3>
-          <p class="feature-desc">Track file downloads, rename files, monitor storage usage, and soft-delete files from a single dashboard.</p>
-        </div>
-        <div class="feature-box">
-          <div class="feature-icon">
-            <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636"/></svg>
-          </div>
-          <h3 class="feature-title">Pure Ad-Free Downloads</h3>
-          <p class="feature-desc">Zero deceptive pop-ups, fake download buttons, or mandatory captchas for recipients.</p>
+          <h3 class="feature-title">Anti-Hotlink Downloads</h3>
+          <p class="feature-desc">Short-lived presigned GET URLs and HMAC tickets prevent unauthorized direct hotlinking.</p>
         </div>
       </div>
     </div>
 
     <!-- FAQ Accordion -->
     <div id="faq" style="margin-bottom: 3rem;">
-      <h2 class="section-title">Frequently Asked Questions</h2>
-      <p class="section-desc">Everything you need to know about sharing files on filedontol.</p>
+      <h2 style="font-size: 1.5rem; font-weight: 800; text-align: center; margin-bottom: 0.5rem;">Frequently Asked Questions</h2>
+      <p style="text-align: center; color: var(--text-muted); font-size: 0.95rem; margin-bottom: 2rem;">Answers to common questions about filedontol.</p>
 
       <div class="faq-container">
         <div class="faq-item" onclick="toggleFaq(this)">
@@ -161,7 +168,7 @@ export function getIndexHtml(): string {
             <span class="faq-arrow">▼</span>
           </div>
           <div class="faq-body">
-            Visit our <a href="/report" style="color: var(--primary-indigo); font-weight: 700;">Report Abuse Page</a> to email us directly at <code>filedontol@gmail.com</code>. DMCA notices are processed within 24 hours.
+            Visit our <a href="/report" style="color: var(--primary-blue); font-weight: 700;">Report Abuse Page</a> to email us directly at <code>filedontol@gmail.com</code>. DMCA notices are processed within 24 hours.
           </div>
         </div>
       </div>
@@ -178,14 +185,14 @@ export function getIndexHtml(): string {
         dropZone.addEventListener(eventName, (e) => {
           e.preventDefault();
           dropZone.style.background = '#eff6ff';
-          dropZone.style.borderColor = 'var(--primary-indigo)';
+          dropZone.style.borderColor = 'var(--primary-blue)';
         }, false);
       });
 
       ['dragleave', 'drop'].forEach(eventName => {
         dropZone.addEventListener(eventName, (e) => {
           e.preventDefault();
-          dropZone.style.background = '#f8fafc';
+          dropZone.style.background = 'linear-gradient(180deg, #f8fafc 0%, #ffffff 100%)';
           dropZone.style.borderColor = '#cbd5e1';
         }, false);
       });
@@ -246,7 +253,7 @@ export function getIndexHtml(): string {
         try {
           const fileHash = await computeSHA256(file);
 
-          document.getElementById('progress-status').innerText = 'Requesting presigned upload ticket...';
+          document.getElementById('progress-status').innerText = 'Requesting upload ticket...';
 
           const ticketRes = await fetch('/api/upload/presigned', {
             method: 'POST',
@@ -354,73 +361,78 @@ export function getIndexHtml(): string {
 
 export function getDashboardPageHtml(): string {
   const content = `
-    <div class="card">
-      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; margin-bottom: 2rem;">
-        <div>
-          <h1 style="font-size: 1.5rem; font-weight: 800; color: var(--text-main);">Member Storage Dashboard</h1>
-          <p style="color: var(--text-muted); font-size: 0.9rem;">Monitor, share, rename, and manage your file collection.</p>
-        </div>
-        <button class="btn btn-primary" onclick="toggleDashboardUploadSection()" id="btn-toggle-dash-upload">
-          <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
-          Upload New File
-        </button>
-      </div>
-
-      <!-- Integrated Dashboard Drag & Drop Upload Zone -->
-      <div id="dashboard-upload-box" style="display: block; background: #f8fafc; border: 2px dashed #cbd5e1; border-radius: var(--radius-md); padding: 2rem 1.5rem; text-align: center; margin-bottom: 2rem;">
-        <div onclick="document.getElementById('dash-file-input').click()" style="cursor: pointer;">
-          <div style="width: 48px; height: 48px; background: #eff6ff; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 0.75rem auto; color: var(--primary-indigo);">
-            <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/>
-            </svg>
+    <!-- Bento Dashboard Grid -->
+    <div class="bento-grid">
+      <!-- Welcome Header Card (Span 8) -->
+      <div class="bento-card bento-col-8">
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+          <div>
+            <h1 style="font-size: 1.5rem; font-weight: 800; color: var(--text-main); margin-bottom: 0.25rem;">Member Cloud Dashboard</h1>
+            <p style="color: var(--text-muted); font-size: 0.875rem;">Manage, share, rename, and track all your uploaded files.</p>
           </div>
-          <p style="font-size: 1.05rem; font-weight: 700; color: var(--text-main);">Drag & drop file here or click to upload to your account</p>
-          <p style="font-size: 0.825rem; color: var(--text-muted); margin-top: 0.25rem;">Max 5 GB per file • Auto-retention 60 days</p>
-          <input type="file" id="dash-file-input" style="display: none;" onchange="handleDashFileSelect(event)" />
+          <button class="btn btn-primary" onclick="toggleDashboardUploadSection()" id="btn-toggle-dash-upload">
+            <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+            Upload File
+          </button>
         </div>
 
-        <!-- Progress Indicator -->
-        <div id="dash-progress-container" style="display: none; text-align: left; background: #ffffff; border: 1px solid var(--border-color); padding: 1rem; border-radius: var(--radius-sm); margin-top: 1rem;">
-          <div style="display: flex; justify-content: space-between; font-size: 0.85rem; font-weight: 700; margin-bottom: 0.35rem;">
-            <span id="dash-progress-filename">File Name</span>
-            <span id="dash-progress-percent" style="color: var(--primary-indigo);">0%</span>
+        <!-- Integrated Upload Box -->
+        <div id="dashboard-upload-box" style="display: block; background: #f8fafc; border: 2px dashed #cbd5e1; border-radius: var(--radius-md); padding: 1.5rem; text-align: center; margin-top: 1.5rem;">
+          <div onclick="document.getElementById('dash-file-input').click()" style="cursor: pointer;">
+            <div style="width: 44px; height: 48px; background: #eff6ff; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 0.5rem auto; color: var(--primary-blue);">
+              <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/>
+              </svg>
+            </div>
+            <p style="font-size: 0.95rem; font-weight: 800; color: var(--text-main);">Click or drop files to upload to your account</p>
+            <p style="font-size: 0.8rem; color: var(--text-muted);">Max 5 GB per file • Auto-retention 60 days</p>
+            <input type="file" id="dash-file-input" style="display: none;" onchange="handleDashFileSelect(event)" />
           </div>
-          <div class="progress-gauge" style="margin-bottom: 0.35rem;">
-            <div id="dash-progress-bar" class="progress-gauge-fill" style="width: 0%;"></div>
+
+          <div id="dash-progress-container" style="display: none; text-align: left; background: #ffffff; border: 1px solid var(--border-color); padding: 0.85rem; border-radius: var(--radius-sm); margin-top: 1rem;">
+            <div style="display: flex; justify-content: space-between; font-size: 0.85rem; font-weight: 700; margin-bottom: 0.35rem;">
+              <span id="dash-progress-filename">File Name</span>
+              <span id="dash-progress-percent" style="color: var(--primary-blue);">0%</span>
+            </div>
+            <div style="height: 6px; background: #e2e8f0; border-radius: 3px; overflow: hidden; margin-bottom: 0.35rem;">
+              <div id="dash-progress-bar" style="width: 0%; height: 100%; background: var(--primary-blue); transition: width 0.1s linear;"></div>
+            </div>
+            <p id="dash-progress-status" style="font-size: 0.775rem; color: var(--text-muted);">Uploading...</p>
           </div>
-          <p id="dash-progress-status" style="font-size: 0.8rem; color: var(--text-muted);">Uploading...</p>
         </div>
       </div>
 
-      <!-- Stats Summary Grid -->
-      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 1.5rem;">
-        <div style="border: 1px solid var(--border-color); padding: 1.25rem; border-radius: var(--radius-md); background: #ffffff;">
-          <p style="font-size: 0.775rem; color: var(--text-muted); font-weight: 800; letter-spacing: 0.04em;">TOTAL FILES</p>
-          <p id="stat-total-files" style="font-size: 1.5rem; font-weight: 800; margin-top: 0.25rem; color: var(--text-main);">-</p>
+      <!-- Quick Metrics Bento Box (Span 4) -->
+      <div class="bento-card bento-col-4" style="display: flex; flex-direction: column; justify-content: space-between; gap: 1rem;">
+        <div class="stat-card">
+          <span class="stat-label">Total Files</span>
+          <span id="stat-total-files" class="stat-value">-</span>
         </div>
-        <div style="border: 1px solid var(--border-color); padding: 1.25rem; border-radius: var(--radius-md); background: #ffffff;">
-          <p style="font-size: 0.775rem; color: var(--text-muted); font-weight: 800; letter-spacing: 0.04em;">STORAGE USED</p>
-          <p id="stat-total-storage" style="font-size: 1.5rem; font-weight: 800; margin-top: 0.25rem; color: var(--text-main);">-</p>
+        <div class="stat-card">
+          <span class="stat-label">Storage Used</span>
+          <span id="stat-total-storage" class="stat-value">-</span>
         </div>
-        <div style="border: 1px solid var(--border-color); padding: 1.25rem; border-radius: var(--radius-md); background: #ffffff;">
-          <p style="font-size: 0.775rem; color: var(--text-muted); font-weight: 800; letter-spacing: 0.04em;">TOTAL DOWNLOADS</p>
-          <p id="stat-total-downloads" style="font-size: 1.5rem; font-weight: 800; color: var(--primary-indigo); margin-top: 0.25rem;">-</p>
+        <div class="stat-card">
+          <span class="stat-label">Total Downloads</span>
+          <span id="stat-total-downloads" class="stat-value" style="color: var(--primary-blue);">-</span>
         </div>
       </div>
+    </div>
 
-      <!-- Filter Input Bar -->
-      <div style="margin-bottom: 1.25rem;">
-        <input type="text" id="search-files-input" placeholder="Filter files by name..." oninput="filterFiles()" style="width: 100%; padding: 0.65rem 0.85rem; border: 1px solid var(--border-color); border-radius: var(--radius-sm); font-size: 0.9rem; background: #ffffff;" />
+    <!-- Main File Management Table Bento Card -->
+    <div class="bento-card bento-col-12" style="margin-bottom: 2.5rem;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem; flex-wrap: wrap; gap: 0.75rem;">
+        <h2 style="font-size: 1.15rem; font-weight: 800; color: var(--text-main);">My Uploaded Files</h2>
+        <input type="text" id="search-files-input" placeholder="Filter files by name..." oninput="filterFiles()" style="width: 100%; max-width: 280px; padding: 0.55rem 0.75rem; border: 1px solid var(--border-color); border-radius: var(--radius-sm); font-size: 0.875rem; background: #ffffff;" />
       </div>
 
-      <!-- Loading State -->
       <div id="loading-dashboard" style="padding: 2rem; text-align: center; color: var(--text-muted);">
         Loading file list...
       </div>
 
       <div id="dashboard-empty" style="display: none; text-align: center; padding: 3rem 1rem; border: 2px dashed var(--border-color); border-radius: var(--radius-md);">
-        <h3 style="font-size: 1.15rem; font-weight: 700; margin-bottom: 0.5rem; color: var(--text-main);">No files uploaded yet</h3>
-        <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1.5rem;">Use the upload box above to add your first file.</p>
+        <h3 style="font-size: 1.1rem; font-weight: 700; margin-bottom: 0.5rem; color: var(--text-main);">No files uploaded yet</h3>
+        <p style="color: var(--text-muted); font-size: 0.875rem;">Use the upload box above to add your first file.</p>
       </div>
 
       <div id="dashboard-table-wrapper" style="display: none;" class="table-responsive">
@@ -646,12 +658,12 @@ export function getDashboardPageHtml(): string {
           tr.innerHTML = \`
             <td style="font-weight: 600; word-break: break-all;">
               <a href="/f/\${file.share_code}" target="_blank" style="color: var(--text-main); text-decoration: none; display: inline-flex; align-items: center; gap: 0.4rem;">
-                <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="var(--primary-indigo)"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg>
+                <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="var(--primary-blue)"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg>
                 \${file.file_name}
               </a>
             </td>
             <td style="white-space: nowrap; color: var(--text-muted);">\${formatBytes(file.file_size)}</td>
-            <td style="white-space: nowrap; font-weight: 700; color: var(--primary-indigo);">\${file.download_count}</td>
+            <td style="white-space: nowrap; font-weight: 700; color: var(--primary-blue);">\${file.download_count}</td>
             <td style="white-space: nowrap; font-size: 0.85rem; color: #d97706; font-weight: 600;">\${calculateRemainingTime(file.expires_at)}</td>
             <td style="white-space: nowrap;">
               <div style="display: flex; gap: 0.35rem;">
@@ -760,13 +772,13 @@ export function getReportPageHtml(): string {
           Report Abuse & DMCA Violations
         </h1>
         <p style="color: var(--text-muted); font-size: 1rem; margin-top: 0.5rem; max-width: 580px; margin-left: auto; margin-right: auto; line-height: 1.6;">
-          All complaints regarding Copyright / DMCA violations, CSAM, violence, malware, and abuse are sent <strong>DIRECTLY VIA EMAIL</strong> to administrators.
+          We do not host input forms on this page. All complaints regarding Copyright / DMCA violations, CSAM, violence, malware, and abuse are sent <strong>DIRECTLY VIA EMAIL</strong> to administrators.
         </p>
       </div>
 
       <!-- Main Direct Email Box -->
       <div style="background: linear-gradient(135deg, rgba(37, 99, 235, 0.06), rgba(225, 29, 72, 0.06)); border: 2px solid rgba(37, 99, 235, 0.2); border-radius: var(--radius-md); padding: 2rem; text-align: center; margin-bottom: 2.5rem;">
-        <p style="font-size: 0.875rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; color: var(--primary-indigo); margin-bottom: 0.5rem;">OFFICIAL TAKEDOWN CONTACT EMAIL</p>
+        <p style="font-size: 0.875rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; color: var(--primary-blue); margin-bottom: 0.5rem;">OFFICIAL TAKEDOWN CONTACT EMAIL</p>
         <div style="font-size: clamp(1.25rem, 3vw, 1.75rem); font-weight: 900; color: var(--text-main); margin-bottom: 1.25rem; font-family: monospace; letter-spacing: -0.02em;">
           filedontol@gmail.com
         </div>
@@ -781,7 +793,7 @@ export function getReportPageHtml(): string {
       <!-- Guidelines -->
       <div style="line-height: 1.7; color: var(--text-main); font-size: 0.95rem;">
         <h3 style="font-size: 1.15rem; font-weight: 800; margin-bottom: 0.75rem; color: var(--text-main); display: flex; align-items: center; gap: 0.5rem;">
-          <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="var(--primary-indigo)">
+          <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="var(--primary-blue)">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
           </svg>
           Required Email Format Information:
@@ -815,14 +827,14 @@ export function getDownloadPageHtml(shareCode: string): string {
   const content = `
     <div class="card" style="max-width: 780px; margin: 0 auto; border-radius: var(--radius-lg); padding: clamp(1.5rem, 5vw, 3rem);" id="download-card">
       <div id="loading-spinner" style="padding: 3rem; text-align: center; color: var(--text-muted);">
-        <div style="width: 48px; height: 48px; border: 4px solid #e2e8f0; border-top-color: var(--primary-indigo); border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto 1rem auto;"></div>
+        <div style="width: 48px; height: 48px; border: 4px solid #e2e8f0; border-top-color: var(--primary-blue); border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto 1rem auto;"></div>
         Loading file information...
       </div>
 
       <div id="file-details" style="display: none;">
         <!-- Header File Card -->
         <div style="background: #f8fafc; border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 1.75rem; margin-bottom: 2rem; display: flex; align-items: center; gap: 1.25rem; text-align: left;">
-          <div style="background: linear-gradient(135deg, var(--primary-indigo), #3b82f6); color: white; width: 64px; height: 64px; border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; flex-shrink: 0; box-shadow: 0 8px 16px rgba(37, 99, 235, 0.25);">
+          <div style="background: linear-gradient(135deg, var(--primary-blue), #3b82f6); color: white; width: 64px; height: 64px; border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; flex-shrink: 0; box-shadow: 0 8px 16px rgba(37, 99, 235, 0.25);">
             <svg width="32" height="32" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
             </svg>
@@ -830,7 +842,7 @@ export function getDownloadPageHtml(shareCode: string): string {
           <div style="flex: 1; overflow: hidden;">
             <h2 id="detail-filename" style="font-size: clamp(1.15rem, 2.5vw, 1.4rem); font-weight: 800; word-break: break-all; margin-bottom: 0.35rem; color: var(--text-main); letter-spacing: -0.02em;">-</h2>
             <div style="display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap;">
-              <span id="detail-filesize" style="font-size: 0.925rem; color: var(--primary-indigo); font-weight: 800; background: #eff6ff; padding: 0.2rem 0.6rem; border-radius: var(--radius-sm); border: 1px solid #bfdbfe;">-</span>
+              <span id="detail-filesize" style="font-size: 0.925rem; color: var(--primary-blue); font-weight: 800; background: #eff6ff; padding: 0.2rem 0.6rem; border-radius: var(--radius-sm); border: 1px solid #bfdbfe;">-</span>
               <span id="detail-mimetype" style="font-size: 0.825rem; color: var(--text-muted); font-weight: 600;">-</span>
             </div>
           </div>
@@ -844,7 +856,7 @@ export function getDownloadPageHtml(shareCode: string): string {
           </div>
           <div style="border: 1px solid var(--border-color); padding: 1.25rem; border-radius: var(--radius-md); background: #ffffff;">
             <p style="font-size: 0.775rem; color: var(--text-muted); font-weight: 800; letter-spacing: 0.04em;">TOTAL DOWNLOADS</p>
-            <p id="detail-downloads" style="font-size: 1rem; font-weight: 800; margin-top: 0.35rem; color: var(--primary-indigo);">-</p>
+            <p id="detail-downloads" style="font-size: 1rem; font-weight: 800; margin-top: 0.35rem; color: var(--primary-blue);">-</p>
           </div>
           <div style="border: 1px solid var(--border-color); padding: 1.25rem; border-radius: var(--radius-md); background: #ffffff;">
             <p style="font-size: 0.775rem; color: var(--text-muted); font-weight: 800; letter-spacing: 0.04em;">TIME REMAINING</p>
