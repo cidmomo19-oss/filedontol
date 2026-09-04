@@ -564,4 +564,48 @@ export const baseStyles = `
       font-size: 0.875rem;
     }
   }
+
+  @media (max-width: 450px) {
+    header {
+      padding: 0.65rem 0.85rem;
+    }
+
+    .logo {
+      font-size: 1.25rem;
+    }
+
+    main {
+      padding: 0 0.75rem;
+      margin: 1rem auto;
+    }
+
+    .hero-card, .hero-side-card {
+      padding: 1.15rem;
+      border-radius: var(--radius-lg);
+    }
+
+    .upload-dropzone {
+      padding: 1.5rem 0.85rem;
+    }
+
+    .upload-icon-circle {
+      width: 3.75rem;
+      height: 3.75rem;
+      margin-bottom: 0.85rem;
+    }
+
+    .btn {
+      width: 100%;
+      padding: 0.7rem 1rem;
+      font-size: 0.875rem;
+    }
+
+    .faq-item {
+      padding: 1rem;
+    }
+
+    .faq-header {
+      font-size: 0.95rem;
+    }
+  }
 `;

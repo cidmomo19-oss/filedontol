@@ -77,31 +77,31 @@ export function getIndexHtml(): string {
       <div class="hero-side-card">
         <div>
           <div style="display: flex; align-items: center; gap: 0.6rem; margin-bottom: 1.25rem;">
-            <div style="width: 40px; height: 40px; background: #fce7f3; color: var(--pink-dark); border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center;">
+            <div style="width: 40px; height: 40px; background: #fce7f3; color: var(--pink-dark); border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
               <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
             </div>
-            <h3 style="font-size: 1.25rem; font-weight: 900; color: var(--text-main);">Smart Auto-Extension</h3>
+            <h3 style="font-size: 1.25rem; font-weight: 900; color: var(--text-main);">Expiration & Reset Rules</h3>
           </div>
           <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 1.5rem; line-height: 1.6;">
-            Active file lifespan extends automatically whenever someone downloads your file!
+            100% anonymous file sharing with smart 30-day retention and automated download extension!
           </p>
 
           <div style="display: flex; flex-direction: column; gap: 1rem; margin-bottom: 1.5rem;">
             <div style="background: #ffffff; border: 1px solid var(--pink-border); padding: 1.15rem; border-radius: var(--radius-md); box-shadow: var(--shadow-sm);">
-              <div style="font-weight: 900; font-size: 0.9rem; color: #047857; margin-bottom: 0.25rem;">Guest Uploads</div>
-              <div style="font-size: 0.825rem; color: var(--text-muted);">Active for 14 days • Auto-extends +14 days per download</div>
+              <div style="font-weight: 900; font-size: 0.9rem; color: #047857; margin-bottom: 0.25rem;">30 Days Active Duration</div>
+              <div style="font-size: 0.825rem; color: var(--text-muted);">Files remain downloadable for 30 days from the latest upload or reset date.</div>
             </div>
             <div style="background: #ffffff; border: 1px solid var(--pink-border); padding: 1.15rem; border-radius: var(--radius-md); box-shadow: var(--shadow-sm);">
-              <div style="font-weight: 900; font-size: 0.9rem; color: var(--pink-dark); margin-bottom: 0.25rem;">Member Uploads</div>
-              <div style="font-size: 0.825rem; color: var(--text-muted);">Active for 60 days • Auto-extends +60 days per download</div>
+              <div style="font-weight: 900; font-size: 0.9rem; color: var(--pink-dark); margin-bottom: 0.25rem;">15 Downloads Auto-Reset</div>
+              <div style="font-size: 0.825rem; color: var(--text-muted);">Reaching 15 downloads automatically resets and extends the file expiration date for another +30 days.</div>
             </div>
           </div>
         </div>
 
-        <button class="btn btn-outline" onclick="openAuthModal('register')" style="width: 100%;">
-          <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"/></svg>
-          Register Free Account
-        </button>
+        <a href="/#faq" class="btn btn-outline" style="width: 100%; text-decoration: none;">
+          <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+          Read Detailed FAQ
+        </a>
       </div>
     </div>
 
@@ -145,31 +145,51 @@ export function getIndexHtml(): string {
       <div class="faq-container">
         <div class="faq-item" onclick="toggleFaq(this)">
           <div class="faq-header">
-            <span>How does the auto-extension feature work?</span>
+            <span>How long do uploaded files stay active?</span>
             <span class="faq-arrow">▼</span>
           </div>
           <div class="faq-body">
-            Guest uploads are active for 14 days and Member uploads are active for 60 days by default. Whenever a file is downloaded by anyone, its expiration clock automatically resets (+14 days for Guest / +60 days for Member) from the download timestamp!
+            All uploaded files are anonymous guest uploads and remain active for <strong>30 days</strong> from the initial upload time.
           </div>
         </div>
 
         <div class="faq-item" onclick="toggleFaq(this)">
           <div class="faq-header">
-            <span>Is there a file size limit?</span>
+            <span>How does the 15-download expiration reset work?</span>
             <span class="faq-arrow">▼</span>
           </div>
           <div class="faq-body">
-            Yes, filedontol supports large file transfers up to <strong>5 GB</strong> per upload for both Guests and Members.
+            To keep popular files alive, every time a file accumulates <strong>15 downloads</strong> (at 15, 30, 45, 60... downloads), its expiration clock automatically resets and extends for another <strong>+30 days</strong> from that download moment.
           </div>
         </div>
 
         <div class="faq-item" onclick="toggleFaq(this)">
           <div class="faq-header">
-            <span>How do I report illegal content or copyright violations?</span>
+            <span>Do I need an account to upload files?</span>
             <span class="faq-arrow">▼</span>
           </div>
           <div class="faq-body">
-            Visit our <a href="/report" style="color: var(--pink-deep); font-weight: 800;">Report Abuse Page</a> to email administrators directly at <code>filedontol@gmail.com</code>. DMCA reports are processed within 24 hours.
+            No! filedontol is 100% anonymous and guest-focused. You don't need to register or sign in to upload files up to 5 GB.
+          </div>
+        </div>
+
+        <div class="faq-item" onclick="toggleFaq(this)">
+          <div class="faq-header">
+            <span>What is the maximum file size limit?</span>
+            <span class="faq-arrow">▼</span>
+          </div>
+          <div class="faq-body">
+            You can upload large files up to <strong>5 GB</strong> per file. All major file formats are supported.
+          </div>
+        </div>
+
+        <div class="faq-item" onclick="toggleFaq(this)">
+          <div class="faq-header">
+            <span>How do I report illegal content or DMCA violations?</span>
+            <span class="faq-arrow">▼</span>
+          </div>
+          <div class="faq-body">
+            Visit our <a href="/report" style="color: var(--pink-deep); font-weight: 800;">Report Abuse Page</a> or email administrators directly at <code>filedontol@gmail.com</code>. Valid notices are processed and removed within 24 hours.
           </div>
         </div>
       </div>
@@ -327,8 +347,7 @@ export function getIndexHtml(): string {
           const shareUrl = \`\${window.location.origin}/f/\${completeData.shareCode}\`;
           document.getElementById('share-link-input').value = shareUrl;
 
-          const expDays = completeData.file.isMember ? '60 days' : '14 days';
-          document.getElementById('result-expiration-info').innerText = \`* File is active for \${expDays}. Downloads automatically extend retention.\`;
+          document.getElementById('result-expiration-info').innerText = '* File is active for 30 days. Reaching 15 downloads resets retention for another +30 days.';
 
           resultContainer.style.display = 'block';
           showToast('File uploaded successfully!');

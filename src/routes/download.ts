@@ -101,23 +101,36 @@ downloadApp.get('/download/:code', async (c) => {
     return c.json({ error: 'Tautan unduhan telah kadaluarsa. Silakan muat ulang halaman.' }, 403);
   }
 
-  // Calculate extended expiration date (+14d for guest, +60d for member)
-  const extensionDays = file.user_id ? 60 : 14;
-  const newExpiresAtDate = new Date(Date.now() + extensionDays * 24 * 60 * 60 * 1000);
-  const newExpiresAtStr = newExpiresAtDate.toISOString().replace('T', ' ').substring(0, 19);
+  const newDownloadCount = (file.download_count || 0) + 1;
+  const resetExpiration = newDownloadCount % 15 === 0;
 
-  // Increment download count and extend expires_at in DB
-  c.executionCtx.waitUntil(
-    c.env.DB.prepare(
-      `UPDATE files
-       SET download_count = download_count + 1,
-           last_downloaded_at = CURRENT_TIMESTAMP,
-           expires_at = ?
-       WHERE id = ?`
-    )
-      .bind(newExpiresAtStr, file.id)
-      .run()
-  );
+  if (resetExpiration) {
+    const newExpiresAtDate = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000);
+    const newExpiresAtStr = newExpiresAtDate.toISOString().replace('T', ' ').substring(0, 19);
+
+    c.executionCtx.waitUntil(
+      c.env.DB.prepare(
+        `UPDATE files
+         SET download_count = download_count + 1,
+             last_downloaded_at = CURRENT_TIMESTAMP,
+             expires_at = ?
+         WHERE id = ?`
+      )
+        .bind(newExpiresAtStr, file.id)
+        .run()
+    );
+  } else {
+    c.executionCtx.waitUntil(
+      c.env.DB.prepare(
+        `UPDATE files
+         SET download_count = download_count + 1,
+             last_downloaded_at = CURRENT_TIMESTAMP
+         WHERE id = ?`
+      )
+        .bind(file.id)
+        .run()
+    );
+  }
 
   // If R2 S3 API keys are set, generate short-lived S3 Presigned GET URL and 302 Redirect (Anti-Hotlink)
   if (c.env.R2_ACCESS_KEY_ID && c.env.R2_SECRET_ACCESS_KEY) {

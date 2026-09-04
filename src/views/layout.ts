@@ -36,41 +36,14 @@ export function getLayoutHtml(title: string, bodyContent: string): string {
       </svg>
       <span style="font-size: 1.4rem; font-weight: 900; background: linear-gradient(135deg, #111827, #db2777); -webkit-background-clip: text; -webkit-text-fill-color: transparent; letter-spacing: -0.035em;">filedontol</span>
     </a>
-    <div class="nav-right" id="nav-auth-container">
-      <button class="btn btn-outline btn-sm" id="btn-open-login" onclick="openAuthModal('login')">Sign In</button>
-      <button class="btn btn-pink btn-sm" id="btn-open-register" onclick="openAuthModal('register')">Sign Up</button>
+    <div class="nav-right">
+      <span class="badge badge-pink" style="padding: 0.45rem 1rem; font-size: 0.85rem;">🔒 100% Anonymous Guest Sharing</span>
     </div>
   </header>
 
   <main>
     ${bodyContent}
   </main>
-
-  <!-- Auth Modal -->
-  <div class="modal-overlay" id="auth-modal" aria-hidden="true">
-    <div class="modal-card">
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.25rem;">
-        <h3 style="font-size: 1.2rem; font-weight: 900; color: var(--text-main);" id="modal-title-text">Sign In</h3>
-        <button onclick="closeAuthModal()" aria-label="Close" style="background:none; border:none; font-size:1.5rem; cursor:pointer; color:var(--text-muted);">&times;</button>
-      </div>
-      <div id="auth-error-msg" style="color:var(--rose-red); font-size:0.875rem; margin-bottom:1rem; display:none; background: #fff1f2; padding: 0.6rem 0.85rem; border-radius: var(--radius-sm); border: 1px solid #fecdd3;"></div>
-      <form id="auth-form" onsubmit="handleAuthSubmit(event)">
-        <div style="margin-bottom: 1rem;">
-          <label for="auth-email" style="display:block; font-size:0.85rem; font-weight:800; color:var(--text-main); margin-bottom:0.4rem;">Email Address</label>
-          <input type="email" id="auth-email" required placeholder="you@example.com" style="width:100%; padding:0.65rem 0.85rem; border:1px solid var(--pink-border); border-radius:var(--radius-sm); font-size:0.9rem;" />
-        </div>
-        <div style="margin-bottom: 1.25rem;">
-          <label for="auth-password" style="display:block; font-size:0.85rem; font-weight:800; color:var(--text-main); margin-bottom:0.4rem;">Password</label>
-          <input type="password" id="auth-password" required minlength="6" placeholder="••••••••" style="width:100%; padding:0.65rem 0.85rem; border:1px solid var(--pink-border); border-radius:var(--radius-sm); font-size:0.9rem;" />
-        </div>
-        <button type="submit" class="btn btn-pink" style="width:100%;" id="auth-submit-btn">Sign In</button>
-      </form>
-      <div style="margin-top:1.25rem; text-align:center; font-size:0.875rem; color:var(--text-muted);">
-        <span id="auth-toggle-text">Don't have an account?</span>
-        <a href="#" onclick="toggleAuthMode(event)" id="auth-toggle-btn" style="color:var(--pink-deep); font-weight:800; text-decoration:none;">Sign up now</a>
-      </div>
-    </div>
-  </div>
 
   <!-- Toast Notification Container -->
   <div id="toast-container"></div>
@@ -89,8 +62,6 @@ export function getLayoutHtml(title: string, bodyContent: string): string {
   </footer>
 
   <script>
-    let currentAuthMode = 'login';
-
     function showToast(msg, isError = false) {
       const container = document.getElementById('toast-container');
       const toast = document.createElement('div');
@@ -100,107 +71,6 @@ export function getLayoutHtml(title: string, bodyContent: string): string {
       container.appendChild(toast);
       setTimeout(() => { toast.remove(); }, 3000);
     }
-
-    async function checkAuthStatus() {
-      try {
-        const res = await fetch('/api/auth/me');
-        const data = await res.json();
-        const container = document.getElementById('nav-auth-container');
-        if (data.authenticated && data.user) {
-          container.innerHTML = \`
-            <a href="/" class="nav-link">Home</a>
-            <a href="/dashboard" class="nav-link">Dashboard</a>
-            <span class="user-badge" title="\${data.user.email}">\${data.user.email}</span>
-            <button class="btn btn-outline btn-sm" onclick="handleLogout()">Logout</button>
-          \`;
-          window.currentUser = data.user;
-        } else {
-          container.innerHTML = \`
-            <button class="btn btn-outline btn-sm" id="btn-open-login" onclick="openAuthModal('login')">Sign In</button>
-            <button class="btn btn-pink btn-sm" id="btn-open-register" onclick="openAuthModal('register')">Sign Up</button>
-          \`;
-          window.currentUser = null;
-        }
-      } catch (err) {
-        console.error('Check auth error:', err);
-      }
-    }
-
-    function openAuthModal(mode) {
-      currentAuthMode = mode;
-      const modal = document.getElementById('auth-modal');
-      const title = document.getElementById('modal-title-text');
-      const submitBtn = document.getElementById('auth-submit-btn');
-      const toggleText = document.getElementById('auth-toggle-text');
-      const toggleBtn = document.getElementById('auth-toggle-btn');
-      document.getElementById('auth-error-msg').style.display = 'none';
-
-      if (mode === 'login') {
-        title.innerText = 'Sign In to Account';
-        submitBtn.innerText = 'Sign In';
-        toggleText.innerText = "Don't have an account? ";
-        toggleBtn.innerText = 'Sign up now';
-      } else {
-        title.innerText = 'Create New Account';
-        submitBtn.innerText = 'Sign Up';
-        toggleText.innerText = 'Already have an account? ';
-        toggleBtn.innerText = 'Sign in here';
-      }
-      modal.classList.add('active');
-    }
-
-    function closeAuthModal() {
-      document.getElementById('auth-modal').classList.remove('active');
-    }
-
-    function toggleAuthMode(e) {
-      e.preventDefault();
-      openAuthModal(currentAuthMode === 'login' ? 'register' : 'login');
-    }
-
-    async function handleAuthSubmit(e) {
-      e.preventDefault();
-      const email = document.getElementById('auth-email').value;
-      const password = document.getElementById('auth-password').value;
-      const errorDiv = document.getElementById('auth-error-msg');
-      errorDiv.style.display = 'none';
-
-      const endpoint = currentAuthMode === 'login' ? '/api/auth/login' : '/api/auth/register';
-
-      try {
-        const res = await fetch(endpoint, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ email, password })
-        });
-        const data = await res.json();
-        if (!res.ok || data.error) {
-          errorDiv.innerText = data.error || 'An error occurred.';
-          errorDiv.style.display = 'block';
-          return;
-        }
-        closeAuthModal();
-        showToast(currentAuthMode === 'login' ? 'Successfully signed in!' : 'Account created successfully!');
-        await checkAuthStatus();
-        if (typeof onAuthSuccess === 'function') {
-          onAuthSuccess();
-        }
-      } catch (err) {
-        errorDiv.innerText = 'Failed to connect to server.';
-        errorDiv.style.display = 'block';
-      }
-    }
-
-    async function handleLogout() {
-      await fetch('/api/auth/logout', { method: 'POST' });
-      showToast('Successfully logged out.');
-      await checkAuthStatus();
-      if (window.location.pathname === '/dashboard') {
-        window.location.href = '/';
-      }
-    }
-
-    document.addEventListener('DOMContentLoaded', checkAuthStatus);
   </script>
 </body>
 </html>`;

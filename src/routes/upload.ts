@@ -129,19 +129,8 @@ uploadApp.post('/complete', async (c) => {
       return c.json({ error: 'Ukuran file melebihi batas maksimal 5 GB.' }, 400);
     }
 
-    const cookies = parseCookies(c.req.header('Cookie') || null);
-    const token = cookies['auth_token'];
-    let userId: string | null = null;
-    const jwtSecret = c.env.JWT_SECRET || DEFAULT_JWT_SECRET;
-
-    if (token) {
-      const payload = await verifyJWT(token, jwtSecret);
-      if (payload) {
-        userId = payload.sub;
-      }
-    }
-
-    const expirationDays = userId ? 60 : 14;
+    // All uploads are anonymous guest uploads active for 30 days
+    const expirationDays = 30;
     const expiresAtDate = new Date(Date.now() + expirationDays * 24 * 60 * 60 * 1000);
     const expiresAtStr = expiresAtDate.toISOString().replace('T', ' ').substring(0, 19);
 
@@ -151,11 +140,10 @@ uploadApp.post('/complete', async (c) => {
     await c.env.DB.prepare(
       `INSERT INTO files (
         id, user_id, share_code, file_name, file_size, mime_type, file_hash, r2_key, download_count, last_downloaded_at, expires_at, status
-      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, 0, CURRENT_TIMESTAMP, ?, 'active')`
+      ) VALUES (?, NULL, ?, ?, ?, ?, ?, ?, 0, CURRENT_TIMESTAMP, ?, 'active')`
     )
       .bind(
         fileId,
-        userId,
         shareCode,
         fileName,
         fileSize,
@@ -175,7 +163,6 @@ uploadApp.post('/complete', async (c) => {
         fileName,
         fileSize,
         expiresAt: expiresAtStr,
-        isMember: !!userId,
       },
     });
   } catch (err: any) {
