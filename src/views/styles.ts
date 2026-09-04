@@ -1,7 +1,7 @@
 export const baseStyles = `
   :root {
     --bg-main: #ffffff;
-    --bg-gradient: linear-gradient(135deg, #f8fafc 0%, #eef2ff 50%, #e0f2fe 100%);
+    --bg-gradient: linear-gradient(180deg, #f8fafc 0%, #ffffff 100%);
     --card-bg: #ffffff;
     --border-color: #e2e8f0;
     --border-hover: #cbd5e1;
@@ -9,18 +9,17 @@ export const baseStyles = `
     --text-muted: #64748b;
     --primary-indigo: #2563eb;
     --primary-hover: #1d4ed8;
-    --accent-pink: #ec4899;
-    --sky-blue: #0284c7;
+    --accent-sky: #0284c7;
     --emerald-green: #059669;
     --rose-red: #e11d48;
     --amber-gold: #d97706;
     --violet-purple: #7c3aed;
     --radius-sm: 0.5rem;
-    --radius-md: 0.75rem;
+    --radius-md: 0.85rem;
     --radius-lg: 1.25rem;
-    --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.05);
-    --shadow-md: 0 4px 12px rgba(37, 99, 235, 0.08);
-    --shadow-lg: 0 12px 28px rgba(15, 23, 42, 0.08);
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04);
+    --shadow-md: 0 4px 12px -2px rgba(37, 99, 235, 0.08), 0 2px 4px -1px rgba(0, 0, 0, 0.04);
+    --shadow-lg: 0 12px 32px -4px rgba(15, 23, 42, 0.08), 0 4px 12px -2px rgba(0, 0, 0, 0.03);
   }
 
   * {
@@ -35,7 +34,7 @@ export const baseStyles = `
   }
 
   body {
-    font-family: -apple-system, BlinkMacSystemFont, "Plus Jakarta Sans", "Segoe UI", Roboto, sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, "Plus Jakarta Sans", "Inter", "Segoe UI", Roboto, sans-serif;
     background: var(--bg-gradient);
     background-attachment: fixed;
     color: var(--text-main);
@@ -48,10 +47,10 @@ export const baseStyles = `
   /* Header Navigation */
   header {
     background-color: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
     border-bottom: 1px solid var(--border-color);
-    padding: 0.85rem 1.5rem;
+    padding: 0.85rem 1.75rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -86,7 +85,7 @@ export const baseStyles = `
     text-decoration: none;
     font-weight: 700;
     font-size: 0.875rem;
-    padding: 0.4rem 0.65rem;
+    padding: 0.4rem 0.75rem;
     border-radius: var(--radius-sm);
     transition: all 0.2s ease;
     white-space: nowrap;
@@ -108,12 +107,12 @@ export const baseStyles = `
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    max-width: 140px;
+    max-width: 150px;
   }
 
   /* Buttons */
   .btn {
-    padding: 0.55rem 1.25rem;
+    padding: 0.6rem 1.35rem;
     font-weight: 700;
     border-radius: var(--radius-md);
     cursor: pointer;
@@ -123,14 +122,14 @@ export const baseStyles = `
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 0.4rem;
+    gap: 0.45rem;
     text-decoration: none;
     line-height: 1.25;
     max-width: 100%;
   }
 
   .btn-sm {
-    padding: 0.35rem 0.65rem;
+    padding: 0.35rem 0.75rem;
     font-size: 0.8rem;
     border-radius: var(--radius-sm);
   }
@@ -138,12 +137,12 @@ export const baseStyles = `
   .btn-primary {
     background: linear-gradient(135deg, var(--primary-indigo) 0%, #3b82f6 100%);
     color: #ffffff;
-    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25);
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
   }
 
   .btn-primary:hover {
     transform: translateY(-1px);
-    box-shadow: 0 6px 16px rgba(37, 99, 235, 0.35);
+    box-shadow: 0 6px 16px rgba(37, 99, 235, 0.3);
   }
 
   .btn-outline {
@@ -185,7 +184,7 @@ export const baseStyles = `
     background: var(--card-bg);
     border: 1px solid var(--border-color);
     border-radius: var(--radius-lg);
-    padding: clamp(1rem, 3.5vw, 2.25rem);
+    padding: clamp(1.25rem, 3.5vw, 2.25rem);
     box-shadow: var(--shadow-lg);
     width: 100%;
     overflow-x: hidden;
@@ -201,30 +200,13 @@ export const baseStyles = `
     align-items: center;
     gap: 0.35rem;
     max-width: 100%;
-    word-break: break-word;
   }
 
-  .badge-indigo { background: #e0e7ff; color: #1d4ed8; border: 1px solid #c7d2fe; }
-  .badge-emerald { background: #d1fae5; color: #065f46; border: 1px solid #a7f3d0; }
-  .badge-purple { background: #f3e8ff; color: #581c87; border: 1px solid #e9d5ff; }
-  .badge-rose { background: #ffe4e6; color: #9f1239; border: 1px solid #fecdd3; }
+  .badge-indigo { background: #eff6ff; color: #1d4ed8; border: 1px solid #bfdbfe; }
+  .badge-emerald { background: #ecfdf5; color: #047857; border: 1px solid #a7f3d0; }
+  .badge-purple { background: #faf5ff; color: #6b21a8; border: 1px solid #e9d5ff; }
 
-  /* Section Styles */
-  .section-title {
-    font-size: clamp(1.25rem, 3vw, 1.85rem);
-    font-weight: 800;
-    text-align: center;
-    margin-bottom: 0.5rem;
-    color: var(--text-main);
-  }
-
-  .section-desc {
-    text-align: center;
-    color: var(--text-muted);
-    font-size: clamp(0.875rem, 2vw, 1.05rem);
-    margin-bottom: 1.75rem;
-  }
-
+  /* Grid Layouts */
   .grid-3 {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
@@ -236,7 +218,7 @@ export const baseStyles = `
     background: #ffffff;
     border: 1px solid var(--border-color);
     border-radius: var(--radius-md);
-    padding: 1.25rem;
+    padding: 1.35rem;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
   }
 
@@ -250,7 +232,10 @@ export const baseStyles = `
     font-size: 1.35rem;
     color: var(--primary-indigo);
     margin-bottom: 0.5rem;
-    display: inline-block;
+    display: inline-flex;
+    padding: 0.5rem;
+    background: #f0f5ff;
+    border-radius: var(--radius-sm);
   }
 
   .feature-title {
@@ -264,6 +249,22 @@ export const baseStyles = `
     font-size: 0.875rem;
     color: var(--text-muted);
     line-height: 1.5;
+  }
+
+  /* Progress Gauge Bar */
+  .progress-gauge {
+    height: 8px;
+    background: #e2e8f0;
+    border-radius: 4px;
+    overflow: hidden;
+    width: 100%;
+  }
+
+  .progress-gauge-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--primary-indigo), #3b82f6);
+    border-radius: 4px;
+    transition: width 0.3s ease;
   }
 
   /* FAQ Accordion */
@@ -312,11 +313,7 @@ export const baseStyles = `
     display: block;
   }
 
-  .faq-item.active .faq-arrow {
-    transform: rotate(180deg);
-  }
-
-  /* Table Styles for Dashboard */
+  /* Table Styles */
   .table-responsive {
     width: 100%;
     overflow-x: auto;
@@ -332,7 +329,7 @@ export const baseStyles = `
     border-collapse: collapse;
     text-align: left;
     font-size: 0.875rem;
-    min-width: 500px;
+    min-width: 520px;
   }
 
   th {
@@ -419,8 +416,6 @@ export const baseStyles = `
     max-width: 420px;
     padding: 1.5rem;
     box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
-    max-height: 90vh;
-    overflow-y: auto;
   }
 
   .modal-title {
@@ -442,7 +437,7 @@ export const baseStyles = `
     color: var(--text-main);
   }
 
-  .form-group input, .form-group select, .form-group textarea {
+  .form-group input {
     width: 100%;
     padding: 0.6rem 0.75rem;
     border: 1px solid var(--border-color);
@@ -453,7 +448,7 @@ export const baseStyles = `
     color: var(--text-main);
   }
 
-  .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+  .form-group input:focus {
     outline: none;
     border-color: var(--primary-indigo);
     box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
@@ -481,28 +476,9 @@ export const baseStyles = `
     text-decoration: underline;
   }
 
-  /* Responsive Mobile Breakpoints */
   @media (max-width: 640px) {
     header {
       padding: 0.65rem 0.85rem;
-    }
-
-    .logo span {
-      font-size: 1.15rem !important;
-    }
-
-    .logo svg {
-      width: 28px !important;
-      height: 28px !important;
-    }
-
-    .nav-right {
-      gap: 0.25rem;
-    }
-
-    .nav-link {
-      font-size: 0.8rem;
-      padding: 0.35rem 0.5rem;
     }
 
     .btn {
@@ -510,42 +486,12 @@ export const baseStyles = `
       font-size: 0.825rem;
     }
 
-    .btn-sm {
-      padding: 0.3rem 0.5rem;
-      font-size: 0.75rem;
-    }
-
-    .user-badge {
-      max-width: 90px;
-      font-size: 0.725rem;
-      padding: 0.2rem 0.45rem;
-    }
-
-    main {
-      padding: 0 0.5rem;
-      margin: 0.85rem auto;
-    }
-
     .card {
       padding: 1rem;
-      border-radius: var(--radius-md);
     }
 
     .grid-3 {
       grid-template-columns: 1fr;
-      gap: 0.85rem;
-      margin-bottom: 1.75rem;
-    }
-
-    #toast-container {
-      bottom: 0.75rem;
-      right: 0.5rem;
-      left: 0.5rem;
-    }
-
-    .toast {
-      max-width: 100%;
-      font-size: 0.8rem;
     }
   }
 `;
