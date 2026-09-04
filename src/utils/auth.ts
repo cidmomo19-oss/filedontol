@@ -96,6 +96,61 @@ export async function verifyUploadTicket(ticket: string, secret: string): Promis
   }
 }
 
+export async function createDownloadTicket(shareCode: string, secret: string, expiresInSec = 600): Promise<string> {
+  const now = Math.floor(Date.now() / 1000);
+  const exp = now + expiresInSec;
+  const payloadStr = `${shareCode}:${exp}`;
+
+  const encoder = new TextEncoder();
+  const cryptoKey = await crypto.subtle.importKey(
+    'raw',
+    encoder.encode(secret),
+    { name: 'HMAC', hash: 'SHA-256' },
+    false,
+    ['sign']
+  );
+
+  const signature = await crypto.subtle.sign('HMAC', cryptoKey, encoder.encode(payloadStr));
+  const encodedSig = arrayBufferToBase64Url(signature);
+
+  return `${btoa(payloadStr)}.${encodedSig}`;
+}
+
+export async function verifyDownloadTicket(ticket: string, secret: string): Promise<{ valid: boolean; shareCode?: string }> {
+  try {
+    const parts = ticket.split('.');
+    if (parts.length !== 2) return { valid: false };
+
+    const [encodedPayload, encodedSig] = parts;
+    const payloadStr = atob(encodedPayload);
+    const [shareCode, expStr] = payloadStr.split(':');
+    const exp = parseInt(expStr, 10);
+
+    const now = Math.floor(Date.now() / 1000);
+    if (!exp || exp < now) return { valid: false };
+
+    const encoder = new TextEncoder();
+    const cryptoKey = await crypto.subtle.importKey(
+      'raw',
+      encoder.encode(secret),
+      { name: 'HMAC', hash: 'SHA-256' },
+      false,
+      ['verify']
+    );
+
+    const sigBytes = new Uint8Array(
+      base64UrlDecode(encodedSig).split('').map((c) => c.charCodeAt(0))
+    );
+
+    const isValid = await crypto.subtle.verify('HMAC', cryptoKey, sigBytes, encoder.encode(payloadStr));
+
+    if (!isValid) return { valid: false };
+    return { valid: true, shareCode };
+  } catch {
+    return { valid: false };
+  }
+}
+
 export async function hashPassword(password: string): Promise<string> {
   const encoder = new TextEncoder();
   const salt = crypto.getRandomValues(new Uint8Array(16));

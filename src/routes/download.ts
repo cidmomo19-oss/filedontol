@@ -1,8 +1,11 @@
 import { Hono } from 'hono';
 import { Env, FileRecord } from '../types';
 import { generateR2PresignedDownloadUrl } from '../utils/s3';
+import { createDownloadTicket, verifyDownloadTicket } from '../utils/auth';
 
 export const downloadApp = new Hono<{ Bindings: Env }>();
+
+const DEFAULT_JWT_SECRET = 'fd_jwt_secret_default_filedontol_key';
 
 downloadApp.get('/file/:code', async (c) => {
   const code = c.req.param('code');
@@ -34,8 +37,32 @@ downloadApp.get('/file/:code', async (c) => {
     return c.json({ error: 'File telah kadaluarsa.' }, 410);
   }
 
+  // Generate a short-lived presigned download ticket (valid for 10 minutes)
+  const jwtSecret = c.env.JWT_SECRET || DEFAULT_JWT_SECRET;
+  const ticket = await createDownloadTicket(file.share_code, jwtSecret, 600);
+
+  let downloadUrl = `/api/download/${file.share_code}?ticket=${encodeURIComponent(ticket)}`;
+
+  // If R2 S3 API keys are configured, generate direct S3 presigned URL
+  if (c.env.R2_ACCESS_KEY_ID && c.env.R2_SECRET_ACCESS_KEY) {
+    try {
+      downloadUrl = await generateR2PresignedDownloadUrl(
+        c.env.ACCOUNT_ID,
+        'filedontol-storage',
+        file.r2_key,
+        file.file_name,
+        c.env.R2_ACCESS_KEY_ID,
+        c.env.R2_SECRET_ACCESS_KEY,
+        600 // 10 minutes
+      );
+    } catch (err) {
+      console.error('Error generating S3 presigned download URL:', err);
+    }
+  }
+
   return c.json({
     success: true,
+    presignedDownloadUrl: downloadUrl,
     file: {
       shareCode: file.share_code,
       fileName: file.file_name,
@@ -78,6 +105,21 @@ downloadApp.get('/download/:code', async (c) => {
     return c.json({ error: 'File telah kadaluarsa.' }, 410);
   }
 
+  // Verify download ticket if S3 direct presigned mode is not active
+  const jwtSecret = c.env.JWT_SECRET || DEFAULT_JWT_SECRET;
+  const ticket = c.req.query('ticket');
+
+  if (!c.env.R2_ACCESS_KEY_ID || !c.env.R2_SECRET_ACCESS_KEY) {
+    if (!ticket) {
+      return c.json({ error: 'Tautan unduhan tidak valid atau belum dipresigned.' }, 401);
+    }
+
+    const verification = await verifyDownloadTicket(ticket, jwtSecret);
+    if (!verification.valid || verification.shareCode !== file.share_code) {
+      return c.json({ error: 'Tautan unduhan telah kadaluarsa. Silakan muat ulang halaman.' }, 403);
+    }
+  }
+
   // Calculate extended expiration date (+14d for guest, +60d for member)
   const extensionDays = file.user_id ? 60 : 14;
   const newExpiresAtDate = new Date(Date.now() + extensionDays * 24 * 60 * 60 * 1000);
@@ -96,7 +138,7 @@ downloadApp.get('/download/:code', async (c) => {
       .run()
   );
 
-  // If R2 S3 API keys are set, generate short-lived Presigned GET URL and 302 Redirect (Anti-Hotlink)
+  // If R2 S3 API keys are set, generate short-lived S3 Presigned GET URL and 302 Redirect (Anti-Hotlink)
   if (c.env.R2_ACCESS_KEY_ID && c.env.R2_SECRET_ACCESS_KEY) {
     try {
       const presignedDownloadUrl = await generateR2PresignedDownloadUrl(
@@ -114,7 +156,7 @@ downloadApp.get('/download/:code', async (c) => {
     }
   }
 
-  // Fallback to Worker object streaming if R2 API keys are not provided
+  // Stream binary object from Worker
   const object = await c.env.STORAGE.get(file.r2_key);
   if (!object) {
     return c.json({ error: 'Objek file tidak ditemukan di penyimpanan.' }, 404);

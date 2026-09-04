@@ -57,7 +57,7 @@ export function getIndexHtml(): string {
       <div id="upload-error-container" style="display: none; text-align: left; background: #fef2f2; border: 1px solid #fecaca; padding: 1rem 1.25rem; border-radius: 0.5rem; color: #991b1b; font-size: 0.9rem; margin-top: 1rem;"></div>
     </div>
 
-    <!-- Section 1: Features & Advantages -->
+    <!-- Features & Advantages -->
     <div style="margin-bottom: 3.5rem;">
       <h2 class="section-title">Mengapa Memilih filedontol?</h2>
       <p class="section-desc">Nikmati pengalaman berbagi file tanpa kerumitan dan batas yang tidak perlu.</p>
@@ -96,7 +96,7 @@ export function getIndexHtml(): string {
       </div>
     </div>
 
-    <!-- Section 2: How It Works -->
+    <!-- How It Works -->
     <div style="margin-bottom: 3.5rem; background: #ffffff; border: 1px solid var(--border-color); border-radius: var(--radius-lg); padding: 2.5rem 1.5rem;">
       <h2 class="section-title">Cara Kerja filedontol</h2>
       <p class="section-desc">3 langkah sederhana untuk membagikan file Anda ke siapa saja.</p>
@@ -120,7 +120,7 @@ export function getIndexHtml(): string {
       </div>
     </div>
 
-    <!-- Section 3: FAQ Accordion -->
+    <!-- FAQ Accordion -->
     <div id="faq" style="margin-bottom: 3rem;">
       <h2 class="section-title">Pertanyaan Umum (FAQ)</h2>
       <p class="section-desc">Jawaban untuk pertanyaan yang sering diajukan.</p>
@@ -368,10 +368,36 @@ export function getDashboardPageHtml(): string {
     <div class="card">
       <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; margin-bottom: 2rem;">
         <div>
-          <h1 style="font-size: 1.5rem; font-weight: 800;">Dashboard Pengelola File</h1>
-          <p style="color: var(--text-muted); font-size: 0.925rem;">Kelola, ubah nama, dan pantau seluruh file Anda.</p>
+          <h1 style="font-size: 1.5rem; font-weight: 800;">Dashboard Awan Member</h1>
+          <p style="color: var(--text-muted); font-size: 0.925rem;">Kelola, ubah nama, bagikan, dan pantau seluruh file Anda.</p>
         </div>
-        <a href="/" class="btn btn-primary">+ Unggah File Baru</a>
+        <button class="btn btn-primary" onclick="toggleDashboardUploadSection()" id="btn-toggle-dash-upload">
+          ⚡ Unggah File Baru Ke Dashboard
+        </button>
+      </div>
+
+      <!-- Integrated Dashboard Drag & Drop Upload Zone -->
+      <div id="dashboard-upload-box" style="display: block; background: #f8fafc; border: 2px dashed #cbd5e1; border-radius: var(--radius-md); padding: 2rem 1.5rem; text-align: center; margin-bottom: 2rem;">
+        <div onclick="document.getElementById('dash-file-input').click()" style="cursor: pointer;">
+          <svg xmlns="http://www.w3.org/2000/svg" width="40" height="48" fill="none" viewBox="0 0 24 24" stroke="var(--primary-indigo)" style="margin: 0 auto 0.75rem auto; display: block;">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/>
+          </svg>
+          <p style="font-size: 1.05rem; font-weight: 700; color: var(--text-main);">Tarik & lepas file di sini atau klik untuk mengunggah ke akun Anda</p>
+          <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.25rem;">Batas hingga 5 GB • Masa aktif otomatis 60 hari</p>
+          <input type="file" id="dash-file-input" style="display: none;" onchange="handleDashFileSelect(event)" />
+        </div>
+
+        <!-- Upload Progress Section -->
+        <div id="dash-progress-container" style="display: none; text-align: left; background: #ffffff; border: 1px solid var(--border-color); padding: 1rem; border-radius: var(--radius-sm); margin-top: 1rem;">
+          <div style="display: flex; justify-content: space-between; font-size: 0.875rem; font-weight: 700; margin-bottom: 0.35rem;">
+            <span id="dash-progress-filename">Nama File</span>
+            <span id="dash-progress-percent">0%</span>
+          </div>
+          <div style="width: 100%; background: #e2e8f0; height: 8px; border-radius: 4px; overflow: hidden;">
+            <div id="dash-progress-bar" style="width: 0%; height: 100%; background: var(--primary-indigo); transition: width 0.1s linear;"></div>
+          </div>
+          <p id="dash-progress-status" style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.35rem;">Mengunggah...</p>
+        </div>
       </div>
 
       <!-- Stats Summary Grid -->
@@ -403,8 +429,7 @@ export function getDashboardPageHtml(): string {
       <div id="dashboard-empty" style="display: none; text-align: center; padding: 3rem 1rem; border: 2px dashed var(--border-color); border-radius: var(--radius-md);">
         <span style="font-size: 3rem; display: block; margin-bottom: 0.5rem;">📂</span>
         <h3 style="font-size: 1.15rem; font-weight: 700; margin-bottom: 0.5rem;">Belum ada file yang diunggah</h3>
-        <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1.5rem;">Unggah file pertama Anda dan bagikan tautannya secara instan.</p>
-        <a href="/" class="btn btn-primary">Unggah File Sekarang</a>
+        <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1.5rem;">Gunakan kotak upload di atas untuk mengunggah file pertama Anda.</p>
       </div>
 
       <div id="dashboard-table-wrapper" style="display: none;" class="table-responsive">
@@ -444,6 +469,124 @@ export function getDashboardPageHtml(): string {
 
     <script>
       let allFiles = [];
+
+      function toggleDashboardUploadSection() {
+        const box = document.getElementById('dashboard-upload-box');
+        if (box.style.display === 'none') {
+          box.style.display = 'block';
+          box.scrollIntoView({ behavior: 'smooth' });
+        } else {
+          box.style.display = 'none';
+        }
+      }
+
+      function handleDashFileSelect(e) {
+        if (e.target.files.length > 0) {
+          uploadDashboardFile(e.target.files[0]);
+        }
+      }
+
+      async function computeSHA256(file) {
+        const chunkSize = 10 * 1024 * 1024;
+        const slice = file.size > chunkSize ? file.slice(0, chunkSize) : file;
+        const arrayBuffer = await slice.arrayBuffer();
+        const hashBuffer = await crypto.subtle.digest('SHA-256', arrayBuffer);
+        const hashArray = Array.from(new Uint8Array(hashBuffer));
+        return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+      }
+
+      async function uploadDashboardFile(file) {
+        const MAX_SIZE = 5 * 1024 * 1024 * 1024;
+        if (file.size > MAX_SIZE) {
+          showToast('Batas maksimal ukuran file adalah 5 GB.', true);
+          return;
+        }
+
+        const progressContainer = document.getElementById('dash-progress-container');
+        progressContainer.style.display = 'block';
+        document.getElementById('dash-progress-filename').innerText = file.name;
+        document.getElementById('dash-progress-bar').style.width = '0%';
+        document.getElementById('dash-progress-percent').innerText = '0%';
+        document.getElementById('dash-progress-status').innerText = 'Menghitung hash file...';
+
+        try {
+          const fileHash = await computeSHA256(file);
+          document.getElementById('dash-progress-status').innerText = 'Meminta tiket upload...';
+
+          const ticketRes = await fetch('/api/upload/presigned', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              fileName: file.name,
+              fileSize: file.size,
+              mimeType: file.type || 'application/octet-stream',
+              fileHash: fileHash
+            })
+          });
+
+          const ticketData = await ticketRes.json();
+          if (!ticketRes.ok || ticketData.error) {
+            progressContainer.style.display = 'none';
+            showToast(ticketData.error || 'Gagal membuat tiket upload.', true);
+            return;
+          }
+
+          document.getElementById('dash-progress-status').innerText = 'Mengunggah file...';
+
+          await new Promise((resolve, reject) => {
+            const xhr = new XMLHttpRequest();
+            xhr.open('PUT', ticketData.presignedUrl, true);
+            if (file.type) {
+              xhr.setRequestHeader('Content-Type', file.type);
+            }
+
+            xhr.upload.onprogress = (e) => {
+              if (e.lengthComputable) {
+                const percent = Math.round((e.loaded / e.total) * 100);
+                document.getElementById('dash-progress-bar').style.width = percent + '%';
+                document.getElementById('dash-progress-percent').innerText = percent + '%';
+              }
+            };
+
+            xhr.onload = () => {
+              if (xhr.status >= 200 && xhr.status < 300) resolve();
+              else reject(new Error('Gagal mengunggah file.'));
+            };
+
+            xhr.onerror = () => reject(new Error('Kesalahan jaringan.'));
+            xhr.send(file);
+          });
+
+          document.getElementById('dash-progress-status').innerText = 'Menyelesaikan metadata...';
+
+          const completeRes = await fetch('/api/upload/complete', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              r2Key: ticketData.r2Key,
+              fileName: file.name,
+              fileSize: file.size,
+              mimeType: file.type || 'application/octet-stream',
+              fileHash: fileHash
+            })
+          });
+
+          const completeData = await completeRes.json();
+          if (!completeRes.ok || completeData.error) {
+            progressContainer.style.display = 'none';
+            showToast(completeData.error || 'Gagal menyimpan metadata.', true);
+            return;
+          }
+
+          progressContainer.style.display = 'none';
+          showToast('File berhasil diunggah!');
+          loadDashboard();
+
+        } catch (err) {
+          progressContainer.style.display = 'none';
+          showToast(err.message || 'Gagal mengunggah file.', true);
+        }
+      }
 
       function formatBytes(bytes) {
         if (bytes === 0) return '0 Bytes';
@@ -720,7 +863,7 @@ export function getDownloadPageHtml(shareCode: string): string {
           </div>
         </div>
 
-        <a id="btn-download-file" href="/api/download/${shareCode}" class="btn btn-primary" style="font-size: 1.1rem; padding: 0.85rem 2.5rem; width: 100%; text-decoration: none;">
+        <a id="btn-download-file" href="#" class="btn btn-primary" style="font-size: 1.1rem; padding: 0.85rem 2.5rem; width: 100%; text-decoration: none;">
           ⬇️ Download File Sekarang
         </a>
 
@@ -787,6 +930,13 @@ export function getDownloadPageHtml(shareCode: string): string {
             year: 'numeric', month: 'long', day: 'numeric'
           });
           document.getElementById('detail-downloads').innerText = \`\${file.downloadCount} kali\`;
+
+          const downloadBtn = document.getElementById('btn-download-file');
+          if (data.presignedDownloadUrl) {
+            downloadBtn.href = data.presignedDownloadUrl;
+          } else {
+            downloadBtn.href = '/api/download/${shareCode}';
+          }
 
           updateCountdown(file.expiresAt);
           setInterval(() => updateCountdown(file.expiresAt), 60000);
