@@ -125,6 +125,15 @@ uploadApp.post('/complete', async (c) => {
       return c.json({ error: 'r2Key, fileName, and fileSize are required.' }, 400);
     }
 
+    // Enforce single-use: Check if r2Key has already been registered in D1
+    const existing = await c.env.DB.prepare('SELECT id FROM files WHERE r2_key = ?')
+      .bind(r2Key)
+      .first();
+
+    if (existing) {
+      return c.json({ error: 'Tiket upload ini sudah digunakan (single-use).' }, 400);
+    }
+
     if (fileSize > MAX_FILE_SIZE) {
       return c.json({ error: 'Ukuran file melebihi batas maksimal 5 GB.' }, 400);
     }

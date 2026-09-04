@@ -26,7 +26,7 @@ export async function generateR2PresignedUrl(
     ContentType: contentType,
   });
 
-  return await getSignedUrl(s3Client, command, { expiresIn: 1800 });
+  return await getSignedUrl(s3Client, command, { expiresIn: 86400 }); // 24 hours (1 day)
 }
 
 export async function generateR2PresignedDownloadUrl(
@@ -36,7 +36,7 @@ export async function generateR2PresignedDownloadUrl(
   fileName: string,
   accessKeyId: string,
   secretAccessKey: string,
-  expiresInSec = 600 // 10 minutes
+  expiresInSec = 259200 // 3 days (72 hours)
 ): Promise<string> {
   const endpoint = `https://${accountId}.r2.cloudflarestorage.com`;
 

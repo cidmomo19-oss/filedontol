@@ -41,7 +41,7 @@ export async function timingSafeEqual(a: string, b: string): Promise<boolean> {
   return diff === 0;
 }
 
-export async function createUploadTicket(r2Key: string, secret: string, expiresInSec = 1800): Promise<string> {
+export async function createUploadTicket(r2Key: string, secret: string, expiresInSec = 86400): Promise<string> {
   const now = Math.floor(Date.now() / 1000);
   const exp = now + expiresInSec;
   const payloadStr = `${r2Key}:${exp}`;
@@ -96,7 +96,7 @@ export async function verifyUploadTicket(ticket: string, secret: string): Promis
   }
 }
 
-export async function createDownloadTicket(shareCode: string, secret: string, expiresInSec = 600): Promise<string> {
+export async function createDownloadTicket(shareCode: string, secret: string, expiresInSec = 259200): Promise<string> {
   const now = Math.floor(Date.now() / 1000);
   const exp = now + expiresInSec;
   const payloadStr = `${shareCode}:${exp}`;

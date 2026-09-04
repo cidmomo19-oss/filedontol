@@ -37,11 +37,13 @@ downloadApp.get('/file/:code', async (c) => {
     return c.json({ error: 'File telah kadaluarsa.' }, 410);
   }
 
-  // Generate a short-lived presigned download ticket (valid for 10 minutes)
+  // Generate a presigned download ticket (valid for 3 days / 259,200s)
   const jwtSecret = c.env.JWT_SECRET || DEFAULT_JWT_SECRET;
-  const ticket = await createDownloadTicket(file.share_code, jwtSecret, 600);
+  const ticket = await createDownloadTicket(file.share_code, jwtSecret, 259200);
 
   const downloadUrl = `/api/download/${file.share_code}?ticket=${encodeURIComponent(ticket)}`;
+
+  c.header('Cache-Control', 'public, max-age=86400, s-maxage=259200');
 
   return c.json({
     success: true,
@@ -133,7 +135,7 @@ downloadApp.get('/download/:code', async (c) => {
     );
   }
 
-  // If R2 S3 API keys are set, generate short-lived S3 Presigned GET URL and 302 Redirect (Anti-Hotlink)
+  // If R2 S3 API keys are set, generate S3 Presigned GET URL (3 days / 259,200s) and 302 Redirect
   if (c.env.R2_ACCESS_KEY_ID && c.env.R2_SECRET_ACCESS_KEY) {
     try {
       const presignedDownloadUrl = await generateR2PresignedDownloadUrl(
@@ -143,7 +145,7 @@ downloadApp.get('/download/:code', async (c) => {
         file.file_name,
         c.env.R2_ACCESS_KEY_ID,
         c.env.R2_SECRET_ACCESS_KEY,
-        600 // 10 minutes
+        259200 // 3 days (72 hours)
       );
       return c.redirect(presignedDownloadUrl, 302);
     } catch (err) {
@@ -151,7 +153,7 @@ downloadApp.get('/download/:code', async (c) => {
     }
   }
 
-  // Stream binary object from Worker
+  // Stream binary object from Worker with Cache-Control
   const object = await c.env.STORAGE.get(file.r2_key);
   if (!object) {
     return c.json({ error: 'Objek file tidak ditemukan di penyimpanan.' }, 404);
@@ -164,6 +166,7 @@ downloadApp.get('/download/:code', async (c) => {
     'Content-Disposition',
     `attachment; filename="${encodeURIComponent(file.file_name)}"`
   );
+  headers.set('Cache-Control', 'public, max-age=86400, s-maxage=259200');
   if (file.mime_type) {
     headers.set('Content-Type', file.mime_type);
   }
