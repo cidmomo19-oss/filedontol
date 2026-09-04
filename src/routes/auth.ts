@@ -111,7 +111,7 @@ authApp.get('/me', async (c) => {
   });
 });
 
-// GET /api/user/files - List files owned by logged in user
+// GET /api/auth/files - List files owned by logged in user
 authApp.get('/files', async (c) => {
   const cookies = parseCookies(c.req.header('Cookie') || null);
   const token = cookies['auth_token'];
@@ -150,7 +150,49 @@ authApp.get('/files', async (c) => {
   });
 });
 
-// DELETE /api/user/files/:id - Soft delete file owned by logged in user
+// PATCH /api/auth/files/:id - Rename file owned by logged in user
+authApp.patch('/files/:id', async (c) => {
+  const fileId = c.req.param('id');
+  const cookies = parseCookies(c.req.header('Cookie') || null);
+  const token = cookies['auth_token'];
+
+  if (!token) {
+    return c.json({ error: 'Tidak terautentikasi.' }, 401);
+  }
+
+  const jwtSecret = c.env.JWT_SECRET || DEFAULT_JWT_SECRET;
+  const payload = await verifyJWT(token, jwtSecret);
+  if (!payload) {
+    return c.json({ error: 'Sesi telah berakhir.' }, 401);
+  }
+
+  try {
+    const body = await c.req.json<{ fileName?: string }>();
+    const newName = body.fileName?.trim();
+
+    if (!newName) {
+      return c.json({ error: 'Nama file baru wajib diisi.' }, 400);
+    }
+
+    const file = await c.env.DB.prepare('SELECT id FROM files WHERE id = ? AND user_id = ? AND status = "active"')
+      .bind(fileId, payload.sub)
+      .first<FileRecord>();
+
+    if (!file) {
+      return c.json({ error: 'File tidak ditemukan atau Anda tidak memiliki akses.' }, 404);
+    }
+
+    await c.env.DB.prepare('UPDATE files SET file_name = ? WHERE id = ?')
+      .bind(newName, fileId)
+      .run();
+
+    return c.json({ success: true, message: 'Nama file berhasil diperbarui.', fileName: newName });
+  } catch (err: any) {
+    return c.json({ error: err.message || 'Gagal mengubah nama file.' }, 500);
+  }
+});
+
+// DELETE /api/auth/files/:id - Soft delete file owned by logged in user
 authApp.delete('/files/:id', async (c) => {
   const fileId = c.req.param('id');
   const cookies = parseCookies(c.req.header('Cookie') || null);

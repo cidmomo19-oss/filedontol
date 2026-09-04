@@ -12,8 +12,8 @@ export function getIndexHtml(): string {
       </p>
 
       <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 0.5rem; margin-bottom: 2rem;">
-        <span class="badge badge-blue">⚡ Ukuran File Hingga 5 GB</span>
-        <span class="badge badge-green">Guest: Aktif 14 Hari (+14d tiap download)</span>
+        <span class="badge badge-indigo">⚡ Ukuran File Hingga 5 GB</span>
+        <span class="badge badge-emerald">Guest: Aktif 14 Hari (+14d tiap download)</span>
         <span class="badge badge-purple">Member: Aktif 60 Hari (+60d tiap download)</span>
       </div>
 
@@ -34,7 +34,7 @@ export function getIndexHtml(): string {
           <span id="progress-percent">0%</span>
         </div>
         <div style="width: 100%; background: #e2e8f0; height: 10px; border-radius: 5px; overflow: hidden;">
-          <div id="progress-bar" style="width: 0%; height: 100%; background: var(--primary-blue); transition: width 0.1s linear;"></div>
+          <div id="progress-bar" style="width: 0%; height: 100%; background: var(--primary-indigo); transition: width 0.1s linear;"></div>
         </div>
         <div style="display: flex; justify-content: space-between; font-size: 0.8rem; color: var(--text-muted); margin-top: 0.35rem;">
           <span id="progress-status">Mengunggah...</span>
@@ -81,12 +81,12 @@ export function getIndexHtml(): string {
         <div class="feature-box">
           <span class="feature-icon">🛡️</span>
           <h3 class="feature-title">Perlindungan DMCA & Keamanan</h3>
-          <p class="feature-desc">Sistem deteksi hash SHA-256 otomatis menolak upload file yang terbukti melanggar hak cipta.</p>
+          <p class="feature-desc">Sistem deteksi hash SHA-256 otomatis menolak upload file yang terbukti melanggar hak cipta atau aturan keamanan.</p>
         </div>
         <div class="feature-box">
           <span class="feature-icon">📊</span>
           <h3 class="feature-title">Dashboard Pengelola File</h3>
-          <p class="feature-desc">Daftar sebagai member gratis untuk memantau statistik file, total unduhan, dan menghapus file kapan saja.</p>
+          <p class="feature-desc">Daftar sebagai member gratis untuk memantau statistik file, merubah nama file, dan menghapus file kapan saja.</p>
         </div>
         <div class="feature-box">
           <span class="feature-icon">🚫</span>
@@ -103,17 +103,17 @@ export function getIndexHtml(): string {
 
       <div class="grid-3" style="margin-bottom: 0;">
         <div style="text-align: center; padding: 1rem;">
-          <div style="width: 48px; height: 48px; background: #eff6ff; color: var(--primary-blue); font-weight: 800; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem auto; font-size: 1.25rem;">1</div>
+          <div style="width: 48px; height: 48px; background: #e0e7ff; color: var(--primary-indigo); font-weight: 800; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem auto; font-size: 1.25rem;">1</div>
           <h3 style="font-size: 1.1rem; font-weight: 700; margin-bottom: 0.5rem;">Unggah File</h3>
           <p style="font-size: 0.9rem; color: var(--text-muted);">Pilih file dari HP atau Komputer Anda hingga 5 GB.</p>
         </div>
         <div style="text-align: center; padding: 1rem;">
-          <div style="width: 48px; height: 48px; background: #eff6ff; color: var(--primary-blue); font-weight: 800; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem auto; font-size: 1.25rem;">2</div>
+          <div style="width: 48px; height: 48px; background: #e0e7ff; color: var(--primary-indigo); font-weight: 800; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem auto; font-size: 1.25rem;">2</div>
           <h3 style="font-size: 1.1rem; font-weight: 700; margin-bottom: 0.5rem;">Dapatkan Tautan</h3>
           <p style="font-size: 0.9rem; color: var(--text-muted);">Sistem menghasilkan tautan unik yang aman untuk dibagikan.</p>
         </div>
         <div style="text-align: center; padding: 1rem;">
-          <div style="width: 48px; height: 48px; background: #eff6ff; color: var(--primary-blue); font-weight: 800; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem auto; font-size: 1.25rem;">3</div>
+          <div style="width: 48px; height: 48px; background: #e0e7ff; color: var(--primary-indigo); font-weight: 800; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem auto; font-size: 1.25rem;">3</div>
           <h3 style="font-size: 1.1rem; font-weight: 700; margin-bottom: 0.5rem;">Bagikan & Unduh</h3>
           <p style="font-size: 0.9rem; color: var(--text-muted);">Penerima dapat mengunduh langsung tanpa menunggu atau memasukkan captcha.</p>
         </div>
@@ -152,7 +152,7 @@ export function getIndexHtml(): string {
             <span class="faq-arrow">▼</span>
           </div>
           <div class="faq-body">
-            Pendaftaran member 100% gratis. Dengan menjadi member, masa aktif awal file Anda lebih lama (60 hari) dan Anda mendapatkan akses ke halaman Dashboard untuk melihat daftar file, memantau jumlah download, serta menghapus file kapan saja.
+            Pendaftaran member 100% gratis. Dengan menjadi member, masa aktif awal file Anda lebih lama (60 hari) dan Anda mendapatkan akses ke halaman Dashboard untuk melihat daftar file, memantau jumlah download, merubah nama file, serta menghapus file kapan saja.
           </div>
         </div>
 
@@ -168,11 +168,11 @@ export function getIndexHtml(): string {
 
         <div class="faq-item" onclick="toggleFaq(this)">
           <div class="faq-header">
-            <span>Bagaimana cara melaporkan file yang melanggar hak cipta (DMCA)?</span>
+            <span>Bagaimana cara melaporkan file ilegal / pelanggaran (DMCA, CSAM, Kekerasan)?</span>
             <span class="faq-arrow">▼</span>
           </div>
           <div class="faq-body">
-            Kami sangat menghormati Hak Kekayaan Intelektual. Pemilik hak cipta atau perwakilan resmi dapat mengirimkan laporan takedown ke email <code>filedontol@gmail.com</code> sesuai petunjuk pada halaman <a href="/dmca">Kebijakan DMCA</a>. Laporan valid akan ditindaklanjuti dalam 1x24 jam.
+            Kami tidak menoleransi segala bentuk pelanggaran seperti materi pornografi anak (CSAM), ancaman kekerasan, malware, maupun pelanggaran Hak Cipta (DMCA). Kirimkan pengaduan melalui halaman <a href="/report">Laporkan Penyalahgunaan File</a> untuk penanganan cepat dalam 1x24 jam.
           </div>
         </div>
       </div>
@@ -188,8 +188,8 @@ export function getIndexHtml(): string {
       ['dragenter', 'dragover'].forEach(eventName => {
         dropZone.addEventListener(eventName, (e) => {
           e.preventDefault();
-          dropZone.style.background = '#eff6ff';
-          dropZone.style.borderColor = 'var(--primary-blue)';
+          dropZone.style.background = '#e0e7ff';
+          dropZone.style.borderColor = 'var(--primary-indigo)';
         }, false);
       });
 
@@ -369,13 +369,13 @@ export function getDashboardPageHtml(): string {
       <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; margin-bottom: 2rem;">
         <div>
           <h1 style="font-size: 1.5rem; font-weight: 800;">Dashboard Pengelola File</h1>
-          <p style="color: var(--text-muted); font-size: 0.925rem;">Kelola dan pantau seluruh file yang telah Anda unggah.</p>
+          <p style="color: var(--text-muted); font-size: 0.925rem;">Kelola, ubah nama, dan pantau seluruh file Anda.</p>
         </div>
         <a href="/" class="btn btn-primary">+ Unggah File Baru</a>
       </div>
 
       <!-- Stats Summary Grid -->
-      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 2rem;">
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 1.5rem;">
         <div style="border: 1px solid var(--border-color); padding: 1.25rem; border-radius: var(--radius-md); background: #ffffff;">
           <p style="font-size: 0.8rem; color: var(--text-muted); font-weight: 700;">TOTAL FILE</p>
           <p id="stat-total-files" style="font-size: 1.5rem; font-weight: 800; margin-top: 0.25rem;">-</p>
@@ -386,15 +386,18 @@ export function getDashboardPageHtml(): string {
         </div>
         <div style="border: 1px solid var(--border-color); padding: 1.25rem; border-radius: var(--radius-md); background: #ffffff;">
           <p style="font-size: 0.8rem; color: var(--text-muted); font-weight: 700;">TOTAL UNDUHAN</p>
-          <p id="stat-total-downloads" style="font-size: 1.5rem; font-weight: 800; color: var(--primary-blue); margin-top: 0.25rem;">-</p>
+          <p id="stat-total-downloads" style="font-size: 1.5rem; font-weight: 800; color: var(--primary-indigo); margin-top: 0.25rem;">-</p>
         </div>
       </div>
 
-      <!-- Table & List View -->
+      <!-- Search / Filter Bar -->
+      <div style="margin-bottom: 1.5rem;">
+        <input type="text" id="search-files-input" placeholder="🔍 Cari file berdasarkan nama..." oninput="filterFiles()" style="width: 100%; padding: 0.65rem 0.85rem; border: 1px solid var(--border-color); border-radius: var(--radius-sm); font-size: 0.95rem;" />
+      </div>
+
+      <!-- Loading / Skeleton -->
       <div id="loading-dashboard" style="padding: 2rem; text-align: center; color: var(--text-muted);">
-        <div class="skeleton" style="height: 40px; margin-bottom: 0.5rem;"></div>
-        <div class="skeleton" style="height: 40px; margin-bottom: 0.5rem;"></div>
-        <div class="skeleton" style="height: 40px;"></div>
+        Sedang memuat daftar file...
       </div>
 
       <div id="dashboard-empty" style="display: none; text-align: center; padding: 3rem 1rem; border: 2px dashed var(--border-color); border-radius: var(--radius-md);">
@@ -411,7 +414,7 @@ export function getDashboardPageHtml(): string {
               <th>Nama File</th>
               <th>Ukuran</th>
               <th>Unduhan</th>
-              <th>Masa Aktif</th>
+              <th>Sisa Aktif</th>
               <th>Aksi</th>
             </tr>
           </thead>
@@ -421,7 +424,27 @@ export function getDashboardPageHtml(): string {
       </div>
     </div>
 
+    <!-- Rename File Modal -->
+    <div class="modal-overlay" id="rename-modal">
+      <div class="modal-card">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem;">
+          <h3 class="modal-title">Ubah Nama File</h3>
+          <button onclick="closeRenameModal()" style="background:none; border:none; font-size:1.5rem; cursor:pointer; color:var(--text-muted);">&times;</button>
+        </div>
+        <form onsubmit="handleRenameSubmit(event)">
+          <input type="hidden" id="rename-file-id" />
+          <div class="form-group">
+            <label for="rename-file-input">Nama File Baru</label>
+            <input type="text" id="rename-file-input" required />
+          </div>
+          <button type="submit" class="btn btn-primary" style="width: 100%;">Simpan Perubahan</button>
+        </form>
+      </div>
+    </div>
+
     <script>
+      let allFiles = [];
+
       function formatBytes(bytes) {
         if (bytes === 0) return '0 Bytes';
         const k = 1024;
@@ -459,42 +482,93 @@ export function getDashboardPageHtml(): string {
           document.getElementById('stat-total-storage').innerText = formatBytes(data.stats.totalStorage);
           document.getElementById('stat-total-downloads').innerText = data.stats.totalDownloads;
 
-          if (data.files.length === 0) {
-            document.getElementById('dashboard-empty').style.display = 'block';
-            return;
-          }
-
-          const tbody = document.getElementById('files-table-body');
-          tbody.innerHTML = '';
-
-          data.files.forEach(file => {
-            const tr = document.createElement('tr');
-            const shareUrl = \`\${window.location.origin}/f/\${file.share_code}\`;
-
-            tr.innerHTML = \`
-              <td style="font-weight: 600; word-break: break-all;">
-                <a href="/f/\${file.share_code}" target="_blank" style="color: var(--text-main); text-decoration: none;">
-                  📄 \${file.file_name}
-                </a>
-              </td>
-              <td style="white-space: nowrap; color: var(--text-muted);">\${formatBytes(file.file_size)}</td>
-              <td style="white-space: nowrap; font-weight: 700; color: var(--primary-blue);">\${file.download_count}</td>
-              <td style="white-space: nowrap; font-size: 0.85rem; color: #d97706; font-weight: 600;">\${calculateRemainingTime(file.expires_at)}</td>
-              <td style="white-space: nowrap;">
-                <div style="display: flex; gap: 0.35rem;">
-                  <button class="btn btn-outline btn-sm" onclick="copyLink('\${shareUrl}')" title="Salin Tautan">📋 Salin</button>
-                  <button class="btn btn-danger btn-sm" onclick="deleteFile('\${file.id}')" title="Hapus File">🗑️ Hapus</button>
-                </div>
-              </td>
-            \`;
-            tbody.appendChild(tr);
-          });
-
-          document.getElementById('dashboard-table-wrapper').style.display = 'block';
+          allFiles = data.files || [];
+          renderFilesTable(allFiles);
 
         } catch (err) {
           document.getElementById('loading-dashboard').style.display = 'none';
           showToast('Gagal terhubung ke server.', true);
+        }
+      }
+
+      function renderFilesTable(files) {
+        const tbody = document.getElementById('files-table-body');
+        const emptyDiv = document.getElementById('dashboard-empty');
+        const wrapper = document.getElementById('dashboard-table-wrapper');
+
+        if (files.length === 0) {
+          wrapper.style.display = 'none';
+          emptyDiv.style.display = 'block';
+          return;
+        }
+
+        emptyDiv.style.display = 'none';
+        tbody.innerHTML = '';
+
+        files.forEach(file => {
+          const tr = document.createElement('tr');
+          const shareUrl = \`\${window.location.origin}/f/\${file.share_code}\`;
+
+          tr.innerHTML = \`
+            <td style="font-weight: 600; word-break: break-all;">
+              <a href="/f/\${file.share_code}" target="_blank" style="color: var(--text-main); text-decoration: none;">
+                📄 \${file.file_name}
+              </a>
+            </td>
+            <td style="white-space: nowrap; color: var(--text-muted);">\${formatBytes(file.file_size)}</td>
+            <td style="white-space: nowrap; font-weight: 700; color: var(--primary-indigo);">\${file.download_count}</td>
+            <td style="white-space: nowrap; font-size: 0.85rem; color: #d97706; font-weight: 600;">\${calculateRemainingTime(file.expires_at)}</td>
+            <td style="white-space: nowrap;">
+              <div style="display: flex; gap: 0.35rem;">
+                <button class="btn btn-outline btn-sm" onclick="copyLink('\${shareUrl}')" title="Salin Tautan">📋 Salin</button>
+                <button class="btn btn-outline btn-sm" onclick="openRenameModal('\${file.id}', '\${file.file_name.replace(/'/g, "\\\\'")}')" title="Ubah Nama">✏️ Edit</button>
+                <button class="btn btn-danger btn-sm" onclick="deleteFile('\${file.id}')" title="Hapus File">🗑️ Hapus</button>
+              </div>
+            </td>
+          \`;
+          tbody.appendChild(tr);
+        });
+
+        wrapper.style.display = 'block';
+      }
+
+      function filterFiles() {
+        const query = document.getElementById('search-files-input').value.toLowerCase();
+        const filtered = allFiles.filter(f => f.file_name.toLowerCase().includes(query));
+        renderFilesTable(filtered);
+      }
+
+      function openRenameModal(fileId, currentName) {
+        document.getElementById('rename-file-id').value = fileId;
+        document.getElementById('rename-file-input').value = currentName;
+        document.getElementById('rename-modal').classList.add('active');
+      }
+
+      function closeRenameModal() {
+        document.getElementById('rename-modal').classList.remove('active');
+      }
+
+      async function handleRenameSubmit(e) {
+        e.preventDefault();
+        const fileId = document.getElementById('rename-file-id').value;
+        const newName = document.getElementById('rename-file-input').value;
+
+        try {
+          const res = await fetch(\`/api/auth/files/\${fileId}\`, {
+            method: 'PATCH',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ fileName: newName })
+          });
+          const data = await res.json();
+          if (!res.ok || data.error) {
+            showToast(data.error || 'Gagal merubah nama file.', true);
+            return;
+          }
+          closeRenameModal();
+          showToast('Nama file berhasil diperbarui.');
+          loadDashboard();
+        } catch (err) {
+          showToast('Terjadi kesalahan jaringan.', true);
         }
       }
 
@@ -529,17 +603,100 @@ export function getDashboardPageHtml(): string {
   return getLayoutHtml('Dashboard Pengelola File', content);
 }
 
+export function getReportPageHtml(): string {
+  const content = `
+    <div class="card" style="max-width: 650px; margin: 0 auto;">
+      <h1 style="font-size: 1.5rem; font-weight: 800; margin-bottom: 0.5rem; color: var(--rose-red);">
+        🚩 Laporkan Penyalahgunaan / File Ilegal
+      </h1>
+      <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 1.5rem;">
+        Bantu kami menjaga platform tetap aman. Kami tidak menoleransi segala bentuk pelanggaran hak cipta, materi pornografi anak (CSAM), ancaman kekerasan, maupun malware.
+      </p>
+
+      <form onsubmit="handleReportSubmit(event)">
+        <div class="form-group">
+          <label for="report-sharecode">Kode / Tautan File Yang Dilaporkan *</label>
+          <input type="text" id="report-sharecode" required placeholder="Contoh: CJWHb2T4 atau https://filedontol.com/f/CJWHb2T4" />
+        </div>
+
+        <div class="form-group">
+          <label for="report-reason">Jenis Pelanggaran *</label>
+          <select id="report-reason" required>
+            <option value="">-- Pilih Jenis Pelanggaran --</option>
+            <option value="dmca">Pelanggaran Hak Cipta / DMCA</option>
+            <option value="csam_pornografi_anak">Pornografi Anak / Eksploitasi Anak (CSAM)</option>
+            <option value="kekerasan_terorisme">Ancaman Kekerasan / Terorisme / Radikalisme</option>
+            <option value="malware_phishing">Malware / Virus / Phishing</option>
+            <option value="penipuan_spam">Spam / Penipuan / Perjudian Ilegal</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="report-email">Email Pelapor Aktif *</label>
+          <input type="email" id="report-email" required placeholder="nama@email.com" />
+        </div>
+
+        <div class="form-group">
+          <label for="report-details">Keterangan / Bukti Tambahan</label>
+          <textarea id="report-details" rows="4" placeholder="Jelaskan detail pelanggaran atau lampirkan bukti kepemilikan hak cipta..."></textarea>
+        </div>
+
+        <button type="submit" class="btn btn-primary" style="width: 100%; background: var(--rose-red);">Kirimkan Laporan Takedown</button>
+      </form>
+    </div>
+
+    <script>
+      async function handleReportSubmit(e) {
+        e.preventDefault();
+        let rawCode = document.getElementById('report-sharecode').value.trim();
+        const reason = document.getElementById('report-reason').value;
+        const reporterEmail = document.getElementById('report-email').value.trim();
+        const details = document.getElementById('report-details').value.trim();
+
+        if (rawCode.includes('/f/')) {
+          rawCode = rawCode.split('/f/').pop().split('?')[0];
+        }
+
+        try {
+          const res = await fetch('/api/report', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              shareCode: rawCode,
+              reason: reason,
+              reporterEmail: reporterEmail,
+              details: details
+            })
+          });
+
+          const data = await res.json();
+          if (!res.ok || data.error) {
+            showToast(data.error || 'Gagal mengirimkan laporan.', true);
+            return;
+          }
+
+          showToast(data.message || 'Laporan berhasil dikirimkan!');
+          setTimeout(() => { window.location.href = '/'; }, 2000);
+        } catch (err) {
+          showToast('Terjadi kesalahan jaringan.', true);
+        }
+      }
+    </script>
+  `;
+
+  return getLayoutHtml('Laporkan Penyalahgunaan File', content);
+}
+
 export function getDownloadPageHtml(shareCode: string): string {
   const content = `
     <div class="card" style="text-align: center;" id="download-card">
       <div id="loading-spinner" style="padding: 2rem; color: var(--text-muted);">
-        <div class="skeleton" style="height: 60px; margin-bottom: 1rem;"></div>
-        <div class="skeleton" style="height: 100px;"></div>
+        Sedang memuat informasi file...
       </div>
 
       <div id="file-details" style="display: none;">
         <div style="background: #f1f5f9; border-radius: 0.5rem; padding: 1.5rem; margin-bottom: 2rem; display: flex; align-items: center; gap: 1.25rem; text-align: left;">
-          <div style="background: var(--primary-blue); color: white; width: 56px; height: 56px; border-radius: 0.5rem; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 1.25rem; flex-shrink: 0;">
+          <div style="background: var(--primary-indigo); color: white; width: 56px; height: 56px; border-radius: 0.5rem; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 1.25rem; flex-shrink: 0;">
             FILE
           </div>
           <div style="flex: 1; overflow: hidden;">
@@ -567,14 +724,17 @@ export function getDownloadPageHtml(shareCode: string): string {
           ⬇️ Download File Sekarang
         </a>
 
-        <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 1rem;">
-          * Mengunduh file ini akan memperpanjang masa aktifnya secara otomatis.
-        </p>
+        <div style="margin-top: 1.5rem; border-top: 1px solid var(--border-color); padding-top: 1rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem;">
+          <span style="font-size: 0.85rem; color: var(--text-muted);">
+            * Mengunduh file ini memperpanjang masa aktifnya secara otomatis.
+          </span>
+          <a href="/report" style="color: var(--rose-red); font-size: 0.85rem; font-weight: 700; text-decoration: none;">🚩 Laporkan File Ini</a>
+        </div>
       </div>
 
       <div id="error-card" style="display: none; padding: 2rem 1rem;">
         <div style="font-size: 3rem; margin-bottom: 0.5rem;">⚠️</div>
-        <h3 id="error-title" style="font-size: 1.25rem; font-weight: 700; color: var(--danger-red); margin-bottom: 0.5rem;">Gagal Memuat File</h3>
+        <h3 id="error-title" style="font-size: 1.25rem; font-weight: 700; color: var(--rose-red); margin-bottom: 0.5rem;">Gagal Memuat File</h3>
         <p id="error-desc" style="color: var(--text-muted); font-size: 0.95rem; max-width: 500px; margin: 0 auto 1.5rem auto;">-</p>
         <a href="/" class="btn btn-outline">Kembali ke Beranda</a>
       </div>
@@ -659,18 +819,22 @@ export function getDmcaPageHtml(): string {
         <strong>filedontol</strong> sangat menghormati hak kekayaan intelektual, hak cipta, dan kepemilikan sah atas seluruh materi atau file digital. Kami berkomitmen untuk mematuhi Digital Millennium Copyright Act (DMCA) dan seluruh peraturan perundang-undangan hak cipta yang berlaku.
       </p>
 
-      <h3 style="font-size: 1.15rem; font-weight: 700; margin-top: 1.5rem; margin-bottom: 0.5rem; color: var(--primary-blue);">
+      <h3 style="font-size: 1.15rem; font-weight: 700; margin-top: 1.5rem; margin-bottom: 0.5rem; color: var(--primary-indigo);">
         1. Prosedur Pelaporan Pelanggaran Hak Cipta
       </h3>
       <p style="margin-bottom: 1rem;">
-        Jika Anda adalah pemilik hak cipta sah atau agen/kuasa hukum yang ditunjuk, dan menemukan bahwa file yang diunggah ke platform <strong>filedontol</strong> melanggar hak cipta Anda, silakan kirimkan pemberitahuan resmi takedown melalui email ke:
+        Jika Anda adalah pemilik hak cipta sah atau agen/kuasa hukum yang ditunjuk, dan menemukan bahwa file yang diunggah ke platform <strong>filedontol</strong> melanggar hak cipta Anda, silakan kirimkan pemberitahuan resmi takedown melalui email atau form pengaduan kami:
       </p>
 
-      <div style="background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 0.5rem; padding: 1rem 1.25rem; font-weight: 700; font-size: 1.05rem; color: #1d4ed8; margin-bottom: 1.5rem; display: inline-block;">
+      <div style="background: #e0e7ff; border: 1px solid #c7d2fe; border-radius: 0.5rem; padding: 1rem 1.25rem; font-weight: 700; font-size: 1.05rem; color: #3730a3; margin-bottom: 1.5rem; display: inline-block;">
         📧 Email Pengaduan DMCA: filedontol@gmail.com
       </div>
 
-      <h3 style="font-size: 1.15rem; font-weight: 700; margin-top: 1rem; margin-bottom: 0.5rem; color: var(--primary-blue);">
+      <div style="margin-bottom: 1.5rem;">
+        <a href="/report" class="btn btn-primary">Form Laporan Penyalahgunaan File</a>
+      </div>
+
+      <h3 style="font-size: 1.15rem; font-weight: 700; margin-top: 1rem; margin-bottom: 0.5rem; color: var(--primary-indigo);">
         2. Persyaratan Wajib Laporan Valid
       </h3>
       <p style="margin-bottom: 0.75rem;">
@@ -684,7 +848,7 @@ export function getDmcaPageHtml(): string {
         <li style="margin-bottom: 0.5rem;">Pernyataan iktikad baik bahwa penggunaan materi tersebut tidak diizinkan oleh pemilik hak cipta, agennya, atau hukum.</li>
       </ul>
 
-      <h3 style="font-size: 1.15rem; font-weight: 700; margin-top: 1rem; margin-bottom: 0.5rem; color: var(--primary-blue);">
+      <h3 style="font-size: 1.15rem; font-weight: 700; margin-top: 1rem; margin-bottom: 0.5rem; color: var(--primary-indigo);">
         3. Waktu Penanganan Takedown
       </h3>
       <p style="margin-bottom: 1rem;">
