@@ -898,13 +898,21 @@ export function getDownloadPageHtml(shareCode: string): string {
           </div>
         </div>
 
-        <!-- Download Action -->
-        <a id="btn-download-file" href="#" class="btn btn-pink" style="font-size: 1.15rem; padding: 1.1rem 2.5rem; width: 100%; text-decoration: none; border-radius: var(--radius-md); gap: 0.75rem;">
-          <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-          </svg>
-          Download File Now
-        </a>
+        <!-- Download & Copy Actions -->
+        <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
+          <a id="btn-download-file" href="#" class="btn btn-pink" style="flex: 2; min-width: 220px; font-size: 1.1rem; padding: 1rem 1.75rem; text-decoration: none; border-radius: var(--radius-md); gap: 0.65rem;">
+            <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+            </svg>
+            Download File Now
+          </a>
+          <button id="btn-copy-download-link" onclick="copyPageLink()" class="btn btn-outline" style="flex: 1; min-width: 140px; font-size: 1rem; padding: 1rem 1.25rem; border-radius: var(--radius-md); gap: 0.5rem;">
+            <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3" />
+            </svg>
+            Copy Link
+          </button>
+        </div>
 
         <!-- Footer -->
         <div style="margin-top: 2.25rem; border-top: 1px solid var(--border-color); padding-top: 1.5rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.75rem;">
@@ -940,6 +948,15 @@ export function getDownloadPageHtml(shareCode: string): string {
     </style>
 
     <script>
+      function copyPageLink() {
+        navigator.clipboard.writeText(window.location.href);
+        showToast('Download link copied to clipboard!');
+        const btn = document.getElementById('btn-copy-download-link');
+        const origText = btn.innerHTML;
+        btn.innerText = 'Copied!';
+        setTimeout(() => { btn.innerHTML = origText; }, 2000);
+      }
+
       function formatBytes(bytes) {
         if (bytes === 0) return '0 Bytes';
         const k = 1024;
