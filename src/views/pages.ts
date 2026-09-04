@@ -145,31 +145,31 @@ export function getIndexHtml(): string {
       <div class="faq-container">
         <div class="faq-item" onclick="toggleFaq(this)">
           <div class="faq-header">
-            <span>How long do uploaded files stay active?</span>
+            <span>How long are files kept active?</span>
             <span class="faq-arrow">▼</span>
           </div>
           <div class="faq-body">
-            All uploaded files are anonymous guest uploads and remain active for <strong>30 days</strong> from the initial upload time.
+            Each file is automatically active for <strong>30 days</strong> from the date of upload.
           </div>
         </div>
 
         <div class="faq-item" onclick="toggleFaq(this)">
           <div class="faq-header">
-            <span>How does the 15-download expiration reset work?</span>
+            <span>How does the file expiration reset work?</span>
             <span class="faq-arrow">▼</span>
           </div>
           <div class="faq-body">
-            To keep popular files alive, every time a file accumulates <strong>15 downloads</strong> (at 15, 30, 45, 60... downloads), its expiration clock automatically resets and extends for another <strong>+30 days</strong> from that download moment.
+            If a file reaches <strong>15 or more downloads</strong>, its active duration is automatically reset to <strong>30 days</strong> from the latest download date.
           </div>
         </div>
 
         <div class="faq-item" onclick="toggleFaq(this)">
           <div class="faq-header">
-            <span>Do I need an account to upload files?</span>
+            <span>Do I need to create an account?</span>
             <span class="faq-arrow">▼</span>
           </div>
           <div class="faq-body">
-            No! filedontol is 100% anonymous and guest-focused. You don't need to register or sign in to upload files up to 5 GB.
+            No account is required. You can upload files freely and anonymously without registering or logging in.
           </div>
         </div>
 
@@ -179,7 +179,7 @@ export function getIndexHtml(): string {
             <span class="faq-arrow">▼</span>
           </div>
           <div class="faq-body">
-            You can upload large files up to <strong>5 GB</strong> per file. All major file formats are supported.
+            The maximum limit is <strong>5 GB</strong> per upload for all file formats.
           </div>
         </div>
 
@@ -189,7 +189,7 @@ export function getIndexHtml(): string {
             <span class="faq-arrow">▼</span>
           </div>
           <div class="faq-body">
-            Visit our <a href="/report" style="color: var(--pink-deep); font-weight: 800;">Report Abuse Page</a> or email administrators directly at <code>filedontol@gmail.com</code>. Valid notices are processed and removed within 24 hours.
+            Send the file link and proof of ownership directly to email: <code>filedontol@gmail.com</code>. Valid reports are handled within 24 hours.
           </div>
         </div>
       </div>
@@ -888,7 +888,7 @@ export function getDownloadPageHtml(shareCode: string): string {
         <div style="margin-top: 2.25rem; border-top: 1px solid var(--border-color); padding-top: 1.5rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.75rem;">
           <span style="font-size: 0.85rem; color: var(--text-muted); display: flex; align-items: center; gap: 0.35rem;">
             <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="var(--emerald-green)"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
-            Downloading extends active retention automatically (+14d / +60d).
+            Files reaching 15+ downloads auto-reset expiration to 30 days.
           </span>
           <a href="/report" style="color: var(--rose-red); font-size: 0.85rem; font-weight: 800; text-decoration: none; display: flex; align-items: center; gap: 0.35rem;">
             <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>

@@ -36,9 +36,6 @@ export function getLayoutHtml(title: string, bodyContent: string): string {
       </svg>
       <span style="font-size: 1.4rem; font-weight: 900; background: linear-gradient(135deg, #111827, #db2777); -webkit-background-clip: text; -webkit-text-fill-color: transparent; letter-spacing: -0.035em;">filedontol</span>
     </a>
-    <div class="nav-right">
-      <a href="/report" class="nav-link" style="font-size: 0.85rem; font-weight: 700;">Report Abuse</a>
-    </div>
   </header>
 
   <main>
