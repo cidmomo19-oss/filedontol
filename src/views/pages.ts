@@ -877,11 +877,6 @@ export function getDownloadPageHtml(shareCode: string): string {
       </div>
 
       <div id="file-details" style="display: none;">
-        <!-- Media Preview Container (Images & Videos) -->
-        <div id="media-preview-container" style="display: none; background: #fafaf9; border: 1px solid var(--pink-border); border-radius: var(--radius-lg); padding: 1.25rem; margin-bottom: 1.75rem; text-align: center; overflow: hidden; box-shadow: var(--shadow-sm);">
-          <div id="media-preview-content" style="max-width: 100%; display: flex; justify-content: center; align-items: center;"></div>
-        </div>
-
         <!-- Header Card -->
         <div style="background: var(--pink-soft); border: 1px solid var(--pink-border); border-radius: var(--radius-lg); padding: 1.85rem; margin-bottom: 2rem; display: flex; align-items: center; gap: 1.35rem; text-align: left;">
           <div style="background: linear-gradient(135deg, #ec4899, #db2777); color: white; width: 68px; height: 68px; border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; flex-shrink: 0; box-shadow: 0 8px 18px rgba(219, 39, 119, 0.3);">
@@ -1062,22 +1057,6 @@ export function getDownloadPageHtml(shareCode: string): string {
           const downloadUrl = data.presignedDownloadUrl || '/api/download/${shareCode}';
           const downloadBtn = document.getElementById('btn-download-file');
           downloadBtn.href = downloadUrl;
-
-          // Render Instant Media Preview (Images & Videos)
-          const mime = (file.mimeType || '').toLowerCase();
-          const ext = (file.fileName || '').split('.').pop().toLowerCase();
-          const mediaContainer = document.getElementById('media-preview-container');
-          const mediaContent = document.getElementById('media-preview-content');
-
-          const previewUrl = downloadUrl + (downloadUrl.includes('?') ? '&preview=1' : '?preview=1');
-
-          if (mime.startsWith('image/') || ['png', 'jpg', 'jpeg', 'webp', 'gif', 'svg'].includes(ext)) {
-            mediaContent.innerHTML = '<img src="' + previewUrl + '" alt="' + file.fileName + '" style="max-width: 100%; max-height: 420px; border-radius: var(--radius-md); object-fit: contain; box-shadow: var(--shadow-sm);" />';
-            mediaContainer.style.display = 'block';
-          } else if (mime.startsWith('video/') || ['mp4', 'webm', 'ogg', 'mov'].includes(ext)) {
-            mediaContent.innerHTML = '<video controls src="' + previewUrl + '" style="width: 100%; max-height: 420px; border-radius: var(--radius-md); background: #000; box-shadow: var(--shadow-sm);"></video>';
-            mediaContainer.style.display = 'block';
-          }
 
           updateCountdown(file.expiresAt);
           setInterval(() => updateCountdown(file.expiresAt), 60000);
