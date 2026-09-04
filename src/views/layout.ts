@@ -49,7 +49,6 @@ export function getLayoutHtml(title: string, bodyContent: string): string {
     <div style="max-width: 900px; margin: 0 auto;">
       <p>&copy; ${new Date().getFullYear()} <strong>filedontol</strong>. Fast, Secure & Limitless File Sharing.</p>
       <p style="margin-top:0.65rem; display: flex; flex-wrap: wrap; justify-content: center; gap: 1.25rem; font-size: 0.875rem;">
-        <a href="/">Home</a>
         <a href="/#faq">FAQ</a>
         <a href="/dmca">DMCA Policy</a>
         <a href="/report">Report Abuse</a>

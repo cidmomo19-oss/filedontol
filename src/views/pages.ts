@@ -914,7 +914,7 @@ export function getDownloadPageHtml(shareCode: string): string {
           </div>
         </div>
 
-        <!-- Download & Copy Actions Stacked -->
+        <!-- Download, Copy & Native Share Actions Stacked -->
         <div style="display: flex; flex-direction: column; gap: 0.85rem; width: 100%; margin-bottom: 2rem;">
           <a id="btn-download-file" href="#" class="btn btn-pink" style="font-size: 1.15rem; padding: 1.1rem 2rem; width: 100%; text-decoration: none; border-radius: var(--radius-md); gap: 0.75rem; justify-content: center;">
             <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -928,27 +928,12 @@ export function getDownloadPageHtml(shareCode: string): string {
             </svg>
             Copy Link
           </button>
-        </div>
-
-        <!-- 1-Click Social Sharing Buttons -->
-        <div style="background: #ffffff; border: 1px solid var(--pink-border); border-radius: var(--radius-lg); padding: 1.5rem; text-align: center; margin-bottom: 1.75rem; box-shadow: var(--shadow-sm);">
-          <h4 style="font-size: 1rem; font-weight: 900; color: var(--text-main); margin-bottom: 0.85rem; text-transform: uppercase; letter-spacing: 0.05em;">
-            Share File Link Instantly
-          </h4>
-          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(110px, 1fr)); gap: 0.65rem;">
-            <a id="share-wa" href="#" target="_blank" class="btn" style="background: #25d366; color: #ffffff; padding: 0.65rem; font-size: 0.85rem; font-weight: 800; border-radius: var(--radius-sm);">
-              WhatsApp
-            </a>
-            <a id="share-tg" href="#" target="_blank" class="btn" style="background: #0088cc; color: #ffffff; padding: 0.65rem; font-size: 0.85rem; font-weight: 800; border-radius: var(--radius-sm);">
-              Telegram
-            </a>
-            <a id="share-tw" href="#" target="_blank" class="btn" style="background: #000000; color: #ffffff; padding: 0.65rem; font-size: 0.85rem; font-weight: 800; border-radius: var(--radius-sm);">
-              X (Twitter)
-            </a>
-            <a id="share-fb" href="#" target="_blank" class="btn" style="background: #1877f2; color: #ffffff; padding: 0.65rem; font-size: 0.85rem; font-weight: 800; border-radius: var(--radius-sm);">
-              Facebook
-            </a>
-          </div>
+          <button id="btn-native-share" onclick="handleNativeShare()" class="btn btn-outline" style="font-size: 1rem; padding: 0.85rem 1.5rem; width: 100%; border-radius: var(--radius-md); gap: 0.55rem; justify-content: center;">
+            <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />
+            </svg>
+            Share via Device
+          </button>
         </div>
 
         <!-- Live QR Code Scan Card -->
@@ -1075,17 +1060,11 @@ export function getDownloadPageHtml(shareCode: string): string {
           updateCountdown(file.expiresAt);
           setInterval(() => updateCountdown(file.expiresAt), 60000);
 
-          // Populate Social Share Links
-          const rawUrl = window.location.href;
-          const encUrl = encodeURIComponent(rawUrl);
-          const shareText = encodeURIComponent('Download file "' + file.fileName + '" on filedontol:');
-
-          document.getElementById('share-wa').href = 'https://api.whatsapp.com/send?text=' + shareText + '%20' + encUrl;
-          document.getElementById('share-tg').href = 'https://t.me/share/url?url=' + encUrl + '&text=' + shareText;
-          document.getElementById('share-tw').href = 'https://twitter.com/intent/tweet?url=' + encUrl + '&text=' + shareText;
-          document.getElementById('share-fb').href = 'https://www.facebook.com/sharer/sharer.php?u=' + encUrl;
+          // Store window.currentFileName for native share
+          window.currentFileName = file.fileName;
 
           // Render Live QR Code
+          const encUrl = encodeURIComponent(window.location.href);
           const qrImg = document.getElementById('qr-code-img');
           qrImg.src = 'https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=' + encUrl + '&color=be185d&bgcolor=ffffff';
 
