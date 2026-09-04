@@ -4,8 +4,6 @@ import { timingSafeEqual } from '../utils/auth';
 
 export const adminApp = new Hono<{ Bindings: Env }>();
 
-const DEFAULT_ADMIN_SECRET = 'fd_adm_9x7Kp2Mv8Q4wL1tY6bZ3nR5sC0jE8uA2';
-
 adminApp.post('/delete', async (c) => {
   const authHeader = c.req.header('Authorization');
   let token = '';
@@ -13,11 +11,14 @@ adminApp.post('/delete', async (c) => {
   if (authHeader && authHeader.startsWith('Bearer ')) {
     token = authHeader.substring(7).trim();
   } else {
-    // Fallback to query param or body for backward compatibility during migration
     token = c.req.query('secret') || '';
   }
 
-  const adminSecret = c.env.ADMIN_SECRET || DEFAULT_ADMIN_SECRET;
+  const adminSecret = c.env.ADMIN_SECRET;
+  if (!adminSecret) {
+    return c.text('Server Error: ADMIN_SECRET is not configured.', 500);
+  }
+
   const isSecretValid = await timingSafeEqual(token, adminSecret);
 
   if (!isSecretValid) {

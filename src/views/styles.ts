@@ -1,25 +1,27 @@
 export const baseStyles = `
   :root {
-    --bg-main: #f8fafc;
-    --bg-gradient: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 50%, #e0f2fe 100%);
-    --card-bg: rgba(255, 255, 255, 0.95);
-    --border-color: #e2e8f0;
-    --border-hover: #cbd5e1;
-    --text-main: #0f172a;
-    --text-muted: #64748b;
-    --primary-indigo: #2563eb;
-    --primary-hover: #1d4ed8;
-    --sky-blue: #0284c7;
-    --emerald-green: #059669;
-    --rose-red: #e11d48;
-    --amber-gold: #d97706;
-    --violet-purple: #7c3aed;
+    --bg-main: #090a10;
+    --bg-gradient: radial-gradient(circle at 50% 0%, #1a0b2e 0%, #090a10 70%);
+    --card-bg: rgba(18, 18, 28, 0.85);
+    --border-color: rgba(255, 0, 127, 0.25);
+    --border-hover: rgba(255, 0, 127, 0.6);
+    --text-main: #f8fafc;
+    --text-muted: #94a3b8;
+    --primary-indigo: #ff007f;
+    --primary-hover: #ff2a8d;
+    --accent-pink: #ff007f;
+    --cyber-cyan: #00f0ff;
+    --sky-blue: #38bdf8;
+    --emerald-green: #10b981;
+    --rose-red: #f43f5e;
+    --amber-gold: #f59e0b;
+    --violet-purple: #a855f7;
     --radius-sm: 0.6rem;
     --radius-md: 0.85rem;
     --radius-lg: 1.5rem;
-    --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.05);
-    --shadow-md: 0 6px 12px -2px rgba(37, 99, 235, 0.08), 0 3px 6px -2px rgba(0, 0, 0, 0.04);
-    --shadow-lg: 0 12px 24px -4px rgba(37, 99, 235, 0.12), 0 6px 12px -3px rgba(0, 0, 0, 0.04);
+    --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.5);
+    --shadow-md: 0 8px 16px -2px rgba(255, 0, 127, 0.15);
+    --shadow-lg: 0 16px 32px -4px rgba(255, 0, 127, 0.25);
   }
 
   * {
@@ -41,9 +43,9 @@ export const baseStyles = `
 
   /* Header Navigation */
   header {
-    background-color: rgba(255, 255, 255, 0.9);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
+    background-color: rgba(13, 14, 22, 0.85);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
     border-bottom: 1px solid var(--border-color);
     padding: 0.85rem 2rem;
     display: flex;
@@ -82,7 +84,7 @@ export const baseStyles = `
   }
 
   .nav-link:hover {
-    background-color: #f1f5f9;
+    background-color: rgba(255, 0, 127, 0.15);
     color: var(--primary-indigo);
   }
 
@@ -90,10 +92,10 @@ export const baseStyles = `
     font-size: 0.85rem;
     padding: 0.35rem 0.85rem;
     border-radius: 9999px;
-    background: #e0e7ff;
-    color: var(--primary-indigo);
+    background: rgba(255, 0, 127, 0.15);
+    color: #ff2a8d;
     font-weight: 700;
-    border: 1px solid #c7d2fe;
+    border: 1px solid rgba(255, 0, 127, 0.4);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -217,7 +219,7 @@ export const baseStyles = `
   }
 
   .feature-box {
-    background: #ffffff;
+    background: rgba(18, 18, 28, 0.85);
     border: 1px solid var(--border-color);
     border-radius: var(--radius-md);
     padding: 1.5rem;
@@ -259,7 +261,7 @@ export const baseStyles = `
   .faq-item {
     border: 1px solid var(--border-color);
     border-radius: var(--radius-md);
-    background: #ffffff;
+    background: rgba(18, 18, 28, 0.85);
     overflow: hidden;
   }
 
@@ -271,12 +273,12 @@ export const baseStyles = `
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background: #f8fafc;
+    background: rgba(255, 0, 127, 0.05);
     user-select: none;
   }
 
   .faq-header:hover {
-    background: #f1f5f9;
+    background: rgba(255, 0, 127, 0.12);
   }
 
   .faq-body {
@@ -302,7 +304,7 @@ export const baseStyles = `
     overflow-x: auto;
     border: 1px solid var(--border-color);
     border-radius: var(--radius-md);
-    background: #ffffff;
+    background: rgba(18, 18, 28, 0.85);
   }
 
   table {
@@ -313,10 +315,10 @@ export const baseStyles = `
   }
 
   th {
-    background-color: #f8fafc;
+    background-color: rgba(255, 0, 127, 0.08);
     padding: 0.85rem 1rem;
     font-weight: 700;
-    color: var(--text-muted);
+    color: var(--text-main);
     border-bottom: 1px solid var(--border-color);
     white-space: nowrap;
   }
@@ -383,13 +385,13 @@ export const baseStyles = `
   }
 
   .modal-card {
-    background: #ffffff;
+    background: #12121c;
     border-radius: var(--radius-lg);
     border: 1px solid var(--border-color);
     width: 100%;
     max-width: 440px;
     padding: 2rem;
-    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    box-shadow: 0 25px 50px -12px rgba(255, 0, 127, 0.25);
   }
 
   .modal-title {
@@ -427,7 +429,7 @@ export const baseStyles = `
   /* Footer */
   footer {
     border-top: 1px solid var(--border-color);
-    background-color: rgba(255, 255, 255, 0.9);
+    background-color: rgba(13, 14, 22, 0.9);
     padding: 2rem;
     text-align: center;
     color: var(--text-muted);

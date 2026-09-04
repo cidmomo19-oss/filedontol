@@ -88,19 +88,17 @@ downloadApp.get('/download/:code', async (c) => {
     return c.json({ error: 'File telah kadaluarsa.' }, 410);
   }
 
-  // Verify download ticket if S3 direct presigned mode is not active
+  // Always verify short-lived HMAC download ticket for anti-hotlinking
   const jwtSecret = c.env.JWT_SECRET || DEFAULT_JWT_SECRET;
   const ticket = c.req.query('ticket');
 
-  if (!c.env.R2_ACCESS_KEY_ID || !c.env.R2_SECRET_ACCESS_KEY) {
-    if (!ticket) {
-      return c.json({ error: 'Tautan unduhan tidak valid atau belum dipresigned.' }, 401);
-    }
+  if (!ticket) {
+    return c.json({ error: 'Tautan unduhan tidak valid atau belum dipresigned.' }, 401);
+  }
 
-    const verification = await verifyDownloadTicket(ticket, jwtSecret);
-    if (!verification.valid || verification.shareCode !== file.share_code) {
-      return c.json({ error: 'Tautan unduhan telah kadaluarsa. Silakan muat ulang halaman.' }, 403);
-    }
+  const verification = await verifyDownloadTicket(ticket, jwtSecret);
+  if (!verification.valid || verification.shareCode !== file.share_code) {
+    return c.json({ error: 'Tautan unduhan telah kadaluarsa. Silakan muat ulang halaman.' }, 403);
   }
 
   // Calculate extended expiration date (+14d for guest, +60d for member)

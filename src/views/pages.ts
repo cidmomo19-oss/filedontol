@@ -12,9 +12,18 @@ export function getIndexHtml(): string {
       </p>
 
       <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 0.5rem; margin-bottom: 2rem;">
-        <span class="badge badge-indigo">⚡ Ukuran File Hingga 5 GB</span>
-        <span class="badge badge-emerald">Guest: Aktif 14 Hari (+14d tiap download)</span>
-        <span class="badge badge-purple">Member: Aktif 60 Hari (+60d tiap download)</span>
+        <span class="badge badge-indigo">
+          <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+          Ukuran File Hingga 5 GB
+        </span>
+        <span class="badge badge-emerald">
+          <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+          Guest: Aktif 14 Hari (+14d tiap download)
+        </span>
+        <span class="badge badge-purple">
+          <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+          Member: Aktif 60 Hari (+60d tiap download)
+        </span>
       </div>
 
       <!-- Drag & Drop Upload Area -->
@@ -44,7 +53,10 @@ export function getIndexHtml(): string {
 
       <!-- Result Link Section -->
       <div id="upload-result-container" style="display: none; text-align: left; background: #f0fdf4; border: 1px solid #bbf7d0; padding: 1.5rem; border-radius: 0.5rem;">
-        <h4 style="color: #166534; font-size: 1.1rem; font-weight: 700; margin-bottom: 0.5rem;">✅ File Berhasil Diunggah!</h4>
+        <h4 style="color: #166534; font-size: 1.1rem; font-weight: 700; margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.5rem;">
+          <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+          File Berhasil Diunggah!
+        </h4>
         <p style="font-size: 0.9rem; color: #15803d; margin-bottom: 1rem;">Bagikan tautan di bawah ini untuk mengunduh file:</p>
 
         <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
@@ -64,32 +76,44 @@ export function getIndexHtml(): string {
 
       <div class="grid-3">
         <div class="feature-box">
-          <span class="feature-icon">🚀</span>
+          <div class="feature-icon">
+            <svg width="28" height="28" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+          </div>
           <h3 class="feature-title">Kecepatan CDN Cloudflare</h3>
           <p class="feature-desc">Didukung oleh jaringan global Cloudflare R2 untuk kecepatan upload dan download maksimal dari mana saja.</p>
         </div>
         <div class="feature-box">
-          <span class="feature-icon">📦</span>
+          <div class="feature-icon">
+            <svg width="28" height="28" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg>
+          </div>
           <h3 class="feature-title">Ukuran Besar Hingga 5 GB</h3>
           <p class="feature-desc">Unggah file berukuran ekstra besar seperti dokumen, video, atau arsip proyek tanpa dipotong.</p>
         </div>
         <div class="feature-box">
-          <span class="feature-icon">🔄</span>
+          <div class="feature-icon">
+            <svg width="28" height="28" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+          </div>
           <h3 class="feature-title">Perpanjangan Masa Aktif Otomatis</h3>
           <p class="feature-desc">Setiap kali ada yang mengunduh file Anda, masa aktif diperpanjang otomatis +14 hari (Guest) atau +60 hari (Member).</p>
         </div>
         <div class="feature-box">
-          <span class="feature-icon">🛡️</span>
+          <div class="feature-icon">
+            <svg width="28" height="28" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+          </div>
           <h3 class="feature-title">Perlindungan DMCA & Keamanan</h3>
           <p class="feature-desc">Sistem deteksi hash SHA-256 otomatis menolak upload file yang terbukti melanggar hak cipta atau aturan keamanan.</p>
         </div>
         <div class="feature-box">
-          <span class="feature-icon">📊</span>
+          <div class="feature-icon">
+            <svg width="28" height="28" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 002 2h2a2 2 0 002-2z"/></svg>
+          </div>
           <h3 class="feature-title">Dashboard Pengelola File</h3>
           <p class="feature-desc">Daftar sebagai member gratis untuk memantau statistik file, merubah nama file, dan menghapus file kapan saja.</p>
         </div>
         <div class="feature-box">
-          <span class="feature-icon">🚫</span>
+          <div class="feature-icon">
+            <svg width="28" height="28" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636"/></svg>
+          </div>
           <h3 class="feature-title">Bebas Iklan & Pop-up</h3>
           <p class="feature-desc">Tampilan bersih, ringan, tanpa jebakan tombol download palsu atau iklan bertumpuk.</p>
         </div>
@@ -748,111 +772,73 @@ export function getDashboardPageHtml(): string {
 
 export function getReportPageHtml(): string {
   const content = `
-    <div class="card" style="max-width: 680px; margin: 0 auto; border-radius: var(--radius-lg);">
-      <div style="text-align: center; margin-bottom: 1.75rem;">
-        <span style="font-size: 2.75rem; display: block; margin-bottom: 0.5rem;">🚩</span>
-        <h1 style="font-size: 1.75rem; font-weight: 800; color: var(--rose-red);">
+    <div class="card" style="max-width: 780px; margin: 0 auto; border-radius: var(--radius-lg); padding: clamp(1.5rem, 5vw, 3rem);">
+      <div style="text-align: center; margin-bottom: 2rem;">
+        <div style="width: 64px; height: 64px; background: rgba(225, 29, 72, 0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem auto; color: var(--rose-red);">
+          <svg width="32" height="32" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+          </svg>
+        </div>
+        <h1 style="font-size: clamp(1.5rem, 3.5vw, 2.25rem); font-weight: 800; color: var(--text-main); letter-spacing: -0.025em;">
           Laporkan Penyalahgunaan & DMCA
         </h1>
-        <p style="color: var(--text-muted); font-size: 0.95rem; margin-top: 0.35rem; max-width: 520px; margin-left: auto; margin-right: auto;">
-          Laporan akan langsung dikirimkan ke email resmi pengelola: <strong style="color: var(--text-main);">filedontol@gmail.com</strong>
+        <p style="color: var(--text-muted); font-size: 1rem; margin-top: 0.5rem; max-width: 580px; margin-left: auto; margin-right: auto; line-height: 1.6;">
+          Kami tidak menyediakan form input di platform ini. Seluruh pengaduan pelanggaran Hak Cipta (DMCA), CSAM, kekerasan, malware, dan penyalahgunaan dikirimkan <strong>LANGSUNG VIA EMAIL</strong> ke pengelola.
         </p>
       </div>
 
-      <div style="background: linear-gradient(135deg, #fef2f2, #fff1f2); border: 1px solid #fecaca; border-radius: var(--radius-md); padding: 1.25rem; margin-bottom: 2rem;">
-        <div style="display: flex; align-items: flex-start; gap: 0.85rem;">
-          <span style="font-size: 1.5rem; line-height: 1;">📧</span>
-          <div>
-            <h4 style="font-weight: 800; color: #991b1b; font-size: 1rem; margin-bottom: 0.25rem;">Kontak Email Langsung Administrator:</h4>
-            <p style="font-size: 0.9rem; color: #7f1d1d; line-height: 1.5;">
-              Anda dapat mengirimkan laporan langsung ke <a href="mailto:filedontol@gmail.com" style="color: var(--primary-indigo); font-weight: 700; text-decoration: underline;">filedontol@gmail.com</a> atau isi formulir otomatis di bawah untuk membuka aplikasi email Anda secara praktis.
-            </p>
-          </div>
+      <!-- Main Direct Email Box -->
+      <div style="background: linear-gradient(135deg, rgba(37, 99, 235, 0.06), rgba(225, 29, 72, 0.06)); border: 2px solid rgba(37, 99, 235, 0.2); border-radius: var(--radius-md); padding: 2rem; text-align: center; margin-bottom: 2.5rem;">
+        <p style="font-size: 0.875rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; color: var(--primary-indigo); margin-bottom: 0.5rem;">EMAIL KONTAK RESMI TAKEDOWN & ABUSIVE CONTENT</p>
+        <div style="font-size: clamp(1.25rem, 3vw, 1.75rem); font-weight: 900; color: var(--text-main); margin-bottom: 1.25rem; font-family: monospace; letter-spacing: -0.02em;">
+          filedontol@gmail.com
         </div>
+        <a href="mailto:filedontol@gmail.com?subject=Laporan%20Takedown%20%2F%20Penyalahgunaan%20File%20-%20filedontol&body=Halo%20Tim%20filedontol%2C%0A%0ASaya%20ingin%20melaporkan%20pelanggaran%20file%20dengan%20rincian%3A%0A%E2%80%A2%20Tautan%20%2F%20Kode%20File%3A%20%0A%E2%80%A2%20Jenis%20Pelanggaran%3A%20(DMCA%20%2F%20CSAM%20%2F%20Kekerasan%20%2F%20Malware)%0A%E2%80%A2%20Bukti%20Kepemilikan%20%2F%20Keterangan%3A%20%0A%0AMohon%20diproses.%20Terima%20kasih." class="btn btn-primary" style="padding: 0.85rem 2rem; font-size: 1rem; border-radius: var(--radius-md); gap: 0.75rem;">
+          <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+          </svg>
+          Kirim Email Pengaduan Langsung
+        </a>
       </div>
 
-      <form onsubmit="handleReportSubmit(event)">
-        <div class="form-group">
-          <label for="report-sharecode">Kode / Tautan File Yang Dilaporkan *</label>
-          <input type="text" id="report-sharecode" required placeholder="Contoh: CJWHb2T4 atau https://filedontol.com/f/CJWHb2T4" />
-        </div>
+      <!-- Information & Guidelines -->
+      <div style="line-height: 1.7; color: var(--text-main); font-size: 0.95rem;">
+        <h3 style="font-size: 1.15rem; font-weight: 800; margin-bottom: 0.75rem; color: var(--text-main); display: flex; align-items: center; gap: 0.5rem;">
+          <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="var(--primary-indigo)">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+          Format Informasi Wajib Dalam Email Laporan:
+        </h3>
+        <p style="margin-bottom: 1rem; color: var(--text-muted);">
+          Agar laporan Anda dapat langsung diproses tanpa penundaan, pastikan email pengaduan mencakup poin-poin berikut:
+        </p>
+        <ul style="margin-left: 1.5rem; margin-bottom: 2rem; color: var(--text-muted);">
+          <li style="margin-bottom: 0.5rem;"><strong style="color: var(--text-main);">Tautan / URL File:</strong> Cantumkan URL spesifik (contoh: <code>https://filedontol.com/f/xxxxxx</code>) atau kode file yang dilaporkan.</li>
+          <li style="margin-bottom: 0.5rem;"><strong style="color: var(--text-main);">Jenis Violasi:</strong> Sebutkan apakah laporan berupa Hak Cipta / DMCA, Pornografi Anak / CSAM, Ancaman Kekerasan, Malware / Phishing, atau Penipuan.</li>
+          <li style="margin-bottom: 0.5rem;"><strong style="color: var(--text-main);">Bukti Kepemilikan (Khusus DMCA):</strong> Lampirkan surat kuasa sah, sertifikat hak cipta, atau dokumen verifikasi kepemilikan.</li>
+          <li style="margin-bottom: 0.5rem;"><strong style="color: var(--text-main);">Identitas Pelapor:</strong> Nama lengkap dan organisasi/badan hukum pemegang hak cipta.</li>
+        </ul>
 
-        <div class="form-group">
-          <label for="report-reason">Jenis Pelanggaran *</label>
-          <select id="report-reason" required>
-            <option value="">-- Pilih Jenis Pelanggaran --</option>
-            <option value="Pelanggaran Hak Cipta / DMCA">Pelanggaran Hak Cipta / DMCA</option>
-            <option value="Pornografi Anak / CSAM">Pornografi Anak / Eksploitasi Anak (CSAM)</option>
-            <option value="Ancaman Kekerasan / Terorisme">Ancaman Kekerasan / Terorisme / Radikalisme</option>
-            <option value="Malware / Virus / Phishing">Malware / Virus / Phishing</option>
-            <option value="Spam / Penipuan / Perjudian Ilegal">Spam / Penipuan / Perjudian Ilegal</option>
-          </select>
-        </div>
+        <h3 style="font-size: 1.15rem; font-weight: 800; margin-bottom: 0.75rem; color: var(--text-main); display: flex; align-items: center; gap: 0.5rem;">
+          <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="var(--rose-red)">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+          Komitmen & Waktu Respon Takedown:
+        </h3>
+        <p style="color: var(--text-muted); margin-bottom: 2rem;">
+          Platform <strong>filedontol</strong> memiliki toleransi nol (Zero Tolerance) terhadap materi terlarang (CSAM, malware, terorisme). Laporan pelanggaran kritis akan segera diblokir permanen dan SHA-256 hash file dimasukkan ke blacklist dalam kurun waktu <strong>maksimal 1x24 jam</strong> sejak email diterima.
+        </p>
 
-        <div class="form-group">
-          <label for="report-email">Email Pelapor Aktif *</label>
-          <input type="email" id="report-email" required placeholder="nama@email.com" />
+        <div style="border-top: 1px solid var(--border-color); padding-top: 1.5rem; text-align: center;">
+          <a href="/" class="btn btn-outline">
+            <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+            </svg>
+            Kembali ke Beranda
+          </a>
         </div>
-
-        <div class="form-group">
-          <label for="report-details">Keterangan & Bukti Tambahan *</label>
-          <textarea id="report-details" rows="4" required placeholder="Jelaskan detail pelanggaran, sertakan sertifikat/surat kuasa hak cipta, atau bukti pendukung lainnya..."></textarea>
-        </div>
-
-        <button type="submit" class="btn btn-primary" style="width: 100%; background: var(--rose-red); border-color: var(--rose-red); font-size: 1rem; padding: 0.85rem;">
-          ✉️ Kirim Laporan via Email (filedontol@gmail.com)
-        </button>
-      </form>
+      </div>
     </div>
-
-    <script>
-      async function handleReportSubmit(e) {
-        e.preventDefault();
-        let rawCode = document.getElementById('report-sharecode').value.trim();
-        const reason = document.getElementById('report-reason').value;
-        const reporterEmail = document.getElementById('report-email').value.trim();
-        const details = document.getElementById('report-details').value.trim();
-
-        if (rawCode.includes('/f/')) {
-          rawCode = rawCode.split('/f/').pop().split('?')[0];
-        }
-
-        // Send to backend API first for database logging & automatic status review
-        try {
-          await fetch('/api/report', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              shareCode: rawCode,
-              reason: reason,
-              reporterEmail: reporterEmail,
-              details: details
-            })
-          });
-        } catch (err) {
-          console.error('Logging report error:', err);
-        }
-
-        // Construct direct mailto pre-filled email
-        const subject = encodeURIComponent(\`[LAPORAN ABUSE/DMCA] \${reason} - File: \${rawCode}\`);
-        const bodyText = encodeURIComponent(
-          \`Halo Tim filedontol,\\n\\nSaya ingin melaporkan pelanggaran file pada platform filedontol dengan rincian berikut:\\n\\n\` +
-          \`• Kode / Link File: \${rawCode}\\n\` +
-          \`• Kategori Pelanggaran: \${reason}\\n\` +
-          \`• Email Pelapor: \${reporterEmail}\\n\\n\` +
-          \`Detail / Bukti Pelanggaran:\\n\${details}\\n\\n\` +
-          \`Mohon agar file tersebut segera ditinjau dan dihapus permanen.\\n\\nTerima kasih.\`
-        );
-
-        const mailtoUrl = \`mailto:filedontol@gmail.com?subject=\${subject}&body=\${bodyText}\`;
-
-        showToast('Membuka aplikasi email untuk mengirim ke filedontol@gmail.com...');
-
-        setTimeout(() => {
-          window.location.href = mailtoUrl;
-        }, 600);
-      }
-    </script>
   `;
 
   return getLayoutHtml('Laporkan Penyalahgunaan File', content);
@@ -860,56 +846,85 @@ export function getReportPageHtml(): string {
 
 export function getDownloadPageHtml(shareCode: string): string {
   const content = `
-    <div class="card" style="text-align: center;" id="download-card">
-      <div id="loading-spinner" style="padding: 2rem; color: var(--text-muted);">
+    <div class="card" style="max-width: 780px; margin: 0 auto; border-radius: var(--radius-lg); padding: clamp(1.5rem, 5vw, 3rem);" id="download-card">
+      <div id="loading-spinner" style="padding: 3rem; text-align: center; color: var(--text-muted);">
+        <div style="width: 48px; height: 48px; border: 4px solid #e2e8f0; border-top-color: var(--primary-indigo); border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto 1rem auto;"></div>
         Sedang memuat informasi file...
       </div>
 
       <div id="file-details" style="display: none;">
-        <div style="background: #f1f5f9; border-radius: 0.5rem; padding: 1.5rem; margin-bottom: 2rem; display: flex; align-items: center; gap: 1.25rem; text-align: left;">
-          <div style="background: var(--primary-indigo); color: white; width: 56px; height: 56px; border-radius: 0.5rem; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 1.25rem; flex-shrink: 0;">
-            FILE
+        <!-- Header File Card -->
+        <div style="background: linear-gradient(135deg, rgba(37, 99, 235, 0.05), rgba(99, 102, 241, 0.05)); border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 1.75rem; margin-bottom: 2rem; display: flex; align-items: center; gap: 1.25rem; text-align: left;">
+          <div style="background: linear-gradient(135deg, var(--primary-indigo), #6366f1); color: white; width: 64px; height: 64px; border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; flex-shrink: 0; box-shadow: 0 8px 16px rgba(37, 99, 235, 0.25);">
+            <svg width="32" height="32" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+            </svg>
           </div>
           <div style="flex: 1; overflow: hidden;">
-            <h2 id="detail-filename" style="font-size: 1.25rem; font-weight: 700; word-break: break-all; margin-bottom: 0.25rem;">-</h2>
-            <p id="detail-filesize" style="font-size: 0.95rem; color: var(--text-muted); font-weight: 500;">-</p>
+            <h2 id="detail-filename" style="font-size: clamp(1.15rem, 2.5vw, 1.4rem); font-weight: 800; word-break: break-all; margin-bottom: 0.35rem; color: var(--text-main); letter-spacing: -0.02em;">-</h2>
+            <div style="display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap;">
+              <span id="detail-filesize" style="font-size: 0.925rem; color: var(--primary-indigo); font-weight: 800; background: #eff6ff; padding: 0.2rem 0.6rem; border-radius: var(--radius-sm); border: 1px solid #bfdbfe;">-</span>
+              <span id="detail-mimetype" style="font-size: 0.825rem; color: var(--text-muted); font-weight: 600;">-</span>
+            </div>
           </div>
         </div>
 
+        <!-- Metadata Grid -->
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 2rem; text-align: left;">
-          <div style="border: 1px solid var(--border-color); padding: 1rem; border-radius: 0.5rem; background: #ffffff;">
-            <p style="font-size: 0.8rem; color: var(--text-muted); font-weight: 600;">TANGGAL UNGGAH</p>
-            <p id="detail-createdat" style="font-size: 0.95rem; font-weight: 700; margin-top: 0.25rem;">-</p>
+          <div style="border: 1px solid var(--border-color); padding: 1.25rem; border-radius: var(--radius-md); background: #ffffff;">
+            <p style="font-size: 0.775rem; color: var(--text-muted); font-weight: 800; letter-spacing: 0.04em;">TANGGAL UNGGAH</p>
+            <p id="detail-createdat" style="font-size: 1rem; font-weight: 800; margin-top: 0.35rem; color: var(--text-main);">-</p>
           </div>
-          <div style="border: 1px solid var(--border-color); padding: 1rem; border-radius: 0.5rem; background: #ffffff;">
-            <p style="font-size: 0.8rem; color: var(--text-muted); font-weight: 600;">TOTAL UNDUHAN</p>
-            <p id="detail-downloads" style="font-size: 0.95rem; font-weight: 700; margin-top: 0.25rem;">-</p>
+          <div style="border: 1px solid var(--border-color); padding: 1.25rem; border-radius: var(--radius-md); background: #ffffff;">
+            <p style="font-size: 0.775rem; color: var(--text-muted); font-weight: 800; letter-spacing: 0.04em;">TOTAL UNDUHAN</p>
+            <p id="detail-downloads" style="font-size: 1rem; font-weight: 800; margin-top: 0.35rem; color: var(--primary-indigo);">-</p>
           </div>
-          <div style="border: 1px solid var(--border-color); padding: 1rem; border-radius: 0.5rem; background: #ffffff;">
-            <p style="font-size: 0.8rem; color: var(--text-muted); font-weight: 600;">KADALUARSA DALAM</p>
-            <p id="detail-expires" style="font-size: 0.95rem; font-weight: 700; color: #d97706; margin-top: 0.25rem;">-</p>
+          <div style="border: 1px solid var(--border-color); padding: 1.25rem; border-radius: var(--radius-md); background: #ffffff;">
+            <p style="font-size: 0.775rem; color: var(--text-muted); font-weight: 800; letter-spacing: 0.04em;">KADALUARSA DALAM</p>
+            <p id="detail-expires" style="font-size: 1rem; font-weight: 800; color: #d97706; margin-top: 0.35rem;">-</p>
           </div>
         </div>
 
-        <a id="btn-download-file" href="#" class="btn btn-primary" style="font-size: 1.1rem; padding: 0.85rem 2.5rem; width: 100%; text-decoration: none;">
-          ⬇️ Download File Sekarang
+        <!-- Download Action CTA -->
+        <a id="btn-download-file" href="#" class="btn btn-primary" style="font-size: 1.15rem; padding: 1rem 2.5rem; width: 100%; text-decoration: none; border-radius: var(--radius-md); gap: 0.75rem;">
+          <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+          </svg>
+          Unduh File Sekarang
         </a>
 
-        <div style="margin-top: 1.5rem; border-top: 1px solid var(--border-color); padding-top: 1rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem;">
-          <span style="font-size: 0.85rem; color: var(--text-muted);">
-            * Mengunduh file ini memperpanjang masa aktifnya secara otomatis.
+        <!-- Footer Notice -->
+        <div style="margin-top: 2rem; border-top: 1px solid var(--border-color); padding-top: 1.25rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.75rem;">
+          <span style="font-size: 0.85rem; color: var(--text-muted); display: flex; align-items: center; gap: 0.35rem;">
+            <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="var(--emerald-green)"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+            Mengunduh file ini memperpanjang masa aktifnya secara otomatis (+14d / +60d).
           </span>
-          <a href="/report" style="color: var(--rose-red); font-size: 0.85rem; font-weight: 700; text-decoration: none;">🚩 Laporkan File Ini</a>
+          <a href="/report" style="color: var(--rose-red); font-size: 0.85rem; font-weight: 700; text-decoration: none; display: flex; align-items: center; gap: 0.35rem;">
+            <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
+            Laporkan Penyalahgunaan
+          </a>
         </div>
       </div>
 
-      <div id="error-card" style="display: none; padding: 2rem 1rem;">
-        <div style="font-size: 3rem; margin-bottom: 0.5rem;">⚠️</div>
-        <h3 id="error-title" style="font-size: 1.25rem; font-weight: 700; color: var(--rose-red); margin-bottom: 0.5rem;">Gagal Memuat File</h3>
-        <p id="error-desc" style="color: var(--text-muted); font-size: 0.95rem; max-width: 500px; margin: 0 auto 1.5rem auto;">-</p>
+      <!-- Error State -->
+      <div id="error-card" style="display: none; padding: 3rem 1rem; text-align: center;">
+        <div style="width: 64px; height: 64px; background: #fef2f2; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem auto; color: var(--rose-red);">
+          <svg width="32" height="32" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+          </svg>
+        </div>
+        <h3 id="error-title" style="font-size: 1.35rem; font-weight: 800; color: var(--text-main); margin-bottom: 0.5rem;">Gagal Memuat File</h3>
+        <p id="error-desc" style="color: var(--text-muted); font-size: 0.95rem; max-width: 500px; margin: 0 auto 2rem auto; line-height: 1.6;">-</p>
         <a href="/" class="btn btn-outline">Kembali ke Beranda</a>
       </div>
     </div>
+
+    <style>
+      @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+      }
+    </style>
 
     <script>
       function formatBytes(bytes) {
@@ -954,6 +969,7 @@ export function getDownloadPageHtml(shareCode: string): string {
           const file = data.file;
           document.getElementById('detail-filename').innerText = file.fileName;
           document.getElementById('detail-filesize').innerText = formatBytes(file.fileSize);
+          document.getElementById('detail-mimetype').innerText = file.mimeType || 'application/octet-stream';
           document.getElementById('detail-createdat').innerText = new Date(file.createdAt).toLocaleDateString('id-ID', {
             year: 'numeric', month: 'long', day: 'numeric'
           });
