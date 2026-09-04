@@ -1069,11 +1069,13 @@ export function getDownloadPageHtml(shareCode: string): string {
           const mediaContainer = document.getElementById('media-preview-container');
           const mediaContent = document.getElementById('media-preview-content');
 
+          const previewUrl = downloadUrl + (downloadUrl.includes('?') ? '&preview=1' : '?preview=1');
+
           if (mime.startsWith('image/') || ['png', 'jpg', 'jpeg', 'webp', 'gif', 'svg'].includes(ext)) {
-            mediaContent.innerHTML = '<img src="' + downloadUrl + '" alt="' + file.fileName + '" style="max-width: 100%; max-height: 420px; border-radius: var(--radius-md); object-fit: contain; box-shadow: var(--shadow-sm);" />';
+            mediaContent.innerHTML = '<img src="' + previewUrl + '" alt="' + file.fileName + '" style="max-width: 100%; max-height: 420px; border-radius: var(--radius-md); object-fit: contain; box-shadow: var(--shadow-sm);" />';
             mediaContainer.style.display = 'block';
           } else if (mime.startsWith('video/') || ['mp4', 'webm', 'ogg', 'mov'].includes(ext)) {
-            mediaContent.innerHTML = '<video controls src="' + downloadUrl + '" style="width: 100%; max-height: 420px; border-radius: var(--radius-md); background: #000; box-shadow: var(--shadow-sm);"></video>';
+            mediaContent.innerHTML = '<video controls src="' + previewUrl + '" style="width: 100%; max-height: 420px; border-radius: var(--radius-md); background: #000; box-shadow: var(--shadow-sm);"></video>';
             mediaContainer.style.display = 'block';
           }
 

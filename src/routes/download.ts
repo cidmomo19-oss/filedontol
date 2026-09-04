@@ -103,36 +103,40 @@ downloadApp.get('/download/:code', async (c) => {
     return c.json({ error: 'Tautan unduhan telah kadaluarsa. Silakan muat ulang halaman.' }, 403);
   }
 
-  const newDownloadCount = (file.download_count || 0) + 1;
-  // Non-stacking rule: If file reaches at least 15 downloads, reset expiration date to exactly 30 days from current download timestamp
-  const shouldResetExpiration = newDownloadCount >= 15;
+  const isPreview = c.req.query('preview') === '1' || c.req.query('preview') === 'true';
 
-  if (shouldResetExpiration) {
-    const newExpiresAtDate = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000);
-    const newExpiresAtStr = newExpiresAtDate.toISOString().replace('T', ' ').substring(0, 19);
+  if (!isPreview) {
+    const newDownloadCount = (file.download_count || 0) + 1;
+    // Non-stacking rule: If file reaches at least 15 downloads, reset expiration date to exactly 30 days from current download timestamp
+    const shouldResetExpiration = newDownloadCount >= 15;
 
-    c.executionCtx.waitUntil(
-      c.env.DB.prepare(
-        `UPDATE files
-         SET download_count = download_count + 1,
-             last_downloaded_at = CURRENT_TIMESTAMP,
-             expires_at = ?
-         WHERE id = ?`
-      )
-        .bind(newExpiresAtStr, file.id)
-        .run()
-    );
-  } else {
-    c.executionCtx.waitUntil(
-      c.env.DB.prepare(
-        `UPDATE files
-         SET download_count = download_count + 1,
-             last_downloaded_at = CURRENT_TIMESTAMP
-         WHERE id = ?`
-      )
-        .bind(file.id)
-        .run()
-    );
+    if (shouldResetExpiration) {
+      const newExpiresAtDate = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000);
+      const newExpiresAtStr = newExpiresAtDate.toISOString().replace('T', ' ').substring(0, 19);
+
+      c.executionCtx.waitUntil(
+        c.env.DB.prepare(
+          `UPDATE files
+           SET download_count = download_count + 1,
+               last_downloaded_at = CURRENT_TIMESTAMP,
+               expires_at = ?
+           WHERE id = ?`
+        )
+          .bind(newExpiresAtStr, file.id)
+          .run()
+      );
+    } else {
+      c.executionCtx.waitUntil(
+        c.env.DB.prepare(
+          `UPDATE files
+           SET download_count = download_count + 1,
+               last_downloaded_at = CURRENT_TIMESTAMP
+           WHERE id = ?`
+        )
+          .bind(file.id)
+          .run()
+      );
+    }
   }
 
   // If R2 S3 API keys are set, generate S3 Presigned GET URL (3 days / 259,200s) and 302 Redirect
@@ -164,7 +168,7 @@ downloadApp.get('/download/:code', async (c) => {
   headers.set('etag', object.httpEtag);
   headers.set(
     'Content-Disposition',
-    `attachment; filename="${encodeURIComponent(file.file_name)}"`
+    isPreview ? 'inline' : `attachment; filename="${encodeURIComponent(file.file_name)}"`
   );
   headers.set('Cache-Control', 'no-cache, no-store, must-revalidate');
   if (file.mime_type) {
