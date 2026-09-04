@@ -41,24 +41,7 @@ downloadApp.get('/file/:code', async (c) => {
   const jwtSecret = c.env.JWT_SECRET || DEFAULT_JWT_SECRET;
   const ticket = await createDownloadTicket(file.share_code, jwtSecret, 600);
 
-  let downloadUrl = `/api/download/${file.share_code}?ticket=${encodeURIComponent(ticket)}`;
-
-  // If R2 S3 API keys are configured, generate direct S3 presigned URL
-  if (c.env.R2_ACCESS_KEY_ID && c.env.R2_SECRET_ACCESS_KEY) {
-    try {
-      downloadUrl = await generateR2PresignedDownloadUrl(
-        c.env.ACCOUNT_ID,
-        'filedontol-storage',
-        file.r2_key,
-        file.file_name,
-        c.env.R2_ACCESS_KEY_ID,
-        c.env.R2_SECRET_ACCESS_KEY,
-        600 // 10 minutes
-      );
-    } catch (err) {
-      console.error('Error generating S3 presigned download URL:', err);
-    }
-  }
+  const downloadUrl = `/api/download/${file.share_code}?ticket=${encodeURIComponent(ticket)}`;
 
   return c.json({
     success: true,

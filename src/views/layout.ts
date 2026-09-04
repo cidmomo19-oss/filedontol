@@ -14,7 +14,7 @@ export function getLayoutHtml(title: string, bodyContent: string): string {
   <meta property="og:description" content="Unggah & bagikan file hingga 5 GB secara cepat, aman, dan gratis." />
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="filedontol" />
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📁</text></svg>">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><linearGradient id='f' x1='0' y1='0' x2='1' y2='1'><stop offset='0%' stop-color='%233b82f6'/><stop offset='100%' stop-color='%236366f1'/></linearGradient></defs><rect width='100' height='100' rx='24' fill='url(%23f)'/><path d='M22 34C22 29.5817 25.5817 26 30 26H42.5C45.2 26 47.7 27.2 49.3 29.3L52.7 33.7C53.5 34.8 54.8 35.5 56.2 35.5H70C74.4183 35.5 78 39.0817 78 43.5V66C78 70.4183 74.4183 74 70 74H30C25.5817 74 22 70.4183 22 66V34Z' fill='%23ffffff' opacity='0.9'/><path d='M52 42L38 56H48L44 70L60 52H50L52 42Z' fill='%233b82f6'/></svg>">
 
   <style>
     ${baseStyles}
@@ -22,8 +22,19 @@ export function getLayoutHtml(title: string, bodyContent: string): string {
 </head>
 <body>
   <header>
-    <a href="/" class="logo">
-      <span>📁 filedontol</span>
+    <a href="/" class="logo" style="display: flex; align-items: center; gap: 0.65rem; text-decoration: none;">
+      <svg width="36" height="36" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" style="filter: drop-shadow(0 2px 4px rgba(59, 130, 246, 0.25));">
+        <defs>
+          <linearGradient id="logoGrad" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#3b82f6" />
+            <stop offset="100%" stop-color="#6366f1" />
+          </linearGradient>
+        </defs>
+        <rect width="100" height="100" rx="26" fill="url(#logoGrad)" />
+        <path d="M22 34C22 29.5817 25.5817 26 30 26H42.5C45.2 26 47.7 27.2 49.3 29.3L52.7 33.7C53.5 34.8 54.8 35.5 56.2 35.5H70C74.4183 35.5 78 39.0817 78 43.5V66C78 70.4183 74.4183 74 70 74H30C25.5817 74 22 70.4183 22 66V34Z" fill="#ffffff" fill-opacity="0.92" />
+        <path d="M53 43L39 57H49L45 69L59 53H49L53 43Z" fill="#2563eb" />
+      </svg>
+      <span style="font-size: 1.35rem; font-weight: 800; background: linear-gradient(135deg, #1e293b, #3b82f6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; letter-spacing: -0.03em;">filedontol</span>
     </a>
     <div class="nav-right" id="nav-auth-container">
       <button class="btn btn-outline btn-sm" id="btn-open-login" onclick="openAuthModal('login')">Masuk</button>

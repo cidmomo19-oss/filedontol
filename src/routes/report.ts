@@ -27,7 +27,8 @@ reportApp.post('/', async (c) => {
     }
 
     // High severity violations (e.g. CSAM / Pornografi Anak, Malware, Violent Extremism) automatically trigger immediate status review
-    const isCriticalAbuse = reason.includes('csam') || reason.includes('pornografi_anak') || reason.includes('kekerasan');
+    const lowerReason = reason.toLowerCase();
+    const isCriticalAbuse = lowerReason.includes('csam') || lowerReason.includes('pornografi') || lowerReason.includes('kekerasan') || lowerReason.includes('terorisme');
 
     if (isCriticalAbuse && file.file_hash) {
       // Temporarily mark as blocked pending review

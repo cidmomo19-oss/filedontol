@@ -69,7 +69,7 @@ app.get('/', async (c) => {
   if (token) {
     const payload = await verifyJWT(token, jwtSecret);
     if (payload) {
-      return c.html(getDashboardPageHtml());
+      return c.redirect('/dashboard');
     }
   }
 

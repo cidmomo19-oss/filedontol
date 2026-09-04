@@ -7,19 +7,19 @@ export const baseStyles = `
     --border-hover: #cbd5e1;
     --text-main: #0f172a;
     --text-muted: #64748b;
-    --primary-indigo: #4f46e5;
-    --primary-hover: #4338ca;
+    --primary-indigo: #2563eb;
+    --primary-hover: #1d4ed8;
     --sky-blue: #0284c7;
-    --emerald-green: #10b981;
-    --rose-red: #f43f5e;
-    --amber-gold: #f59e0b;
-    --violet-purple: #8b5cf6;
-    --radius-sm: 0.5rem;
-    --radius-md: 0.75rem;
-    --radius-lg: 1.25rem;
-    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.07), 0 2px 4px -1px rgba(0, 0, 0, 0.04);
-    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -2px rgba(0, 0, 0, 0.03);
+    --emerald-green: #059669;
+    --rose-red: #e11d48;
+    --amber-gold: #d97706;
+    --violet-purple: #7c3aed;
+    --radius-sm: 0.6rem;
+    --radius-md: 0.85rem;
+    --radius-lg: 1.5rem;
+    --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 6px 12px -2px rgba(37, 99, 235, 0.08), 0 3px 6px -2px rgba(0, 0, 0, 0.04);
+    --shadow-lg: 0 12px 24px -4px rgba(37, 99, 235, 0.12), 0 6px 12px -3px rgba(0, 0, 0, 0.04);
   }
 
   * {

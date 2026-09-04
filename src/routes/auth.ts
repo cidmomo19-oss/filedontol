@@ -174,7 +174,7 @@ authApp.patch('/files/:id', async (c) => {
       return c.json({ error: 'Nama file baru wajib diisi.' }, 400);
     }
 
-    const file = await c.env.DB.prepare('SELECT id FROM files WHERE id = ? AND user_id = ? AND status = "active"')
+    const file = await c.env.DB.prepare("SELECT id FROM files WHERE id = ? AND user_id = ? AND status = 'active'")
       .bind(fileId, payload.sub)
       .first<FileRecord>();
 

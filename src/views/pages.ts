@@ -748,13 +748,28 @@ export function getDashboardPageHtml(): string {
 
 export function getReportPageHtml(): string {
   const content = `
-    <div class="card" style="max-width: 650px; margin: 0 auto;">
-      <h1 style="font-size: 1.5rem; font-weight: 800; margin-bottom: 0.5rem; color: var(--rose-red);">
-        🚩 Laporkan Penyalahgunaan / File Ilegal
-      </h1>
-      <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 1.5rem;">
-        Bantu kami menjaga platform tetap aman. Kami tidak menoleransi segala bentuk pelanggaran hak cipta, materi pornografi anak (CSAM), ancaman kekerasan, maupun malware.
-      </p>
+    <div class="card" style="max-width: 680px; margin: 0 auto; border-radius: var(--radius-lg);">
+      <div style="text-align: center; margin-bottom: 1.75rem;">
+        <span style="font-size: 2.75rem; display: block; margin-bottom: 0.5rem;">🚩</span>
+        <h1 style="font-size: 1.75rem; font-weight: 800; color: var(--rose-red);">
+          Laporkan Penyalahgunaan & DMCA
+        </h1>
+        <p style="color: var(--text-muted); font-size: 0.95rem; margin-top: 0.35rem; max-width: 520px; margin-left: auto; margin-right: auto;">
+          Laporan akan langsung dikirimkan ke email resmi pengelola: <strong style="color: var(--text-main);">filedontol@gmail.com</strong>
+        </p>
+      </div>
+
+      <div style="background: linear-gradient(135deg, #fef2f2, #fff1f2); border: 1px solid #fecaca; border-radius: var(--radius-md); padding: 1.25rem; margin-bottom: 2rem;">
+        <div style="display: flex; align-items: flex-start; gap: 0.85rem;">
+          <span style="font-size: 1.5rem; line-height: 1;">📧</span>
+          <div>
+            <h4 style="font-weight: 800; color: #991b1b; font-size: 1rem; margin-bottom: 0.25rem;">Kontak Email Langsung Administrator:</h4>
+            <p style="font-size: 0.9rem; color: #7f1d1d; line-height: 1.5;">
+              Anda dapat mengirimkan laporan langsung ke <a href="mailto:filedontol@gmail.com" style="color: var(--primary-indigo); font-weight: 700; text-decoration: underline;">filedontol@gmail.com</a> atau isi formulir otomatis di bawah untuk membuka aplikasi email Anda secara praktis.
+            </p>
+          </div>
+        </div>
+      </div>
 
       <form onsubmit="handleReportSubmit(event)">
         <div class="form-group">
@@ -766,11 +781,11 @@ export function getReportPageHtml(): string {
           <label for="report-reason">Jenis Pelanggaran *</label>
           <select id="report-reason" required>
             <option value="">-- Pilih Jenis Pelanggaran --</option>
-            <option value="dmca">Pelanggaran Hak Cipta / DMCA</option>
-            <option value="csam_pornografi_anak">Pornografi Anak / Eksploitasi Anak (CSAM)</option>
-            <option value="kekerasan_terorisme">Ancaman Kekerasan / Terorisme / Radikalisme</option>
-            <option value="malware_phishing">Malware / Virus / Phishing</option>
-            <option value="penipuan_spam">Spam / Penipuan / Perjudian Ilegal</option>
+            <option value="Pelanggaran Hak Cipta / DMCA">Pelanggaran Hak Cipta / DMCA</option>
+            <option value="Pornografi Anak / CSAM">Pornografi Anak / Eksploitasi Anak (CSAM)</option>
+            <option value="Ancaman Kekerasan / Terorisme">Ancaman Kekerasan / Terorisme / Radikalisme</option>
+            <option value="Malware / Virus / Phishing">Malware / Virus / Phishing</option>
+            <option value="Spam / Penipuan / Perjudian Ilegal">Spam / Penipuan / Perjudian Ilegal</option>
           </select>
         </div>
 
@@ -780,11 +795,13 @@ export function getReportPageHtml(): string {
         </div>
 
         <div class="form-group">
-          <label for="report-details">Keterangan / Bukti Tambahan</label>
-          <textarea id="report-details" rows="4" placeholder="Jelaskan detail pelanggaran atau lampirkan bukti kepemilikan hak cipta..."></textarea>
+          <label for="report-details">Keterangan & Bukti Tambahan *</label>
+          <textarea id="report-details" rows="4" required placeholder="Jelaskan detail pelanggaran, sertakan sertifikat/surat kuasa hak cipta, atau bukti pendukung lainnya..."></textarea>
         </div>
 
-        <button type="submit" class="btn btn-primary" style="width: 100%; background: var(--rose-red);">Kirimkan Laporan Takedown</button>
+        <button type="submit" class="btn btn-primary" style="width: 100%; background: var(--rose-red); border-color: var(--rose-red); font-size: 1rem; padding: 0.85rem;">
+          ✉️ Kirim Laporan via Email (filedontol@gmail.com)
+        </button>
       </form>
     </div>
 
@@ -800,8 +817,9 @@ export function getReportPageHtml(): string {
           rawCode = rawCode.split('/f/').pop().split('?')[0];
         }
 
+        // Send to backend API first for database logging & automatic status review
         try {
-          const res = await fetch('/api/report', {
+          await fetch('/api/report', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
@@ -811,18 +829,28 @@ export function getReportPageHtml(): string {
               details: details
             })
           });
-
-          const data = await res.json();
-          if (!res.ok || data.error) {
-            showToast(data.error || 'Gagal mengirimkan laporan.', true);
-            return;
-          }
-
-          showToast(data.message || 'Laporan berhasil dikirimkan!');
-          setTimeout(() => { window.location.href = '/'; }, 2000);
         } catch (err) {
-          showToast('Terjadi kesalahan jaringan.', true);
+          console.error('Logging report error:', err);
         }
+
+        // Construct direct mailto pre-filled email
+        const subject = encodeURIComponent(\`[LAPORAN ABUSE/DMCA] \${reason} - File: \${rawCode}\`);
+        const bodyText = encodeURIComponent(
+          \`Halo Tim filedontol,\\n\\nSaya ingin melaporkan pelanggaran file pada platform filedontol dengan rincian berikut:\\n\\n\` +
+          \`• Kode / Link File: \${rawCode}\\n\` +
+          \`• Kategori Pelanggaran: \${reason}\\n\` +
+          \`• Email Pelapor: \${reporterEmail}\\n\\n\` +
+          \`Detail / Bukti Pelanggaran:\\n\${details}\\n\\n\` +
+          \`Mohon agar file tersebut segera ditinjau dan dihapus permanen.\\n\\nTerima kasih.\`
+        );
+
+        const mailtoUrl = \`mailto:filedontol@gmail.com?subject=\${subject}&body=\${bodyText}\`;
+
+        showToast('Membuka aplikasi email untuk mengirim ke filedontol@gmail.com...');
+
+        setTimeout(() => {
+          window.location.href = mailtoUrl;
+        }, 600);
       }
     </script>
   `;
@@ -960,8 +988,8 @@ export function getDownloadPageHtml(shareCode: string): string {
 
 export function getDmcaPageHtml(): string {
   const content = `
-    <div class="card" style="line-height: 1.7;">
-      <h1 style="font-size: 1.75rem; font-weight: 800; margin-bottom: 1rem; color: var(--text-main); border-bottom: 2px solid var(--border-color); padding-bottom: 0.75rem;">
+    <div class="card" style="line-height: 1.7; max-width: 800px; margin: 0 auto;">
+      <h1 style="font-size: 1.85rem; font-weight: 800; margin-bottom: 1rem; color: var(--text-main); border-bottom: 2px solid var(--border-color); padding-bottom: 0.75rem;">
         Kebijakan DMCA & Pelanggaran Hak Cipta
       </h1>
 
@@ -969,19 +997,27 @@ export function getDmcaPageHtml(): string {
         <strong>filedontol</strong> sangat menghormati hak kekayaan intelektual, hak cipta, dan kepemilikan sah atas seluruh materi atau file digital. Kami berkomitmen untuk mematuhi Digital Millennium Copyright Act (DMCA) dan seluruh peraturan perundang-undangan hak cipta yang berlaku.
       </p>
 
+      <!-- Direct Email Box -->
+      <div style="background: linear-gradient(135deg, #e0e7ff, #ede9fe); border: 1px solid #c7d2fe; border-radius: var(--radius-md); padding: 1.5rem; margin: 1.5rem 0; text-align: center;">
+        <span style="font-size: 2rem; display: block; margin-bottom: 0.5rem;">📧</span>
+        <h3 style="font-size: 1.2rem; font-weight: 800; color: #3730a3; margin-bottom: 0.25rem;">Email Kontak Resmi DMCA & Takedown</h3>
+        <p style="font-size: 0.95rem; color: #4338ca; margin-bottom: 1rem;">Seluruh surat pemberitahuan takedown resmi dikirimkan langsung ke:</p>
+        <a href="mailto:filedontol@gmail.com?subject=Laporan%20Takedown%20DMCA%20-%20filedontol" class="btn btn-primary" style="font-size: 1.05rem; padding: 0.75rem 2rem;">
+          📩 Kirim Email ke filedontol@gmail.com
+        </a>
+      </div>
+
       <h3 style="font-size: 1.15rem; font-weight: 700; margin-top: 1.5rem; margin-bottom: 0.5rem; color: var(--primary-indigo);">
         1. Prosedur Pelaporan Pelanggaran Hak Cipta
       </h3>
       <p style="margin-bottom: 1rem;">
-        Jika Anda adalah pemilik hak cipta sah atau agen/kuasa hukum yang ditunjuk, dan menemukan bahwa file yang diunggah ke platform <strong>filedontol</strong> melanggar hak cipta Anda, silakan kirimkan pemberitahuan resmi takedown melalui email atau form pengaduan kami:
+        Jika Anda adalah pemilik hak cipta sah atau agen/kuasa hukum yang ditunjuk, dan menemukan bahwa file yang diunggah ke platform <strong>filedontol</strong> melanggar hak cipta Anda, silakan kirimkan pemberitahuan resmi takedown melalui email di atas atau menggunakan formulir laporan cepat kami:
       </p>
 
-      <div style="background: #e0e7ff; border: 1px solid #c7d2fe; border-radius: 0.5rem; padding: 1rem 1.25rem; font-weight: 700; font-size: 1.05rem; color: #3730a3; margin-bottom: 1.5rem; display: inline-block;">
-        📧 Email Pengaduan DMCA: filedontol@gmail.com
-      </div>
-
       <div style="margin-bottom: 1.5rem;">
-        <a href="/report" class="btn btn-primary">Form Laporan Penyalahgunaan File</a>
+        <a href="/report" class="btn btn-outline" style="font-weight: 700; color: var(--rose-red); border-color: var(--rose-red);">
+          🚩 Buka Form Laporan Penyalahgunaan File
+        </a>
       </div>
 
       <h3 style="font-size: 1.15rem; font-weight: 700; margin-top: 1rem; margin-bottom: 0.5rem; color: var(--primary-indigo);">
