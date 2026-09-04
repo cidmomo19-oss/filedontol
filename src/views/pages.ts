@@ -678,8 +678,9 @@ export function getDashboardPageHtml(): string {
 
           tr.innerHTML = \`
             <td style="font-weight: 600; word-break: break-all;">
-              <a href="/f/\${file.share_code}" target="_blank" style="color: var(--text-main); text-decoration: none;">
-                📄 \${file.file_name}
+              <a href="/f/\${file.share_code}" target="_blank" style="color: var(--text-main); text-decoration: none; display: inline-flex; align-items: center; gap: 0.4rem;">
+                <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="var(--primary-indigo)"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg>
+                \${file.file_name}
               </a>
             </td>
             <td style="white-space: nowrap; color: var(--text-muted);">\${formatBytes(file.file_size)}</td>
@@ -687,9 +688,18 @@ export function getDashboardPageHtml(): string {
             <td style="white-space: nowrap; font-size: 0.85rem; color: #d97706; font-weight: 600;">\${calculateRemainingTime(file.expires_at)}</td>
             <td style="white-space: nowrap;">
               <div style="display: flex; gap: 0.35rem;">
-                <button class="btn btn-outline btn-sm" onclick="copyLink('\${shareUrl}')" title="Salin Tautan">📋 Salin</button>
-                <button class="btn btn-outline btn-sm" onclick="openRenameModal('\${file.id}', '\${file.file_name.replace(/'/g, "\\\\'")}')" title="Ubah Nama">✏️ Edit</button>
-                <button class="btn btn-danger btn-sm" onclick="deleteFile('\${file.id}')" title="Hapus File">🗑️ Hapus</button>
+                <button class="btn btn-outline btn-sm" onclick="copyLink('\${shareUrl}')" title="Salin Tautan">
+                  <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"/></svg>
+                  Salin
+                </button>
+                <button class="btn btn-outline btn-sm" onclick="openRenameModal('\${file.id}', '\${file.file_name.replace(/'/g, "\\\\'")}')" title="Ubah Nama">
+                  <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
+                  Edit
+                </button>
+                <button class="btn btn-danger btn-sm" onclick="deleteFile('\${file.id}')" title="Hapus File">
+                  <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+                  Hapus
+                </button>
               </div>
             </td>
           \`;
