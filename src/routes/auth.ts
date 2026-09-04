@@ -1,9 +1,11 @@
 import { Hono } from 'hono';
 import { nanoid } from 'nanoid';
-import { Env, User } from '../types';
+import { Env, User, FileRecord } from '../types';
 import { hashPassword, verifyPassword, signJWT, verifyJWT, parseCookies } from '../utils/auth';
 
 export const authApp = new Hono<{ Bindings: Env }>();
+
+const DEFAULT_JWT_SECRET = 'fd_jwt_secret_default_filedontol_key';
 
 authApp.post('/register', async (c) => {
   try {
@@ -34,7 +36,8 @@ authApp.post('/register', async (c) => {
       .bind(userId, email, passwordHash)
       .run();
 
-    const token = await signJWT({ sub: userId, email }, c.env.JWT_SECRET);
+    const jwtSecret = c.env.JWT_SECRET || DEFAULT_JWT_SECRET;
+    const token = await signJWT({ sub: userId, email }, jwtSecret);
 
     c.header('Set-Cookie', `auth_token=${token}; Path=/; HttpOnly; SameSite=Lax; Max-Age=${30 * 86400}`);
 
@@ -70,7 +73,8 @@ authApp.post('/login', async (c) => {
       return c.json({ error: 'Invalid email or password.' }, 401);
     }
 
-    const token = await signJWT({ sub: user.id, email: user.email }, c.env.JWT_SECRET);
+    const jwtSecret = c.env.JWT_SECRET || DEFAULT_JWT_SECRET;
+    const token = await signJWT({ sub: user.id, email: user.email }, jwtSecret);
 
     c.header('Set-Cookie', `auth_token=${token}; Path=/; HttpOnly; SameSite=Lax; Max-Age=${30 * 86400}`);
 
@@ -95,7 +99,8 @@ authApp.get('/me', async (c) => {
     return c.json({ authenticated: false, user: null });
   }
 
-  const payload = await verifyJWT(token, c.env.JWT_SECRET);
+  const jwtSecret = c.env.JWT_SECRET || DEFAULT_JWT_SECRET;
+  const payload = await verifyJWT(token, jwtSecret);
   if (!payload) {
     return c.json({ authenticated: false, user: null });
   }
@@ -104,4 +109,80 @@ authApp.get('/me', async (c) => {
     authenticated: true,
     user: { id: payload.sub, email: payload.email },
   });
+});
+
+// GET /api/user/files - List files owned by logged in user
+authApp.get('/files', async (c) => {
+  const cookies = parseCookies(c.req.header('Cookie') || null);
+  const token = cookies['auth_token'];
+  if (!token) {
+    return c.json({ error: 'Tidak terautentikasi.' }, 401);
+  }
+
+  const jwtSecret = c.env.JWT_SECRET || DEFAULT_JWT_SECRET;
+  const payload = await verifyJWT(token, jwtSecret);
+  if (!payload) {
+    return c.json({ error: 'Sesi telah berakhir. Silakan login kembali.' }, 401);
+  }
+
+  const userFiles = await c.env.DB.prepare(
+    `SELECT id, share_code, file_name, file_size, mime_type, download_count, last_downloaded_at, expires_at, status, created_at
+     FROM files
+     WHERE user_id = ? AND status != 'deleted' AND status != 'blocked'
+     ORDER BY created_at DESC`
+  )
+    .bind(payload.sub)
+    .all<FileRecord>();
+
+  const results = userFiles.results || [];
+  const totalFiles = results.length;
+  const totalStorage = results.reduce((acc, f) => acc + (f.file_size || 0), 0);
+  const totalDownloads = results.reduce((acc, f) => acc + (f.download_count || 0), 0);
+
+  return c.json({
+    success: true,
+    stats: {
+      totalFiles,
+      totalStorage,
+      totalDownloads,
+    },
+    files: results,
+  });
+});
+
+// DELETE /api/user/files/:id - Soft delete file owned by logged in user
+authApp.delete('/files/:id', async (c) => {
+  const fileId = c.req.param('id');
+  const cookies = parseCookies(c.req.header('Cookie') || null);
+  const token = cookies['auth_token'];
+
+  if (!token) {
+    return c.json({ error: 'Tidak terautentikasi.' }, 401);
+  }
+
+  const jwtSecret = c.env.JWT_SECRET || DEFAULT_JWT_SECRET;
+  const payload = await verifyJWT(token, jwtSecret);
+  if (!payload) {
+    return c.json({ error: 'Sesi telah berakhir.' }, 401);
+  }
+
+  const file = await c.env.DB.prepare('SELECT * FROM files WHERE id = ? AND user_id = ?')
+    .bind(fileId, payload.sub)
+    .first<FileRecord>();
+
+  if (!file) {
+    return c.json({ error: 'File tidak ditemukan atau Anda tidak memiliki akses.' }, 404);
+  }
+
+  try {
+    await c.env.STORAGE.delete(file.r2_key);
+  } catch (err) {
+    console.error(`Gagal menghapus R2 key ${file.r2_key}:`, err);
+  }
+
+  await c.env.DB.prepare("UPDATE files SET status = 'deleted' WHERE id = ?")
+    .bind(file.id)
+    .run();
+
+  return c.json({ success: true, message: 'File berhasil dihapus.' });
 });

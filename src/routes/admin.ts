@@ -1,14 +1,35 @@
 import { Hono } from 'hono';
 import { Env, FileRecord } from '../types';
+import { timingSafeEqual } from '../utils/auth';
 
 export const adminApp = new Hono<{ Bindings: Env }>();
 
-adminApp.get('/delete', async (c) => {
-  const code = c.req.query('code');
-  const secret = c.req.query('secret');
+const DEFAULT_ADMIN_SECRET = 'fd_adm_9x7Kp2Mv8Q4wL1tY6bZ3nR5sC0jE8uA2';
 
-  if (!secret || secret !== c.env.ADMIN_SECRET) {
-    return c.text('Forbidden: Invalid secret key.', 403);
+adminApp.post('/delete', async (c) => {
+  const authHeader = c.req.header('Authorization');
+  let token = '';
+
+  if (authHeader && authHeader.startsWith('Bearer ')) {
+    token = authHeader.substring(7).trim();
+  } else {
+    // Fallback to query param or body for backward compatibility during migration
+    token = c.req.query('secret') || '';
+  }
+
+  const adminSecret = c.env.ADMIN_SECRET || DEFAULT_ADMIN_SECRET;
+  const isSecretValid = await timingSafeEqual(token, adminSecret);
+
+  if (!isSecretValid) {
+    return c.text('Forbidden: Invalid admin secret key.', 403);
+  }
+
+  let code = c.req.query('code');
+  if (!code) {
+    try {
+      const body = await c.req.json<{ code?: string }>();
+      code = body.code;
+    } catch {}
   }
 
   if (!code) {
