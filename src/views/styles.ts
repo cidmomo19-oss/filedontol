@@ -492,7 +492,9 @@ export const baseStyles = `
   .faq-arrow {
     color: var(--pink-deep);
     transition: transform 0.25s ease;
-    font-size: 0.85rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
   }
 
   .faq-item.active .faq-arrow {

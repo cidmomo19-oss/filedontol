@@ -172,7 +172,9 @@ export function getIndexHtml(): string {
         <div class="faq-item" onclick="toggleFaq(this)">
           <div class="faq-header">
             <span>How long are files kept active?</span>
-            <span class="faq-arrow">▼</span>
+            <span class="faq-arrow">
+              <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"/></svg>
+            </span>
           </div>
           <div class="faq-body">
             Each file is automatically active for <strong>30 days</strong> from the date of upload.
@@ -182,7 +184,9 @@ export function getIndexHtml(): string {
         <div class="faq-item" onclick="toggleFaq(this)">
           <div class="faq-header">
             <span>How does the file expiration reset work?</span>
-            <span class="faq-arrow">▼</span>
+            <span class="faq-arrow">
+              <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"/></svg>
+            </span>
           </div>
           <div class="faq-body">
             If a file reaches <strong>15 or more downloads</strong>, its active duration is automatically reset to <strong>30 days</strong> from the latest download date.
@@ -192,7 +196,9 @@ export function getIndexHtml(): string {
         <div class="faq-item" onclick="toggleFaq(this)">
           <div class="faq-header">
             <span>Do I need to create an account?</span>
-            <span class="faq-arrow">▼</span>
+            <span class="faq-arrow">
+              <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"/></svg>
+            </span>
           </div>
           <div class="faq-body">
             No account is required. You can upload files freely and anonymously without registering or logging in.
@@ -202,7 +208,9 @@ export function getIndexHtml(): string {
         <div class="faq-item" onclick="toggleFaq(this)">
           <div class="faq-header">
             <span>What is the maximum file size limit?</span>
-            <span class="faq-arrow">▼</span>
+            <span class="faq-arrow">
+              <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"/></svg>
+            </span>
           </div>
           <div class="faq-body">
             The maximum limit is <strong>5 GB</strong> per upload for all file formats.
@@ -212,7 +220,9 @@ export function getIndexHtml(): string {
         <div class="faq-item" onclick="toggleFaq(this)">
           <div class="faq-header">
             <span>How do I report illegal content or DMCA violations?</span>
-            <span class="faq-arrow">▼</span>
+            <span class="faq-arrow">
+              <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"/></svg>
+            </span>
           </div>
           <div class="faq-body">
             Send the file link and proof of ownership directly to email: <code>filedontol@gmail.com</code>. Valid reports are handled within 24 hours.
@@ -867,19 +877,27 @@ export function getDownloadPageHtml(shareCode: string): string {
 
       <div id="file-details" style="display: none;">
         <!-- Header Card -->
-        <div style="background: var(--pink-soft); border: 1px solid var(--pink-border); border-radius: var(--radius-lg); padding: 1.85rem; margin-bottom: 2rem; display: flex; align-items: center; gap: 1.35rem; text-align: left;">
+        <div style="background: var(--pink-soft); border: 1px solid var(--pink-border); border-radius: var(--radius-lg); padding: 1.85rem; margin-bottom: 2rem; display: flex; align-items: center; gap: 1.35rem; text-align: left; position: relative;">
           <div style="background: linear-gradient(135deg, #ec4899, #db2777); color: white; width: 68px; height: 68px; border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; flex-shrink: 0; box-shadow: 0 8px 18px rgba(219, 39, 119, 0.3);">
             <svg width="34" height="34" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
             </svg>
           </div>
-          <div style="flex: 1; overflow: hidden;">
-            <h2 id="detail-filename" style="font-size: clamp(1.2rem, 2.5vw, 1.5rem); font-weight: 900; word-break: break-all; margin-bottom: 0.35rem; color: var(--text-main); letter-spacing: -0.02em;">-</h2>
+          <div style="flex: 1; overflow: hidden; padding-right: 2.5rem;">
+            <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.35rem;">
+              <h2 id="detail-filename" style="font-size: clamp(1.2rem, 2.5vw, 1.5rem); font-weight: 900; word-break: break-all; color: var(--text-main); letter-spacing: -0.02em;">-</h2>
+            </div>
             <div style="display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap;">
               <span id="detail-filesize" style="font-size: 0.925rem; color: var(--pink-dark); font-weight: 800; background: #ffffff; padding: 0.25rem 0.75rem; border-radius: var(--radius-sm); border: 1px solid var(--pink-border);">-</span>
               <span id="detail-mimetype" style="font-size: 0.825rem; color: var(--text-muted); font-weight: 600;">-</span>
             </div>
           </div>
+          <!-- Compact Copy Icon Button -->
+          <button id="btn-copy-download-link" onclick="copyPageLink()" title="Copy Link" style="position: absolute; top: 1.25rem; right: 1.25rem; background: #ffffff; border: 1px solid var(--pink-border); color: var(--pink-dark); width: 36px; height: 36px; border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s ease; box-shadow: var(--shadow-sm);">
+            <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3" />
+            </svg>
+          </button>
         </div>
 
         <!-- Metadata Cards Grid -->
@@ -898,21 +916,13 @@ export function getDownloadPageHtml(shareCode: string): string {
           </div>
         </div>
 
-        <!-- Download & Copy Actions -->
-        <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
-          <a id="btn-download-file" href="#" class="btn btn-pink" style="flex: 2; min-width: 220px; font-size: 1.1rem; padding: 1rem 1.75rem; text-decoration: none; border-radius: var(--radius-md); gap: 0.65rem;">
-            <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-            </svg>
-            Download File Now
-          </a>
-          <button id="btn-copy-download-link" onclick="copyPageLink()" class="btn btn-outline" style="flex: 1; min-width: 140px; font-size: 1rem; padding: 1rem 1.25rem; border-radius: var(--radius-md); gap: 0.5rem;">
-            <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3" />
-            </svg>
-            Copy Link
-          </button>
-        </div>
+        <!-- Download Action -->
+        <a id="btn-download-file" href="#" class="btn btn-pink" style="font-size: 1.15rem; padding: 1.1rem 2.5rem; width: 100%; text-decoration: none; border-radius: var(--radius-md); gap: 0.75rem;">
+          <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+          </svg>
+          Download File Now
+        </a>
 
         <!-- Footer -->
         <div style="margin-top: 2.25rem; border-top: 1px solid var(--border-color); padding-top: 1.5rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.75rem;">
