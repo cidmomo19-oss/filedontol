@@ -3,14 +3,29 @@ import { nanoid } from 'nanoid';
 import { Env, BlacklistedHash } from '../types';
 import { parseCookies, verifyJWT, createUploadTicket, verifyUploadTicket } from '../utils/auth';
 import { generateR2PresignedUrl } from '../utils/s3';
+import { getApiUploadPageHtml } from '../views/pages';
 
 export const uploadApp = new Hono<{ Bindings: Env }>();
 
 const MAX_FILE_SIZE = 5 * 1024 * 1024 * 1024; // 5 GB
 const DEFAULT_JWT_SECRET = 'fd_jwt_secret_default_filedontol_key';
 
-// cURL Direct Upload Endpoint: POST /api/upload (supports curl -F "file=@photo.jpg" or curl --data-binary)
-uploadApp.post('/', async (c) => {
+// GET /api/upload - Render Dedicated API Upload Status & Usage Documentation Page
+uploadApp.get('/', (c) => {
+  const userAgent = c.req.header('user-agent') || '';
+  if (userAgent.toLowerCase().includes('curl') || userAgent.toLowerCase().includes('wget')) {
+    const host = c.req.header('host') || 'filedontol.com';
+    const protocol = c.req.header('x-forwarded-proto') || 'https';
+    return c.text(
+      `filedontol API Status: ACTIVE 🟢\n\nUsage:\n  curl -F "file=@yourfile.png" ${protocol}://${host}/api/upload\n  curl -T "yourfile.png" ${protocol}://${host}/api/upload\n  curl --upload-file "yourfile.png" ${protocol}://${host}/api/upload\n\nLimits: Max 5 GB per file, 30 days active retention (resets to 30 days on 15+ downloads).\n`
+    );
+  }
+
+  return c.html(getApiUploadPageHtml());
+});
+
+// Helper function to handle cURL / Wget / CLI Uploads for both POST & PUT methods
+async function handleCurlUpload(c: any) {
   try {
     let fileName = 'file';
     let fileSize = 0;
@@ -18,25 +33,41 @@ uploadApp.post('/', async (c) => {
     let fileBody: ReadableStream | ArrayBuffer | Blob | null = null;
 
     const contentType = c.req.header('Content-Type') || '';
+    const contentDisposition = c.req.header('Content-Disposition') || '';
+
+    // Extract file name from Content-Disposition if present
+    if (contentDisposition) {
+      const match = contentDisposition.match(/filename="?([^";]+)"?/i);
+      if (match && match[1]) {
+        fileName = decodeURIComponent(match[1]);
+      }
+    }
 
     if (contentType.includes('multipart/form-data')) {
       const formData = await c.req.parseBody();
-      const uploadedFile = formData['file'] || formData['upload'];
+      const uploadedFile = formData['file'] || formData['upload'] || formData['f'] || formData['data'];
 
       if (!uploadedFile || !(uploadedFile instanceof File)) {
         return c.text('Error: No file field found in multipart/form-data. Use curl -F "file=@yourfile.ext" https://<domain>/api/upload\n', 400);
       }
 
-      fileName = uploadedFile.name || 'uploaded_file';
+      fileName = uploadedFile.name || fileName;
       fileSize = uploadedFile.size;
       mimeType = uploadedFile.type || 'application/octet-stream';
       fileBody = uploadedFile;
     } else {
-      // Raw binary upload via curl --data-binary @file.ext
+      // Direct binary body (curl --upload-file file.ext or curl -T file.ext)
       const headerFileName = c.req.header('X-File-Name');
       if (headerFileName) {
         fileName = decodeURIComponent(headerFileName);
+      } else if (fileName === 'file') {
+        const pathSegments = c.req.path.split('/');
+        const lastSegment = pathSegments[pathSegments.length - 1];
+        if (lastSegment && lastSegment !== 'upload') {
+          fileName = decodeURIComponent(lastSegment);
+        }
       }
+
       mimeType = contentType || 'application/octet-stream';
       const arrayBuffer = await c.req.arrayBuffer();
       fileSize = arrayBuffer.byteLength;
@@ -89,7 +120,11 @@ uploadApp.post('/', async (c) => {
   } catch (err: any) {
     return c.text(`Error: ${err.message || 'Failed to upload file via cURL.'}\n`, 500);
   }
-});
+}
+
+// POST & PUT /api/upload
+uploadApp.post('/', handleCurlUpload);
+uploadApp.put('/', handleCurlUpload);
 
 uploadApp.post('/presigned', async (c) => {
   try {
