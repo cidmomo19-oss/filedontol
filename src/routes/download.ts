@@ -43,7 +43,7 @@ downloadApp.get('/file/:code', async (c) => {
 
   const downloadUrl = `/api/download/${file.share_code}?ticket=${encodeURIComponent(ticket)}`;
 
-  c.header('Cache-Control', 'public, max-age=86400, s-maxage=259200');
+  c.header('Cache-Control', 'no-cache, no-store, must-revalidate');
 
   return c.json({
     success: true,
@@ -153,7 +153,7 @@ downloadApp.get('/download/:code', async (c) => {
     }
   }
 
-  // Stream binary object from Worker with Cache-Control
+  // Stream binary object from Worker without caching to ensure accurate download tracking
   const object = await c.env.STORAGE.get(file.r2_key);
   if (!object) {
     return c.json({ error: 'Objek file tidak ditemukan di penyimpanan.' }, 404);
@@ -166,7 +166,7 @@ downloadApp.get('/download/:code', async (c) => {
     'Content-Disposition',
     `attachment; filename="${encodeURIComponent(file.file_name)}"`
   );
-  headers.set('Cache-Control', 'public, max-age=86400, s-maxage=259200');
+  headers.set('Cache-Control', 'no-cache, no-store, must-revalidate');
   if (file.mime_type) {
     headers.set('Content-Type', file.mime_type);
   }
