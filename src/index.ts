@@ -60,19 +60,8 @@ app.route('/api/admin', adminApp);
 app.route('/api/report', reportApp);
 app.route('/api', downloadApp);
 
-// Root route: if authenticated user accesses /, redirect or serve dashboard by default
-app.get('/', async (c) => {
-  const cookies = parseCookies(c.req.header('Cookie') || null);
-  const token = cookies['auth_token'];
-  const jwtSecret = c.env.JWT_SECRET || 'fd_jwt_secret_default_filedontol_key';
-
-  if (token) {
-    const payload = await verifyJWT(token, jwtSecret);
-    if (payload) {
-      return c.redirect('/dashboard');
-    }
-  }
-
+// Root route: Always serve the Homepage (accessible to both guests and logged-in users)
+app.get('/', (c) => {
   return c.html(getIndexHtml());
 });
 
