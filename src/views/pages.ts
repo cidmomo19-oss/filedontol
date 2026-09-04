@@ -877,6 +877,11 @@ export function getDownloadPageHtml(shareCode: string): string {
       </div>
 
       <div id="file-details" style="display: none;">
+        <!-- Media Preview Container (Images & Videos) -->
+        <div id="media-preview-container" style="display: none; background: #fafaf9; border: 1px solid var(--pink-border); border-radius: var(--radius-lg); padding: 1.25rem; margin-bottom: 1.75rem; text-align: center; overflow: hidden; box-shadow: var(--shadow-sm);">
+          <div id="media-preview-content" style="max-width: 100%; display: flex; justify-content: center; align-items: center;"></div>
+        </div>
+
         <!-- Header Card -->
         <div style="background: var(--pink-soft); border: 1px solid var(--pink-border); border-radius: var(--radius-lg); padding: 1.85rem; margin-bottom: 2rem; display: flex; align-items: center; gap: 1.35rem; text-align: left;">
           <div style="background: linear-gradient(135deg, #ec4899, #db2777); color: white; width: 68px; height: 68px; border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; flex-shrink: 0; box-shadow: 0 8px 18px rgba(219, 39, 119, 0.3);">
@@ -910,7 +915,7 @@ export function getDownloadPageHtml(shareCode: string): string {
         </div>
 
         <!-- Download & Copy Actions Stacked -->
-        <div style="display: flex; flex-direction: column; gap: 0.85rem; width: 100%;">
+        <div style="display: flex; flex-direction: column; gap: 0.85rem; width: 100%; margin-bottom: 2rem;">
           <a id="btn-download-file" href="#" class="btn btn-pink" style="font-size: 1.15rem; padding: 1.1rem 2rem; width: 100%; text-decoration: none; border-radius: var(--radius-md); gap: 0.75rem; justify-content: center;">
             <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
@@ -923,6 +928,39 @@ export function getDownloadPageHtml(shareCode: string): string {
             </svg>
             Copy Link
           </button>
+        </div>
+
+        <!-- 1-Click Social Sharing Buttons -->
+        <div style="background: #ffffff; border: 1px solid var(--pink-border); border-radius: var(--radius-lg); padding: 1.5rem; text-align: center; margin-bottom: 1.75rem; box-shadow: var(--shadow-sm);">
+          <h4 style="font-size: 1rem; font-weight: 900; color: var(--text-main); margin-bottom: 0.85rem; text-transform: uppercase; letter-spacing: 0.05em;">
+            Share File Link Instantly
+          </h4>
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(110px, 1fr)); gap: 0.65rem;">
+            <a id="share-wa" href="#" target="_blank" class="btn" style="background: #25d366; color: #ffffff; padding: 0.65rem; font-size: 0.85rem; font-weight: 800; border-radius: var(--radius-sm);">
+              WhatsApp
+            </a>
+            <a id="share-tg" href="#" target="_blank" class="btn" style="background: #0088cc; color: #ffffff; padding: 0.65rem; font-size: 0.85rem; font-weight: 800; border-radius: var(--radius-sm);">
+              Telegram
+            </a>
+            <a id="share-tw" href="#" target="_blank" class="btn" style="background: #000000; color: #ffffff; padding: 0.65rem; font-size: 0.85rem; font-weight: 800; border-radius: var(--radius-sm);">
+              X (Twitter)
+            </a>
+            <a id="share-fb" href="#" target="_blank" class="btn" style="background: #1877f2; color: #ffffff; padding: 0.65rem; font-size: 0.85rem; font-weight: 800; border-radius: var(--radius-sm);">
+              Facebook
+            </a>
+          </div>
+        </div>
+
+        <!-- Live QR Code Scan Card -->
+        <div style="background: var(--pink-soft); border: 1px solid var(--pink-border); border-radius: var(--radius-lg); padding: 1.5rem; text-align: center; margin-bottom: 2rem; box-shadow: var(--shadow-sm);">
+          <h4 style="font-size: 1.05rem; font-weight: 900; color: var(--text-main); margin-bottom: 0.35rem; display: flex; align-items: center; justify-content: center; gap: 0.5rem;">
+            <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="var(--pink-deep)"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z"/></svg>
+            Scan QR Code to Open on Phone
+          </h4>
+          <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1rem;">Point your phone camera to instantly download or share this link.</p>
+          <div id="qr-code-wrapper" style="display: flex; justify-content: center; align-items: center;">
+            <img id="qr-code-img" src="" alt="Scan QR Code" style="width: 160px; height: 160px; border-radius: var(--radius-md); border: 2px solid #ffffff; box-shadow: var(--shadow-md); background: #ffffff; padding: 0.5rem;" />
+          </div>
         </div>
 
         <!-- Footer -->
@@ -1016,15 +1054,40 @@ export function getDownloadPageHtml(shareCode: string): string {
           });
           document.getElementById('detail-downloads').innerText = \`\${file.downloadCount} times\`;
 
+          const downloadUrl = data.presignedDownloadUrl || '/api/download/${shareCode}';
           const downloadBtn = document.getElementById('btn-download-file');
-          if (data.presignedDownloadUrl) {
-            downloadBtn.href = data.presignedDownloadUrl;
-          } else {
-            downloadBtn.href = '/api/download/${shareCode}';
+          downloadBtn.href = downloadUrl;
+
+          // Render Instant Media Preview (Images & Videos)
+          const mime = (file.mimeType || '').toLowerCase();
+          const ext = (file.fileName || '').split('.').pop().toLowerCase();
+          const mediaContainer = document.getElementById('media-preview-container');
+          const mediaContent = document.getElementById('media-preview-content');
+
+          if (mime.startsWith('image/') || ['png', 'jpg', 'jpeg', 'webp', 'gif', 'svg'].includes(ext)) {
+            mediaContent.innerHTML = '<img src="' + downloadUrl + '" alt="' + file.fileName + '" style="max-width: 100%; max-height: 420px; border-radius: var(--radius-md); object-fit: contain; box-shadow: var(--shadow-sm);" />';
+            mediaContainer.style.display = 'block';
+          } else if (mime.startsWith('video/') || ['mp4', 'webm', 'ogg', 'mov'].includes(ext)) {
+            mediaContent.innerHTML = '<video controls src="' + downloadUrl + '" style="width: 100%; max-height: 420px; border-radius: var(--radius-md); background: #000; box-shadow: var(--shadow-sm);"></video>';
+            mediaContainer.style.display = 'block';
           }
 
           updateCountdown(file.expiresAt);
           setInterval(() => updateCountdown(file.expiresAt), 60000);
+
+          // Populate Social Share Links
+          const rawUrl = window.location.href;
+          const encUrl = encodeURIComponent(rawUrl);
+          const shareText = encodeURIComponent('Download file "' + file.fileName + '" on filedontol:');
+
+          document.getElementById('share-wa').href = 'https://api.whatsapp.com/send?text=' + shareText + '%20' + encUrl;
+          document.getElementById('share-tg').href = 'https://t.me/share/url?url=' + encUrl + '&text=' + shareText;
+          document.getElementById('share-tw').href = 'https://twitter.com/intent/tweet?url=' + encUrl + '&text=' + shareText;
+          document.getElementById('share-fb').href = 'https://www.facebook.com/sharer/sharer.php?u=' + encUrl;
+
+          // Render Live QR Code
+          const qrImg = document.getElementById('qr-code-img');
+          qrImg.src = 'https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=' + encUrl + '&color=be185d&bgcolor=ffffff';
 
           document.getElementById('file-details').style.display = 'block';
 
