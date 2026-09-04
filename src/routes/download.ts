@@ -102,9 +102,10 @@ downloadApp.get('/download/:code', async (c) => {
   }
 
   const newDownloadCount = (file.download_count || 0) + 1;
-  const resetExpiration = newDownloadCount % 15 === 0;
+  // Non-stacking rule: If file reaches at least 15 downloads, reset expiration date to exactly 30 days from current download timestamp
+  const shouldResetExpiration = newDownloadCount >= 15;
 
-  if (resetExpiration) {
+  if (shouldResetExpiration) {
     const newExpiresAtDate = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000);
     const newExpiresAtStr = newExpiresAtDate.toISOString().replace('T', ' ').substring(0, 19);
 

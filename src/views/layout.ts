@@ -37,7 +37,7 @@ export function getLayoutHtml(title: string, bodyContent: string): string {
       <span style="font-size: 1.4rem; font-weight: 900; background: linear-gradient(135deg, #111827, #db2777); -webkit-background-clip: text; -webkit-text-fill-color: transparent; letter-spacing: -0.035em;">filedontol</span>
     </a>
     <div class="nav-right">
-      <span class="badge badge-pink" style="padding: 0.45rem 1rem; font-size: 0.85rem;">🔒 100% Anonymous Guest Sharing</span>
+      <a href="/report" class="nav-link" style="font-size: 0.85rem; font-weight: 700;">Report Abuse</a>
     </div>
   </header>
 
