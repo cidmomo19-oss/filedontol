@@ -456,6 +456,63 @@ export const baseStyles = `
     border-left: 4px solid var(--pink-primary);
   }
 
+  /* FAQ Accordion Styles */
+  .faq-container {
+    max-width: 800px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .faq-item {
+    background: #ffffff;
+    border: 1px solid var(--pink-border);
+    border-radius: var(--radius-md);
+    padding: 1.25rem 1.5rem;
+    box-shadow: var(--shadow-sm);
+    cursor: pointer;
+    transition: all 0.25s ease;
+  }
+
+  .faq-item:hover {
+    border-color: var(--pink-primary);
+    box-shadow: var(--shadow-md);
+  }
+
+  .faq-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: 800;
+    font-size: 1.05rem;
+    color: var(--text-main);
+  }
+
+  .faq-arrow {
+    color: var(--pink-deep);
+    transition: transform 0.25s ease;
+    font-size: 0.85rem;
+  }
+
+  .faq-item.active .faq-arrow {
+    transform: rotate(180deg);
+  }
+
+  .faq-body {
+    display: none;
+    margin-top: 0.85rem;
+    padding-top: 0.85rem;
+    border-top: 1px dashed var(--pink-border);
+    color: var(--text-muted);
+    font-size: 0.925rem;
+    line-height: 1.6;
+  }
+
+  .faq-item.active .faq-body {
+    display: block;
+  }
+
   /* Footer */
   footer {
     border-top: 1px solid var(--pink-border);
