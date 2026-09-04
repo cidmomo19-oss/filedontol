@@ -105,34 +105,60 @@ export function getIndexHtml(): string {
       </div>
     </div>
 
-    <!-- Feature Cards Grid -->
+    <!-- Brand Title Badge & Feature Highlights -->
+    <div style="text-align: center; margin-bottom: 2.5rem;">
+      <a href="/" style="display: inline-flex; align-items: center; gap: 0.75rem; text-decoration: none; background: #ffffff; padding: 0.6rem 1.4rem; border-radius: 9999px; border: 1px solid var(--pink-border); box-shadow: var(--shadow-sm);">
+        <svg width="28" height="28" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="brandLogoGrad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#ec4899" />
+              <stop offset="100%" stop-color="#be185d" />
+            </linearGradient>
+          </defs>
+          <rect width="100" height="100" rx="26" fill="url(#brandLogoGrad)" />
+          <path d="M22 34C22 29.5817 25.5817 26 30 26H42.5C45.2 26 47.7 27.2 49.3 29.3L52.7 33.7C53.5 34.8 54.8 35.5 56.2 35.5H70C74.4183 35.5 78 39.0817 78 43.5V66C78 70.4183 74.4183 74 70 74H30C25.5817 74 22 70.4183 22 66V34Z" fill="#ffffff" fill-opacity="0.92" />
+          <path d="M53 43L39 57H49L45 69L59 53H49L53 43Z" fill="#db2777" />
+        </svg>
+        <span style="font-size: 1.35rem; font-weight: 900; background: linear-gradient(135deg, #111827, #db2777); -webkit-background-clip: text; -webkit-text-fill-color: transparent; letter-spacing: -0.035em;">filedontol</span>
+      </a>
+    </div>
+
+    <!-- Additional Point / Highlights Grid -->
     <div style="margin-bottom: 3.5rem;">
-      <h2 style="font-size: 1.65rem; font-weight: 900; text-align: center; margin-bottom: 0.5rem; color: var(--text-main);">Designed for High-Performance File Transfers</h2>
+      <h2 style="font-size: 1.65rem; font-weight: 900; text-align: center; margin-bottom: 0.5rem; color: var(--text-main);">Why Choose filedontol?</h2>
       <p style="text-align: center; color: var(--text-muted); font-size: 1rem; margin-bottom: 2.25rem;">Fast, secure, and clean experience without popups or captchas.</p>
 
-      <div class="grid-3">
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.25rem;">
         <div class="feature-box">
           <div style="width: 44px; height: 44px; background: var(--pink-soft); border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; color: var(--pink-deep); margin-bottom: 1rem;">
-            <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+            <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
           </div>
-          <h3 style="font-size: 1.1rem; font-weight: 800; margin-bottom: 0.35rem;">Ultra-Fast Edge CDN</h3>
-          <p style="font-size: 0.875rem; color: var(--text-muted);">Distributed global edge architecture ensures lightning-fast downloads anywhere.</p>
+          <h3 style="font-size: 1.05rem; font-weight: 800; margin-bottom: 0.35rem;">100% Anonymous</h3>
+          <p style="font-size: 0.875rem; color: var(--text-muted);">No registration, no personal data, no login required. Upload and share instantly.</p>
         </div>
 
         <div class="feature-box">
           <div style="width: 44px; height: 44px; background: var(--pink-soft); border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; color: var(--pink-deep); margin-bottom: 1rem;">
             <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg>
           </div>
-          <h3 style="font-size: 1.1rem; font-weight: 800; margin-bottom: 0.35rem;">Large 5 GB Capacity</h3>
-          <p style="font-size: 0.875rem; color: var(--text-muted);">Host installer builds, media archives, ISO files, and large software projects.</p>
+          <h3 style="font-size: 1.05rem; font-weight: 800; margin-bottom: 0.35rem;">Large 5 GB Capacity</h3>
+          <p style="font-size: 0.875rem; color: var(--text-muted);">Host large media archives, installer builds, ISO images, and heavy documents.</p>
         </div>
 
         <div class="feature-box">
           <div style="width: 44px; height: 44px; background: var(--pink-soft); border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; color: var(--pink-deep); margin-bottom: 1rem;">
-            <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+            <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
           </div>
-          <h3 style="font-size: 1.1rem; font-weight: 800; margin-bottom: 0.35rem;">Anti-Hotlink Security</h3>
-          <p style="font-size: 0.875rem; color: var(--text-muted);">Signed download authorization tokens prevent hotlinking bandwidth abuse.</p>
+          <h3 style="font-size: 1.05rem; font-weight: 800; margin-bottom: 0.35rem;">30-Day Retention</h3>
+          <p style="font-size: 0.875rem; color: var(--text-muted);">Files stay active for 30 days and automatically reset to 30 days after 15 downloads.</p>
+        </div>
+
+        <div class="feature-box">
+          <div style="width: 44px; height: 44px; background: var(--pink-soft); border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; color: var(--pink-deep); margin-bottom: 1rem;">
+            <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+          </div>
+          <h3 style="font-size: 1.05rem; font-weight: 800; margin-bottom: 0.35rem;">High-Speed Transfer</h3>
+          <p style="font-size: 0.875rem; color: var(--text-muted);">Global edge network architecture ensures zero bandwidth caps and fast downloads.</p>
         </div>
       </div>
     </div>
@@ -343,14 +369,10 @@ export function getIndexHtml(): string {
           }
 
           progressContainer.style.display = 'none';
+          showToast('File uploaded successfully! Redirecting...');
 
-          const shareUrl = \`\${window.location.origin}/f/\${completeData.shareCode}\`;
-          document.getElementById('share-link-input').value = shareUrl;
-
-          document.getElementById('result-expiration-info').innerText = '* File is active for 30 days. Reaching 15 downloads resets retention for another +30 days.';
-
-          resultContainer.style.display = 'block';
-          showToast('File uploaded successfully!');
+          // Automatically redirect directly to the file link upon successful upload
+          window.location.href = \`/f/\${completeData.shareCode}\`;
 
         } catch (err) {
           progressContainer.style.display = 'none';
