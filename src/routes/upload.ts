@@ -9,6 +9,88 @@ export const uploadApp = new Hono<{ Bindings: Env }>();
 const MAX_FILE_SIZE = 5 * 1024 * 1024 * 1024; // 5 GB
 const DEFAULT_JWT_SECRET = 'fd_jwt_secret_default_filedontol_key';
 
+// cURL Direct Upload Endpoint: POST /api/upload (supports curl -F "file=@photo.jpg" or curl --data-binary)
+uploadApp.post('/', async (c) => {
+  try {
+    let fileName = 'file';
+    let fileSize = 0;
+    let mimeType = 'application/octet-stream';
+    let fileBody: ReadableStream | ArrayBuffer | Blob | null = null;
+
+    const contentType = c.req.header('Content-Type') || '';
+
+    if (contentType.includes('multipart/form-data')) {
+      const formData = await c.req.parseBody();
+      const uploadedFile = formData['file'] || formData['upload'];
+
+      if (!uploadedFile || !(uploadedFile instanceof File)) {
+        return c.text('Error: No file field found in multipart/form-data. Use curl -F "file=@yourfile.ext" https://<domain>/api/upload\n', 400);
+      }
+
+      fileName = uploadedFile.name || 'uploaded_file';
+      fileSize = uploadedFile.size;
+      mimeType = uploadedFile.type || 'application/octet-stream';
+      fileBody = uploadedFile;
+    } else {
+      // Raw binary upload via curl --data-binary @file.ext
+      const headerFileName = c.req.header('X-File-Name');
+      if (headerFileName) {
+        fileName = decodeURIComponent(headerFileName);
+      }
+      mimeType = contentType || 'application/octet-stream';
+      const arrayBuffer = await c.req.arrayBuffer();
+      fileSize = arrayBuffer.byteLength;
+      fileBody = arrayBuffer;
+    }
+
+    if (!fileBody || fileSize === 0) {
+      return c.text('Error: File body is empty.\n', 400);
+    }
+
+    if (fileSize > MAX_FILE_SIZE) {
+      return c.text('Error: File size exceeds 5 GB limit.\n', 400);
+    }
+
+    const r2Key = `files/${Date.now()}_${nanoid(10)}_${fileName.replace(/[^a-zA-Z0-9._-]/g, '_')}`;
+    await c.env.STORAGE.put(r2Key, fileBody, {
+      httpMetadata: { contentType: mimeType },
+    });
+
+    const expirationDays = 30;
+    const expiresAtDate = new Date(Date.now() + expirationDays * 24 * 60 * 60 * 1000);
+    const expiresAtStr = expiresAtDate.toISOString().replace('T', ' ').substring(0, 19);
+
+    const shareCode = nanoid(8);
+    const fileId = `file_${nanoid(16)}`;
+
+    await c.env.DB.prepare(
+      `INSERT INTO files (
+        id, user_id, share_code, file_name, file_size, mime_type, file_hash, r2_key, download_count, last_downloaded_at, expires_at, status
+      ) VALUES (?, NULL, ?, ?, ?, ?, NULL, ?, 0, CURRENT_TIMESTAMP, ?, 'active')`
+    )
+      .bind(fileId, shareCode, fileName, fileSize, mimeType, r2Key, expiresAtStr)
+      .run();
+
+    const host = c.req.header('host') || 'filedontol.com';
+    const protocol = c.req.header('x-forwarded-proto') || 'https';
+    const downloadUrl = `${protocol}://${host}/f/${shareCode}\n`;
+
+    const userAgent = c.req.header('user-agent') || '';
+    if (userAgent.toLowerCase().includes('curl') || userAgent.toLowerCase().includes('wget')) {
+      return c.text(downloadUrl);
+    }
+
+    return c.json({
+      success: true,
+      shareCode,
+      downloadUrl: downloadUrl.trim(),
+      file: { id: fileId, fileName, fileSize, expiresAt: expiresAtStr },
+    });
+  } catch (err: any) {
+    return c.text(`Error: ${err.message || 'Failed to upload file via cURL.'}\n`, 500);
+  }
+});
+
 uploadApp.post('/presigned', async (c) => {
   try {
     const body = await c.req.json<{

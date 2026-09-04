@@ -123,6 +123,34 @@ export function getIndexHtml(): string {
       </a>
     </div>
 
+    <!-- cURL Terminal Upload Documentation Section -->
+    <div style="margin-bottom: 3.5rem; background: #ffffff; border: 1px solid var(--pink-border); border-radius: var(--radius-xl); padding: clamp(1.5rem, 4vw, 2.5rem); box-shadow: var(--shadow-md);">
+      <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem;">
+        <div style="width: 42px; height: 42px; background: var(--pink-soft); border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; color: var(--pink-deep); flex-shrink: 0;">
+          <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+          </svg>
+        </div>
+        <div>
+          <h2 style="font-size: 1.35rem; font-weight: 900; color: var(--text-main);">Upload via Terminal / cURL</h2>
+          <p style="color: var(--text-muted); font-size: 0.875rem;">Upload files directly from Linux, macOS, or Windows command line instantly.</p>
+        </div>
+      </div>
+
+      <div style="background: #111827; border-radius: var(--radius-md); padding: 1.25rem; font-family: monospace; color: #fce7f3; font-size: 0.9rem; overflow-x: auto; position: relative; border: 1px solid var(--pink-border);">
+        <p style="color: var(--pink-primary); font-weight: 700; margin-bottom: 0.5rem; font-family: sans-serif; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em;">COMMAND EXAMPLE</p>
+        <code id="curl-example-code">curl -F "file=@yourfile.png" https://filedontol.com/api/upload</code>
+      </div>
+      <script>
+        document.addEventListener('DOMContentLoaded', function() {
+          const codeEl = document.getElementById('curl-example-code');
+          if (codeEl) {
+            codeEl.innerText = 'curl -F "file=@yourfile.png" ' + window.location.origin + '/api/upload';
+          }
+        });
+      </script>
+    </div>
+
     <!-- Additional Point / Highlights Grid -->
     <div style="margin-bottom: 3.5rem;">
       <h2 style="font-size: 1.65rem; font-weight: 900; text-align: center; margin-bottom: 0.5rem; color: var(--text-main);">Why Choose filedontol?</h2>
@@ -908,15 +936,15 @@ export function getDownloadPageHtml(shareCode: string): string {
           </div>
         </div>
 
-        <!-- Download & Copy Actions -->
-        <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
-          <a id="btn-download-file" href="#" class="btn btn-pink" style="flex: 2; min-width: 200px; font-size: 1.1rem; padding: 1rem 1.75rem; text-decoration: none; border-radius: var(--radius-md); gap: 0.65rem;">
-            <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <!-- Download & Copy Actions Stacked -->
+        <div style="display: flex; flex-direction: column; gap: 0.85rem; width: 100%;">
+          <a id="btn-download-file" href="#" class="btn btn-pink" style="font-size: 1.15rem; padding: 1.1rem 2rem; width: 100%; text-decoration: none; border-radius: var(--radius-md); gap: 0.75rem; justify-content: center;">
+            <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
             </svg>
             Download File Now
           </a>
-          <button id="btn-copy-download-link" onclick="copyPageLink()" class="btn btn-outline" style="flex: 1; min-width: 140px; font-size: 1rem; padding: 1rem 1.25rem; border-radius: var(--radius-md); gap: 0.5rem;">
+          <button id="btn-copy-download-link" onclick="copyPageLink()" class="btn btn-outline" style="font-size: 1rem; padding: 0.85rem 1.5rem; width: 100%; border-radius: var(--radius-md); gap: 0.55rem; justify-content: center;">
             <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
             </svg>
