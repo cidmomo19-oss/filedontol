@@ -17,6 +17,85 @@ function base64UrlDecode(str: string): string {
   return atob(base64);
 }
 
+export async function timingSafeEqual(a: string, b: string): Promise<boolean> {
+  const encoder = new TextEncoder();
+  const aBuf = encoder.encode(a);
+  const bBuf = encoder.encode(b);
+
+  if (aBuf.byteLength !== bBuf.byteLength) return false;
+
+  const aKey = await crypto.subtle.importKey('raw', aBuf, { name: 'HMAC', hash: 'SHA-256' }, false, ['sign']);
+  const bKey = await crypto.subtle.importKey('raw', bBuf, { name: 'HMAC', hash: 'SHA-256' }, false, ['sign']);
+
+  const zeroBuf = new Uint8Array(1);
+  const aSig = await crypto.subtle.sign('HMAC', aKey, zeroBuf);
+  const bSig = await crypto.subtle.sign('HMAC', bKey, zeroBuf);
+
+  const aBytes = new Uint8Array(aSig);
+  const bBytes = new Uint8Array(bSig);
+
+  let diff = 0;
+  for (let i = 0; i < aBytes.length; i++) {
+    diff |= aBytes[i] ^ bBytes[i];
+  }
+  return diff === 0;
+}
+
+export async function createUploadTicket(r2Key: string, secret: string, expiresInSec = 1800): Promise<string> {
+  const now = Math.floor(Date.now() / 1000);
+  const exp = now + expiresInSec;
+  const payloadStr = `${r2Key}:${exp}`;
+
+  const encoder = new TextEncoder();
+  const cryptoKey = await crypto.subtle.importKey(
+    'raw',
+    encoder.encode(secret),
+    { name: 'HMAC', hash: 'SHA-256' },
+    false,
+    ['sign']
+  );
+
+  const signature = await crypto.subtle.sign('HMAC', cryptoKey, encoder.encode(payloadStr));
+  const encodedSig = arrayBufferToBase64Url(signature);
+
+  return `${btoa(payloadStr)}.${encodedSig}`;
+}
+
+export async function verifyUploadTicket(ticket: string, secret: string): Promise<{ valid: boolean; r2Key?: string }> {
+  try {
+    const parts = ticket.split('.');
+    if (parts.length !== 2) return { valid: false };
+
+    const [encodedPayload, encodedSig] = parts;
+    const payloadStr = atob(encodedPayload);
+    const [r2Key, expStr] = payloadStr.split(':');
+    const exp = parseInt(expStr, 10);
+
+    const now = Math.floor(Date.now() / 1000);
+    if (!exp || exp < now) return { valid: false };
+
+    const encoder = new TextEncoder();
+    const cryptoKey = await crypto.subtle.importKey(
+      'raw',
+      encoder.encode(secret),
+      { name: 'HMAC', hash: 'SHA-256' },
+      false,
+      ['verify']
+    );
+
+    const sigBytes = new Uint8Array(
+      base64UrlDecode(encodedSig).split('').map((c) => c.charCodeAt(0))
+    );
+
+    const isValid = await crypto.subtle.verify('HMAC', cryptoKey, sigBytes, encoder.encode(payloadStr));
+
+    if (!isValid) return { valid: false };
+    return { valid: true, r2Key };
+  } catch {
+    return { valid: false };
+  }
+}
+
 export async function hashPassword(password: string): Promise<string> {
   const encoder = new TextEncoder();
   const salt = crypto.getRandomValues(new Uint8Array(16));

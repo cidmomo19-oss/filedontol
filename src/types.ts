@@ -1,8 +1,8 @@
 export interface Env {
   DB: D1Database;
   STORAGE: R2Bucket;
-  ADMIN_SECRET: string;
-  JWT_SECRET: string;
+  ADMIN_SECRET?: string;
+  JWT_SECRET?: string;
   ACCOUNT_ID: string;
   R2_ACCESS_KEY_ID?: string;
   R2_SECRET_ACCESS_KEY?: string;
@@ -27,7 +27,7 @@ export interface FileRecord {
   download_count: number;
   last_downloaded_at: string;
   expires_at: string;
-  status: 'active' | 'blocked' | 'expired';
+  status: 'active' | 'blocked' | 'expired' | 'deleted';
   created_at: string;
 }
 

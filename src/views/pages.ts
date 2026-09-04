@@ -2,33 +2,32 @@ import { getLayoutHtml } from './layout';
 
 export function getIndexHtml(): string {
   const content = `
-    <div class="card" style="text-align: center;">
-      <h1 style="font-size: 2rem; font-weight: 800; margin-bottom: 0.5rem;">Unggah & Bagikan File Anda</h1>
-      <p style="color: var(--text-muted); font-size: 1.05rem; margin-bottom: 1.5rem;">
-        Cepat, aman, dan tanpa iklan yang mengganggu.
+    <!-- Hero Section -->
+    <div class="card" style="text-align: center; margin-bottom: 3rem;">
+      <h1 style="font-size: clamp(1.75rem, 4vw, 2.5rem); font-weight: 800; margin-bottom: 0.5rem; letter-spacing: -0.025em;">
+        Unggah & Bagikan File Anda
+      </h1>
+      <p style="color: var(--text-muted); font-size: clamp(1rem, 2vw, 1.15rem); margin-bottom: 1.5rem; max-width: 600px; margin-left: auto; margin-right: auto;">
+        Layanan berbagi file kilat, aman, tanpa iklan yang mengganggu, dan mendukung ukuran hingga 5 GB.
       </p>
 
-      <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 0.75rem; margin-bottom: 2rem;">
-        <span style="font-size: 0.85rem; font-weight: 600; padding: 0.35rem 0.85rem; background: #eff6ff; color: #1d4ed8; border-radius: 9999px; border: 1px solid #bfdbfe;">
-          ⚡ Maksimal ukuran file hingga 5 GB
-        </span>
-        <span style="font-size: 0.85rem; font-weight: 600; padding: 0.35rem 0.85rem; background: #f0fdf4; color: #15803d; border-radius: 9999px; border: 1px solid #bbf7d0;">
-          Guest Upload: Aktif 14 hari (diperpanjang otomatis setiap ada yang download)
-        </span>
-        <span style="font-size: 0.85rem; font-weight: 600; padding: 0.35rem 0.85rem; background: #faf5ff; color: #7e22ce; border-radius: 9999px; border: 1px solid #e9d5ff;">
-          Member Upload: Aktif 60 hari (diperpanjang otomatis setiap ada yang download)
-        </span>
+      <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 0.5rem; margin-bottom: 2rem;">
+        <span class="badge badge-blue">⚡ Ukuran File Hingga 5 GB</span>
+        <span class="badge badge-green">Guest: Aktif 14 Hari (+14d tiap download)</span>
+        <span class="badge badge-purple">Member: Aktif 60 Hari (+60d tiap download)</span>
       </div>
 
-      <div id="drop-zone" style="border: 2px dashed #cbd5e1; border-radius: 0.75rem; padding: 3.5rem 1.5rem; background: #f8fafc; cursor: pointer; transition: all 0.2s ease; margin-bottom: 1.5rem;" onclick="document.getElementById('file-input').click()">
+      <!-- Drag & Drop Upload Area -->
+      <div id="drop-zone" style="border: 2px dashed #cbd5e1; border-radius: 0.75rem; padding: clamp(2rem, 5vw, 3.5rem) 1.5rem; background: #f8fafc; cursor: pointer; transition: all 0.2s ease; margin-bottom: 1.5rem;" onclick="document.getElementById('file-input').click()">
         <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="none" viewBox="0 0 24 24" stroke="#94a3b8" style="margin: 0 auto 1rem auto; display: block;">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/>
         </svg>
-        <p style="font-size: 1.1rem; font-weight: 600; color: var(--text-main);">Tarik & lepas file di sini, atau klik untuk memilih file</p>
+        <p style="font-size: 1.1rem; font-weight: 700; color: var(--text-main);">Tarik & lepas file di sini, atau klik untuk memilih file</p>
         <p style="font-size: 0.875rem; color: var(--text-muted); margin-top: 0.35rem;">Mendukung semua format file hingga 5 GB</p>
         <input type="file" id="file-input" style="display: none;" onchange="handleFileSelect(event)" />
       </div>
 
+      <!-- Progress Section -->
       <div id="upload-progress-container" style="display: none; text-align: left; background: #f1f5f9; padding: 1.25rem; border-radius: 0.5rem; margin-bottom: 1.5rem;">
         <div style="display: flex; justify-content: space-between; font-size: 0.9rem; font-weight: 600; margin-bottom: 0.5rem;">
           <span id="progress-filename" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 70%;">Nama File</span>
@@ -43,12 +42,13 @@ export function getIndexHtml(): string {
         </div>
       </div>
 
+      <!-- Result Link Section -->
       <div id="upload-result-container" style="display: none; text-align: left; background: #f0fdf4; border: 1px solid #bbf7d0; padding: 1.5rem; border-radius: 0.5rem;">
         <h4 style="color: #166534; font-size: 1.1rem; font-weight: 700; margin-bottom: 0.5rem;">✅ File Berhasil Diunggah!</h4>
         <p style="font-size: 0.9rem; color: #15803d; margin-bottom: 1rem;">Bagikan tautan di bawah ini untuk mengunduh file:</p>
 
-        <div style="display: flex; gap: 0.5rem;">
-          <input type="text" id="share-link-input" readonly style="flex: 1; padding: 0.625rem 0.75rem; border: 1px solid #cbd5e1; border-radius: 0.375rem; font-size: 0.95rem; background: #ffffff; color: var(--text-main);" />
+        <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+          <input type="text" id="share-link-input" readonly style="flex: 1; min-width: 240px; padding: 0.625rem 0.75rem; border: 1px solid #cbd5e1; border-radius: 0.375rem; font-size: 0.95rem; background: #ffffff; color: var(--text-main);" />
           <button class="btn btn-primary" onclick="copyShareLink()" id="btn-copy">Salin Tautan</button>
         </div>
         <div style="margin-top: 1rem; font-size: 0.85rem; color: #166534;" id="result-expiration-info"></div>
@@ -57,7 +57,132 @@ export function getIndexHtml(): string {
       <div id="upload-error-container" style="display: none; text-align: left; background: #fef2f2; border: 1px solid #fecaca; padding: 1rem 1.25rem; border-radius: 0.5rem; color: #991b1b; font-size: 0.9rem; margin-top: 1rem;"></div>
     </div>
 
+    <!-- Section 1: Features & Advantages -->
+    <div style="margin-bottom: 3.5rem;">
+      <h2 class="section-title">Mengapa Memilih filedontol?</h2>
+      <p class="section-desc">Nikmati pengalaman berbagi file tanpa kerumitan dan batas yang tidak perlu.</p>
+
+      <div class="grid-3">
+        <div class="feature-box">
+          <span class="feature-icon">🚀</span>
+          <h3 class="feature-title">Kecepatan CDN Cloudflare</h3>
+          <p class="feature-desc">Didukung oleh jaringan global Cloudflare R2 untuk kecepatan upload dan download maksimal dari mana saja.</p>
+        </div>
+        <div class="feature-box">
+          <span class="feature-icon">📦</span>
+          <h3 class="feature-title">Ukuran Besar Hingga 5 GB</h3>
+          <p class="feature-desc">Unggah file berukuran ekstra besar seperti dokumen, video, atau arsip proyek tanpa dipotong.</p>
+        </div>
+        <div class="feature-box">
+          <span class="feature-icon">🔄</span>
+          <h3 class="feature-title">Perpanjangan Masa Aktif Otomatis</h3>
+          <p class="feature-desc">Setiap kali ada yang mengunduh file Anda, masa aktif diperpanjang otomatis +14 hari (Guest) atau +60 hari (Member).</p>
+        </div>
+        <div class="feature-box">
+          <span class="feature-icon">🛡️</span>
+          <h3 class="feature-title">Perlindungan DMCA & Keamanan</h3>
+          <p class="feature-desc">Sistem deteksi hash SHA-256 otomatis menolak upload file yang terbukti melanggar hak cipta.</p>
+        </div>
+        <div class="feature-box">
+          <span class="feature-icon">📊</span>
+          <h3 class="feature-title">Dashboard Pengelola File</h3>
+          <p class="feature-desc">Daftar sebagai member gratis untuk memantau statistik file, total unduhan, dan menghapus file kapan saja.</p>
+        </div>
+        <div class="feature-box">
+          <span class="feature-icon">🚫</span>
+          <h3 class="feature-title">Bebas Iklan & Pop-up</h3>
+          <p class="feature-desc">Tampilan bersih, ringan, tanpa jebakan tombol download palsu atau iklan bertumpuk.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section 2: How It Works -->
+    <div style="margin-bottom: 3.5rem; background: #ffffff; border: 1px solid var(--border-color); border-radius: var(--radius-lg); padding: 2.5rem 1.5rem;">
+      <h2 class="section-title">Cara Kerja filedontol</h2>
+      <p class="section-desc">3 langkah sederhana untuk membagikan file Anda ke siapa saja.</p>
+
+      <div class="grid-3" style="margin-bottom: 0;">
+        <div style="text-align: center; padding: 1rem;">
+          <div style="width: 48px; height: 48px; background: #eff6ff; color: var(--primary-blue); font-weight: 800; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem auto; font-size: 1.25rem;">1</div>
+          <h3 style="font-size: 1.1rem; font-weight: 700; margin-bottom: 0.5rem;">Unggah File</h3>
+          <p style="font-size: 0.9rem; color: var(--text-muted);">Pilih file dari HP atau Komputer Anda hingga 5 GB.</p>
+        </div>
+        <div style="text-align: center; padding: 1rem;">
+          <div style="width: 48px; height: 48px; background: #eff6ff; color: var(--primary-blue); font-weight: 800; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem auto; font-size: 1.25rem;">2</div>
+          <h3 style="font-size: 1.1rem; font-weight: 700; margin-bottom: 0.5rem;">Dapatkan Tautan</h3>
+          <p style="font-size: 0.9rem; color: var(--text-muted);">Sistem menghasilkan tautan unik yang aman untuk dibagikan.</p>
+        </div>
+        <div style="text-align: center; padding: 1rem;">
+          <div style="width: 48px; height: 48px; background: #eff6ff; color: var(--primary-blue); font-weight: 800; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem auto; font-size: 1.25rem;">3</div>
+          <h3 style="font-size: 1.1rem; font-weight: 700; margin-bottom: 0.5rem;">Bagikan & Unduh</h3>
+          <p style="font-size: 0.9rem; color: var(--text-muted);">Penerima dapat mengunduh langsung tanpa menunggu atau memasukkan captcha.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section 3: FAQ Accordion -->
+    <div id="faq" style="margin-bottom: 3rem;">
+      <h2 class="section-title">Pertanyaan Umum (FAQ)</h2>
+      <p class="section-desc">Jawaban untuk pertanyaan yang sering diajukan.</p>
+
+      <div class="faq-container">
+        <div class="faq-item" onclick="toggleFaq(this)">
+          <div class="faq-header">
+            <span>Berapa lama file saya akan disimpan?</span>
+            <span class="faq-arrow">▼</span>
+          </div>
+          <div class="faq-body">
+            Upload tanpa akun (Guest) aktif selama 14 hari. Upload dari Member terdaftar aktif selama 60 hari. Uniknya, setiap kali ada orang yang mengunduh file Anda, masa aktif akan diperpanjang secara otomatis (+14d/Guest atau +60d/Member) dari waktu unduhan terakhir!
+          </div>
+        </div>
+
+        <div class="faq-item" onclick="toggleFaq(this)">
+          <div class="faq-header">
+            <span>Berapa batas maksimal ukuran file yang didukung?</span>
+            <span class="faq-arrow">▼</span>
+          </div>
+          <div class="faq-body">
+            filedontol mendukung file hingga ukuran 5 GB (5.368.709.120 bytes) per file secara gratis.
+          </div>
+        </div>
+
+        <div class="faq-item" onclick="toggleFaq(this)">
+          <div class="faq-header">
+            <span>Mengapa saya sebaiknya mendaftar akun Member?</span>
+            <span class="faq-arrow">▼</span>
+          </div>
+          <div class="faq-body">
+            Pendaftaran member 100% gratis. Dengan menjadi member, masa aktif awal file Anda lebih lama (60 hari) dan Anda mendapatkan akses ke halaman Dashboard untuk melihat daftar file, memantau jumlah download, serta menghapus file kapan saja.
+          </div>
+        </div>
+
+        <div class="faq-item" onclick="toggleFaq(this)">
+          <div class="faq-header">
+            <span>Format file apa saja yang diperbolehkan?</span>
+            <span class="faq-arrow">▼</span>
+          </div>
+          <div class="faq-body">
+            Kami mendukung hampir semua format file umum seperti dokumen (PDF, DOCX, XLSX), arsip (ZIP, RAR, 7Z), gambar (PNG, JPG), video (MP4, MKV), audio (MP3), dan lainnya selama tidak melanggar ketentuan hukum atau hak cipta.
+          </div>
+        </div>
+
+        <div class="faq-item" onclick="toggleFaq(this)">
+          <div class="faq-header">
+            <span>Bagaimana cara melaporkan file yang melanggar hak cipta (DMCA)?</span>
+            <span class="faq-arrow">▼</span>
+          </div>
+          <div class="faq-body">
+            Kami sangat menghormati Hak Kekayaan Intelektual. Pemilik hak cipta atau perwakilan resmi dapat mengirimkan laporan takedown ke email <code>filedontol@gmail.com</code> sesuai petunjuk pada halaman <a href="/dmca">Kebijakan DMCA</a>. Laporan valid akan ditindaklanjuti dalam 1x24 jam.
+          </div>
+        </div>
+      </div>
+    </div>
+
     <script>
+      function toggleFaq(el) {
+        el.classList.toggle('active');
+      }
+
       const dropZone = document.getElementById('drop-zone');
 
       ['dragenter', 'dragover'].forEach(eventName => {
@@ -214,6 +339,7 @@ export function getIndexHtml(): string {
           document.getElementById('result-expiration-info').innerText = \`* Masa aktif file ini adalah \${expDays}. Setiap ada yang mengunduh, masa aktif diperpanjang secara otomatis.\`;
 
           resultContainer.style.display = 'block';
+          showToast('File berhasil diunggah!');
 
         } catch (err) {
           progressContainer.style.display = 'none';
@@ -226,6 +352,7 @@ export function getIndexHtml(): string {
         const input = document.getElementById('share-link-input');
         input.select();
         navigator.clipboard.writeText(input.value);
+        showToast('Tautan tersalin ke clipboard!');
         const btn = document.getElementById('btn-copy');
         btn.innerText = 'Tersalin!';
         setTimeout(() => { btn.innerText = 'Salin Tautan'; }, 2000);
@@ -233,14 +360,181 @@ export function getIndexHtml(): string {
     </script>
   `;
 
-  return getLayoutHtml('Unggah File', content);
+  return getLayoutHtml('Unggah File Gratis hingga 5 GB', content);
+}
+
+export function getDashboardPageHtml(): string {
+  const content = `
+    <div class="card">
+      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; margin-bottom: 2rem;">
+        <div>
+          <h1 style="font-size: 1.5rem; font-weight: 800;">Dashboard Pengelola File</h1>
+          <p style="color: var(--text-muted); font-size: 0.925rem;">Kelola dan pantau seluruh file yang telah Anda unggah.</p>
+        </div>
+        <a href="/" class="btn btn-primary">+ Unggah File Baru</a>
+      </div>
+
+      <!-- Stats Summary Grid -->
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 2rem;">
+        <div style="border: 1px solid var(--border-color); padding: 1.25rem; border-radius: var(--radius-md); background: #ffffff;">
+          <p style="font-size: 0.8rem; color: var(--text-muted); font-weight: 700;">TOTAL FILE</p>
+          <p id="stat-total-files" style="font-size: 1.5rem; font-weight: 800; margin-top: 0.25rem;">-</p>
+        </div>
+        <div style="border: 1px solid var(--border-color); padding: 1.25rem; border-radius: var(--radius-md); background: #ffffff;">
+          <p style="font-size: 0.8rem; color: var(--text-muted); font-weight: 700;">PENYIMPANAN TERPAKAI</p>
+          <p id="stat-total-storage" style="font-size: 1.5rem; font-weight: 800; margin-top: 0.25rem;">-</p>
+        </div>
+        <div style="border: 1px solid var(--border-color); padding: 1.25rem; border-radius: var(--radius-md); background: #ffffff;">
+          <p style="font-size: 0.8rem; color: var(--text-muted); font-weight: 700;">TOTAL UNDUHAN</p>
+          <p id="stat-total-downloads" style="font-size: 1.5rem; font-weight: 800; color: var(--primary-blue); margin-top: 0.25rem;">-</p>
+        </div>
+      </div>
+
+      <!-- Table & List View -->
+      <div id="loading-dashboard" style="padding: 2rem; text-align: center; color: var(--text-muted);">
+        <div class="skeleton" style="height: 40px; margin-bottom: 0.5rem;"></div>
+        <div class="skeleton" style="height: 40px; margin-bottom: 0.5rem;"></div>
+        <div class="skeleton" style="height: 40px;"></div>
+      </div>
+
+      <div id="dashboard-empty" style="display: none; text-align: center; padding: 3rem 1rem; border: 2px dashed var(--border-color); border-radius: var(--radius-md);">
+        <span style="font-size: 3rem; display: block; margin-bottom: 0.5rem;">📂</span>
+        <h3 style="font-size: 1.15rem; font-weight: 700; margin-bottom: 0.5rem;">Belum ada file yang diunggah</h3>
+        <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1.5rem;">Unggah file pertama Anda dan bagikan tautannya secara instan.</p>
+        <a href="/" class="btn btn-primary">Unggah File Sekarang</a>
+      </div>
+
+      <div id="dashboard-table-wrapper" style="display: none;" class="table-responsive">
+        <table>
+          <thead>
+            <tr>
+              <th>Nama File</th>
+              <th>Ukuran</th>
+              <th>Unduhan</th>
+              <th>Masa Aktif</th>
+              <th>Aksi</th>
+            </tr>
+          </thead>
+          <tbody id="files-table-body">
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <script>
+      function formatBytes(bytes) {
+        if (bytes === 0) return '0 Bytes';
+        const k = 1024;
+        const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
+        const i = Math.floor(Math.log(bytes) / Math.log(k));
+        return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+      }
+
+      function calculateRemainingTime(expiresAtIso) {
+        const expiresDate = new Date(expiresAtIso.endsWith('Z') ? expiresAtIso : expiresAtIso + 'Z');
+        const diffMs = expiresDate.getTime() - Date.now();
+        if (diffMs <= 0) return 'Kadaluarsa';
+        const days = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((diffMs % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        return \`\${days}d \${hours}h\`;
+      }
+
+      async function loadDashboard() {
+        try {
+          const res = await fetch('/api/auth/files');
+          const data = await res.json();
+
+          document.getElementById('loading-dashboard').style.display = 'none';
+
+          if (!res.ok || !data.success) {
+            if (res.status === 401) {
+              window.location.href = '/';
+              return;
+            }
+            showToast(data.error || 'Gagal memuat dashboard.', true);
+            return;
+          }
+
+          document.getElementById('stat-total-files').innerText = data.stats.totalFiles;
+          document.getElementById('stat-total-storage').innerText = formatBytes(data.stats.totalStorage);
+          document.getElementById('stat-total-downloads').innerText = data.stats.totalDownloads;
+
+          if (data.files.length === 0) {
+            document.getElementById('dashboard-empty').style.display = 'block';
+            return;
+          }
+
+          const tbody = document.getElementById('files-table-body');
+          tbody.innerHTML = '';
+
+          data.files.forEach(file => {
+            const tr = document.createElement('tr');
+            const shareUrl = \`\${window.location.origin}/f/\${file.share_code}\`;
+
+            tr.innerHTML = \`
+              <td style="font-weight: 600; word-break: break-all;">
+                <a href="/f/\${file.share_code}" target="_blank" style="color: var(--text-main); text-decoration: none;">
+                  📄 \${file.file_name}
+                </a>
+              </td>
+              <td style="white-space: nowrap; color: var(--text-muted);">\${formatBytes(file.file_size)}</td>
+              <td style="white-space: nowrap; font-weight: 700; color: var(--primary-blue);">\${file.download_count}</td>
+              <td style="white-space: nowrap; font-size: 0.85rem; color: #d97706; font-weight: 600;">\${calculateRemainingTime(file.expires_at)}</td>
+              <td style="white-space: nowrap;">
+                <div style="display: flex; gap: 0.35rem;">
+                  <button class="btn btn-outline btn-sm" onclick="copyLink('\${shareUrl}')" title="Salin Tautan">📋 Salin</button>
+                  <button class="btn btn-danger btn-sm" onclick="deleteFile('\${file.id}')" title="Hapus File">🗑️ Hapus</button>
+                </div>
+              </td>
+            \`;
+            tbody.appendChild(tr);
+          });
+
+          document.getElementById('dashboard-table-wrapper').style.display = 'block';
+
+        } catch (err) {
+          document.getElementById('loading-dashboard').style.display = 'none';
+          showToast('Gagal terhubung ke server.', true);
+        }
+      }
+
+      function copyLink(url) {
+        navigator.clipboard.writeText(url);
+        showToast('Tautan file tersalin ke clipboard!');
+      }
+
+      async function deleteFile(fileId) {
+        if (!confirm('Apakah Anda yakin ingin menghapus file ini? File tidak dapat dipulihkan.')) {
+          return;
+        }
+
+        try {
+          const res = await fetch(\`/api/auth/files/\${fileId}\`, { method: 'DELETE' });
+          const data = await res.json();
+          if (!res.ok || data.error) {
+            showToast(data.error || 'Gagal menghapus file.', true);
+            return;
+          }
+          showToast('File berhasil dihapus.');
+          loadDashboard();
+        } catch (err) {
+          showToast('Terjadi kesalahan sistem.', true);
+        }
+      }
+
+      document.addEventListener('DOMContentLoaded', loadDashboard);
+    </script>
+  `;
+
+  return getLayoutHtml('Dashboard Pengelola File', content);
 }
 
 export function getDownloadPageHtml(shareCode: string): string {
   const content = `
     <div class="card" style="text-align: center;" id="download-card">
       <div id="loading-spinner" style="padding: 2rem; color: var(--text-muted);">
-        Sedang memuat informasi file...
+        <div class="skeleton" style="height: 60px; margin-bottom: 1rem;"></div>
+        <div class="skeleton" style="height: 100px;"></div>
       </div>
 
       <div id="file-details" style="display: none;">
@@ -270,7 +564,7 @@ export function getDownloadPageHtml(shareCode: string): string {
         </div>
 
         <a id="btn-download-file" href="/api/download/${shareCode}" class="btn btn-primary" style="font-size: 1.1rem; padding: 0.85rem 2.5rem; width: 100%; text-decoration: none;">
-          ⬇️ Download File
+          ⬇️ Download File Sekarang
         </a>
 
         <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 1rem;">
@@ -404,4 +698,17 @@ export function getDmcaPageHtml(): string {
   `;
 
   return getLayoutHtml('Kebijakan DMCA', content);
+}
+
+export function getNotFoundPageHtml(): string {
+  const content = `
+    <div class="card" style="text-align: center; padding: 4rem 1.5rem;">
+      <span style="font-size: 4rem; display: block; margin-bottom: 1rem;">🔍</span>
+      <h1 style="font-size: 2rem; font-weight: 800; margin-bottom: 0.5rem;">Halaman Tidak Ditemukan (404)</h1>
+      <p style="color: var(--text-muted); font-size: 1rem; margin-bottom: 2rem;">Maaf, halaman yang Anda cari tidak ada atau telah dipindahkan.</p>
+      <a href="/" class="btn btn-primary">Kembali ke Beranda</a>
+    </div>
+  `;
+
+  return getLayoutHtml('Halaman Tidak Ditemukan', content);
 }

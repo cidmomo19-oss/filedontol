@@ -1,5 +1,6 @@
 import { Hono } from 'hono';
 import { Env, FileRecord } from '../types';
+import { generateR2PresignedDownloadUrl } from '../utils/s3';
 
 export const downloadApp = new Hono<{ Bindings: Env }>();
 
@@ -19,9 +20,9 @@ downloadApp.get('/file/:code', async (c) => {
     return c.json({ error: 'File tidak ditemukan.' }, 404);
   }
 
-  if (file.status === 'blocked') {
+  if (file.status === 'blocked' || file.status === 'deleted') {
     return c.json(
-      { error: 'File telah dihapus / diblokir karena laporan pelanggaran Hak Cipta (DMCA).' },
+      { error: 'File telah dihapus / diblokir karena laporan pelanggaran Hak Cipta (DMCA) atau permintaan pemilik.' },
       403
     );
   }
@@ -63,9 +64,9 @@ downloadApp.get('/download/:code', async (c) => {
     return c.json({ error: 'File tidak ditemukan.' }, 404);
   }
 
-  if (file.status === 'blocked') {
+  if (file.status === 'blocked' || file.status === 'deleted') {
     return c.json(
-      { error: 'File telah dihapus / diblokir karena laporan pelanggaran Hak Cipta (DMCA).' },
+      { error: 'File telah dihapus / diblokir karena laporan pelanggaran Hak Cipta (DMCA) atau permintaan pemilik.' },
       403
     );
   }
@@ -77,15 +78,12 @@ downloadApp.get('/download/:code', async (c) => {
     return c.json({ error: 'File telah kadaluarsa.' }, 410);
   }
 
-  const object = await c.env.STORAGE.get(file.r2_key);
-  if (!object) {
-    return c.json({ error: 'Objek file tidak ditemukan di penyimpanan.' }, 404);
-  }
-
+  // Calculate extended expiration date (+14d for guest, +60d for member)
   const extensionDays = file.user_id ? 60 : 14;
   const newExpiresAtDate = new Date(Date.now() + extensionDays * 24 * 60 * 60 * 1000);
   const newExpiresAtStr = newExpiresAtDate.toISOString().replace('T', ' ').substring(0, 19);
 
+  // Increment download count and extend expires_at in DB
   c.executionCtx.waitUntil(
     c.env.DB.prepare(
       `UPDATE files
@@ -97,6 +95,30 @@ downloadApp.get('/download/:code', async (c) => {
       .bind(newExpiresAtStr, file.id)
       .run()
   );
+
+  // If R2 S3 API keys are set, generate short-lived Presigned GET URL and 302 Redirect (Anti-Hotlink)
+  if (c.env.R2_ACCESS_KEY_ID && c.env.R2_SECRET_ACCESS_KEY) {
+    try {
+      const presignedDownloadUrl = await generateR2PresignedDownloadUrl(
+        c.env.ACCOUNT_ID,
+        'filedontol-storage',
+        file.r2_key,
+        file.file_name,
+        c.env.R2_ACCESS_KEY_ID,
+        c.env.R2_SECRET_ACCESS_KEY,
+        600 // 10 minutes
+      );
+      return c.redirect(presignedDownloadUrl, 302);
+    } catch (err) {
+      console.error('Error generating presigned download URL:', err);
+    }
+  }
+
+  // Fallback to Worker object streaming if R2 API keys are not provided
+  const object = await c.env.STORAGE.get(file.r2_key);
+  if (!object) {
+    return c.json({ error: 'Objek file tidak ditemukan di penyimpanan.' }, 404);
+  }
 
   const headers = new Headers();
   object.writeHttpMetadata(headers);

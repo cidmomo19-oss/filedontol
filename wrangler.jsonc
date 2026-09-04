@@ -24,8 +24,6 @@
     ]
   },
   "vars": {
-    "ADMIN_SECRET": "fd_adm_9x7Kp2Mv8Q4wL1tY6bZ3nR5sC0jE8uA2",
-    "JWT_SECRET": "fd_jwt_secret_9x7Kp2Mv8Q4wL1tY6bZ3nR5sC0jE8uA2_filedontol",
     "ACCOUNT_ID": "d5b2d332dd11d026780215f1a037fe2e"
   }
 }

@@ -1,12 +1,13 @@
 import { Hono } from 'hono';
 import { nanoid } from 'nanoid';
-import { Env, BlacklistedHash, User } from '../types';
-import { parseCookies, verifyJWT } from '../utils/auth';
+import { Env, BlacklistedHash } from '../types';
+import { parseCookies, verifyJWT, createUploadTicket, verifyUploadTicket } from '../utils/auth';
 import { generateR2PresignedUrl } from '../utils/s3';
 
 export const uploadApp = new Hono<{ Bindings: Env }>();
 
 const MAX_FILE_SIZE = 5 * 1024 * 1024 * 1024; // 5 GB
+const DEFAULT_JWT_SECRET = 'fd_jwt_secret_default_filedontol_key';
 
 uploadApp.post('/presigned', async (c) => {
   try {
@@ -47,6 +48,7 @@ uploadApp.post('/presigned', async (c) => {
     }
 
     const r2Key = `files/${Date.now()}_${nanoid(10)}_${fileName.replace(/[^a-zA-Z0-9._-]/g, '_')}`;
+    const jwtSecret = c.env.JWT_SECRET || DEFAULT_JWT_SECRET;
 
     let presignedUrl = '';
     let directR2Mode = false;
@@ -61,7 +63,9 @@ uploadApp.post('/presigned', async (c) => {
         c.env.R2_SECRET_ACCESS_KEY
       );
     } else {
-      presignedUrl = `/api/upload/direct?key=${encodeURIComponent(r2Key)}`;
+      // Issue signed ticket for direct fallback upload route
+      const uploadTicket = await createUploadTicket(r2Key, jwtSecret);
+      presignedUrl = `/api/upload/direct?ticket=${encodeURIComponent(uploadTicket)}`;
       directR2Mode = true;
     }
 
@@ -77,17 +81,32 @@ uploadApp.post('/presigned', async (c) => {
 });
 
 uploadApp.put('/direct', async (c) => {
-  const r2Key = c.req.query('key');
-  if (!r2Key) {
-    return c.json({ error: 'Missing r2Key' }, 400);
+  const ticket = c.req.query('ticket');
+  if (!ticket) {
+    return c.json({ error: 'Akses ditolak: Tiket upload tidak ditemukan.' }, 401);
+  }
+
+  const jwtSecret = c.env.JWT_SECRET || DEFAULT_JWT_SECRET;
+  const verification = await verifyUploadTicket(ticket, jwtSecret);
+
+  if (!verification.valid || !verification.r2Key) {
+    return c.json({ error: 'Akses ditolak: Tiket upload tidak valid atau kadaluarsa.' }, 403);
+  }
+
+  const contentLengthHeader = c.req.header('Content-Length');
+  if (contentLengthHeader) {
+    const length = parseInt(contentLengthHeader, 10);
+    if (length > MAX_FILE_SIZE) {
+      return c.json({ error: 'Ukuran file melebihi batas maksimal 5 GB.' }, 400);
+    }
   }
 
   const contentType = c.req.header('Content-Type') || 'application/octet-stream';
-  await c.env.STORAGE.put(r2Key, c.req.raw.body, {
+  await c.env.STORAGE.put(verification.r2Key, c.req.raw.body, {
     httpMetadata: { contentType },
   });
 
-  return c.json({ success: true, key: r2Key });
+  return c.json({ success: true, key: verification.r2Key });
 });
 
 uploadApp.post('/complete', async (c) => {
@@ -106,12 +125,17 @@ uploadApp.post('/complete', async (c) => {
       return c.json({ error: 'r2Key, fileName, and fileSize are required.' }, 400);
     }
 
+    if (fileSize > MAX_FILE_SIZE) {
+      return c.json({ error: 'Ukuran file melebihi batas maksimal 5 GB.' }, 400);
+    }
+
     const cookies = parseCookies(c.req.header('Cookie') || null);
     const token = cookies['auth_token'];
     let userId: string | null = null;
+    const jwtSecret = c.env.JWT_SECRET || DEFAULT_JWT_SECRET;
 
     if (token) {
-      const payload = await verifyJWT(token, c.env.JWT_SECRET);
+      const payload = await verifyJWT(token, jwtSecret);
       if (payload) {
         userId = payload.sub;
       }
